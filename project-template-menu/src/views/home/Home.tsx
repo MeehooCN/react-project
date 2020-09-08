@@ -44,7 +44,7 @@ const Home = (props: IProps) => {
       <Header />
       <Content className="content">
         <Row>
-          <Col className="menu" span={4} style={{ height: getClientHeight() - 70 }}>
+          <Col className="menu" span={3} style={{ height: getClientHeight() - 70 }}>
             <Menu
               selectedKeys={selectedKeys}
               openKeys={openKeys}
@@ -56,7 +56,7 @@ const Home = (props: IProps) => {
               {initMenu(menuList, '/')}
             </Menu>
           </Col>
-          <Col span={20} style={{ padding: 20, height: getClientHeight() - 70, overflowY: 'auto' }}>
+          <Col span={21} style={{ padding: 20, height: getClientHeight() - 70, overflowY: 'auto' }}>
             {!loading && children}
           </Col>
         </Row>
