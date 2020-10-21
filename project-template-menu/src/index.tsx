@@ -9,23 +9,21 @@ import { ErrorBoundary } from '@components/index';
 import { NotFound, Home, Welcome } from '@views/index';
 import { platform } from '@utils/CommonVars';
 
-class App extends React.PureComponent {
-  render() {
-    return (
-      <Router>
-        <Switch>
-          <Home>
-            <Switch>
-              <ErrorBoundary>
-                <Route exact path={platform + '/'} component={Welcome} />
-              </ErrorBoundary>
-              <Route component={NotFound} />
-            </Switch>
-          </Home>
-          <Route component={NotFound} />
-        </Switch>
-      </Router>
-    );
-  }
-}
+const App = () => {
+  return (
+    <Router>
+      <Switch>
+        <Home>
+          <Switch>
+            <ErrorBoundary>
+              <Route exact path={platform + '/'} component={Welcome} />
+            </ErrorBoundary>
+            <Route component={NotFound} />
+          </Switch>
+        </Home>
+        <Route component={NotFound} />
+      </Switch>
+    </Router>
+  );
+};
 export default App;

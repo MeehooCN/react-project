@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import './index.less';
 
 interface IProps {
-  children: any
+  children?: any
 }
 
 const Home = (props: IProps) => {

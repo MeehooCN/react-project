@@ -14,7 +14,7 @@ import './index.less';
 const { Content } = Layout;
 
 interface IProps {
-  children: any
+  children?: any
 }
 const Home = (props: IProps) => {
   const { children } = props;
