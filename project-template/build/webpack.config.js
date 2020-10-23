@@ -32,14 +32,14 @@ let config = {
   devServer: {
     port: 3000
   }
-  // 生成source map，方便调试
-  // devtool: 'cheap-eval-source-map'
 };
 module.exports = (env, argv) => {
   if (argv.mode === 'development') {
     for (let item of styleRules) {
       item.use[0] = 'style-loader';
     }
+    // 生成source map，方便调试
+    config.devtool = 'cheap-eval-source-map';
   }
   return config;
 };
