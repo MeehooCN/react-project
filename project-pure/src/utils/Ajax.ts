@@ -2,10 +2,8 @@
  * @description Ajax 封装方法
  * @author cnn
  * **/
-import { message, Modal } from 'antd';
 import Axios from 'axios';
 import qs from 'qs';
-import { platform } from '@utils/CommonVars';
 
 /**
  * post 传参
@@ -27,13 +25,10 @@ const post = (url: string, data: any, config: any, thenCallBack: any) => {
       let responseData = response.data;
       if (responseData.hasOwnProperty('flag')) {
         if (responseData.flag === 1) {
-          message.error(responseData.msg);
+          window.alert(responseData.msg);
           thenCallBack(responseData);
         } else if (responseData.flag === 4004) {
-          Modal.error({
-            title: '温馨提示',
-            content: '没有登录信息或登录信息过期，请重新登录。'
-          });
+          window.alert('没有登录信息或登录信息过期，请重新登录。');
           window.setTimeout(() => {
             window.location.href = '/';
           }, 1000);
@@ -44,14 +39,14 @@ const post = (url: string, data: any, config: any, thenCallBack: any) => {
         thenCallBack(responseData);
       }
     } else if (response.status === 404) {
-      message.error('服务未找到', 5);
+      window.alert('服务未找到');
     } else if (response.status === 500) {
-      message.error('服务异常', 5);
+      window.alert('服务异常');
     } else {
-      message.error('未知异常', 5);
+      window.alert('未知异常');
     }
-  }).catch((e) => {
-    message.error(e, 5);
+  }).catch((e: any) => {
+    window.alert(e);
   });
 };
 
@@ -66,13 +61,10 @@ const get = (url: string, config: any, thenCallBack: any) => {
       let responseData = response.data;
       if (responseData.hasOwnProperty('flag')) {
         if (responseData.flag === 1) {
-          message.error(responseData.msg);
+          window.alert(responseData.msg);
           thenCallBack(responseData);
         } else if (responseData.flag === 4004) {
-          Modal.error({
-            title: '温馨提示',
-            content: '没有登录信息或登录信息过期，请重新登录。'
-          });
+          window.alert('没有登录信息或登录信息过期，请重新登录。');
           window.setTimeout(() => {
             window.location.href = '/';
           }, 1000);
@@ -83,14 +75,14 @@ const get = (url: string, config: any, thenCallBack: any) => {
         thenCallBack(responseData);
       }
     } else if (response.status === 404) {
-      message.error('服务未找到', 5);
+      window.alert('服务未找到');
     } else if (response.status === 500) {
-      message.error('服务异常', 5);
+      window.alert('服务异常');
     } else {
-      message.error('未知异常', 5);
+      window.alert('未知异常');
     }
-  }).catch((e) => {
-    message.error(e, 5);
+  }).catch((e: any) => {
+    window.alert(e);
   });
 };
 
