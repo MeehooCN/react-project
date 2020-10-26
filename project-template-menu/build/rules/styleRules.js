@@ -16,7 +16,7 @@ module.exports = [
         loader: 'css-loader',
         options: { importLoaders: 1 }
       },
-      // 'postcss-loader'
+      'postcss-loader'
     ]
   }, {
     test: /\.less$/,
@@ -34,12 +34,7 @@ module.exports = [
           cacheDirectory: resolve('.cache-loader')
         }
       },
-      // {
-      //   loader: 'postcss-loader',
-      //   options: {
-      //     sourceMap: true
-      //   }
-      // },
+      'postcss-loader',
       {
         loader: 'less-loader',
         options: {

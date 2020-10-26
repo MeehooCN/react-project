@@ -34,6 +34,7 @@
     "@types/react-dom": "^16.9.6",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",
+    "autoprefixer": "^9.8.6",
     "awesome-typescript-loader": "^5.2.1",
     "cache-loader": "^4.1.0",
     "clean-webpack-plugin": "^2.0.1",
