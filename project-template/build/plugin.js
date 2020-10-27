@@ -1,4 +1,3 @@
-const webpack = require('webpack');
 // 自动生成带 js 和 css 路径的 html 文件
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // 每次 config 之前可以自动先清除输出文件夹
@@ -8,6 +7,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { resolveAssetsRootDir } = require('./utils');
 // momentJs 替换成 dayJs
 const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin');
+// 打包分析
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = [
   new HtmlWebpackPlugin({
@@ -23,4 +24,5 @@ module.exports = [
   // 优化moment打包后体积
   // new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/),
   new AntdDayjsWebpackPlugin(),
+  // new BundleAnalyzerPlugin()
 ];

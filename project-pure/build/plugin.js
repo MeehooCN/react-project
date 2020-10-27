@@ -5,6 +5,8 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 // css分离
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { resolveAssetsRootDir } = require('./utils');
+// 打包分析
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = [
   new HtmlWebpackPlugin({
@@ -16,5 +18,6 @@ module.exports = [
     // both options are optional
     filename: resolveAssetsRootDir('css/[name].css'),
     chunkFilename: resolveAssetsRootDir('css/[name].css')
-  })
+  }),
+  // new BundleAnalyzerPlugin()
 ];
