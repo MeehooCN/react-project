@@ -19,3 +19,7 @@ export const colors: Colors = {
  * 服务器部署前缀路径
  * **/
 export const platform: string = '';
+/**
+ * 图标库地址，iconfonts 库
+ * **/
+export const iconUrl: string = '//at.alicdn.com/t/font_2128119_azpz6axvjos.js';

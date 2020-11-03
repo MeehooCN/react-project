@@ -7,10 +7,15 @@ import React from 'react';
 import { MenuData } from '@utils/CommonInterface';
 import { Link } from 'react-router-dom';
 import { Menu } from 'antd';
+import { createFromIconfontCN } from '@ant-design/icons';
 import dayJs from 'dayjs';
+import { iconUrl } from '@utils/CommonVars';
 
 const SubMenu = Menu.SubMenu;
 const MenuItem = Menu.Item;
+const IconFont = createFromIconfontCN({
+  scriptUrl: iconUrl,
+});
 
 /**
  * 时间转为时间字符串
@@ -36,19 +41,27 @@ export const initMenu = (menuList: Array<MenuData>, type: string) => {
     if (menuList[i].children && menuList[i].children.length > 0) {
       // @ts-ignore
       const menuHtmlList = menuList[i].children.map((item: MenuData) => (
-        <MenuItem key={item.id}>
-          <Link to={type + item.url}>{item.name}</Link>
+        <MenuItem key={item.id} icon={item.icon && <IconFont type={item.icon} />}>
+          <Link to={type + item.url}>
+            {item.name}
+          </Link>
         </MenuItem>
       ));
       subMenuList.push((
-        <SubMenu title={menuList[i].name} key={menuList[i].id}>
+        <SubMenu
+          title={menuList[i].name}
+          icon={menuList[i].icon && <IconFont type={menuList[i].icon} />}
+          key={menuList[i].id}
+        >
           {menuHtmlList}
         </SubMenu>
       ));
     } else {
       subMenuList.push((
-        <MenuItem key={menuList[i].id}>
-          <Link to={type + menuList[i].url}>{menuList[i].name}</Link>
+        <MenuItem key={menuList[i].id} icon={menuList[i].icon && <IconFont type={menuList[i].icon} />}>
+          <Link to={type + menuList[i].url}>
+            {menuList[i].name}
+          </Link>
         </MenuItem>
       ));
     }
@@ -59,5 +72,6 @@ export const initMenu = (menuList: Array<MenuData>, type: string) => {
  * 获取当前浏览器高度
  * **/
 export const getClientHeight = () => {
+  // @ts-ignore
   return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 };

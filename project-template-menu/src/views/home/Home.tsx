@@ -22,19 +22,23 @@ const Home = (props: IProps) => {
     id: '1',
     name: '菜单一',
     url: 'menu1',
+    icon: 'icon-menu',
     children: [{
       id: '1-1',
       name: '子级菜单一',
-      url: 'menu1/children1'
+      url: 'menu1/children1',
+      icon: 'icon-menu',
     }, {
       id: '1-2',
       name: '子级菜单一',
-      url: 'menu1/children1'
+      url: 'menu1/children1',
+      icon: 'icon-menu',
     }]
   }, {
     id: '2',
     name: '菜单二',
-    url: 'menu2'
+    url: 'menu2',
+    icon: 'icon-menu'
   }];
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedKeys, setSelectedKeys] = useState<Array<string>>([]);
