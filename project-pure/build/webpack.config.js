@@ -1,4 +1,5 @@
-const plugins = require('./plugin');
+const developmentPlugins = require('./plugins/developmentPlugins');
+const productionPlugin = require('./plugins/productionPlugin');
 const jsRules = require('./rules/jsRules');
 const styleRules = require('./rules/styleRules');
 const fileRules = require('./rules/fileRules');
@@ -27,7 +28,7 @@ let config = {
   module: {
     rules: [...styleRules, ...fileRules, ...jsRules],
   },
-  plugins: [...plugins],
+  plugins: [...developmentPlugins],
   optimization,
   devServer: {
     port: 3000
@@ -39,7 +40,9 @@ module.exports = (env, argv) => {
       item.use[0] = 'style-loader';
     }
     // 生成source map，方便调试
-    config.devtool = 'cheap-eval-source-map';
+    config.devtool = 'cheap-module-source-map';
+  } else if (argv.mode === 'production') {
+    config.plugins = [...developmentPlugins, ...productionPlugin];
   }
   return config;
 };

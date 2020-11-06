@@ -10,7 +10,12 @@ module.exports = [
   {
     test: /\.css$/,
     use: [
-      MiniCssExtractPlugin.loader,
+      {
+        loader: MiniCssExtractPlugin.loader,
+        options: {
+          publicPath: '../../'
+        }
+      },
       {
         loader: 'css-loader',
         options: { importLoaders: 1 }
@@ -27,17 +32,19 @@ module.exports = [
         }
       },
       'css-loader',
+      // 'postcss-loader',
       {
         loader: 'cache-loader',
         options: {
           cacheDirectory: resolve('.cache-loader')
         }
       },
-      // 'postcss-loader',
       {
         loader: 'less-loader',
         options: {
-          javascriptEnabled: true
+          lessOptions: {
+            javascriptEnabled: true
+          }
         }
       }
     ]
