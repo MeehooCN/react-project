@@ -16,13 +16,13 @@ module.exports = {
       react: {
         name: 'react',
         chunks: 'all',
-        priority: 1,
+        priority: 2,
         test: /react/
       },
       antd: {
         name: 'antd',
         chunks: 'all',
-        priority: 2,
+        priority: 1,
         test: function(module) {
           const context = module.context;
           return context && (
