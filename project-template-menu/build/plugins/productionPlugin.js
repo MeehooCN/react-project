@@ -3,8 +3,6 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 // css分离
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { resolve } = require('../utils');
-// momentJs 替换成 dayJs
-const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin');
 // 打包分析
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
@@ -16,7 +14,5 @@ module.exports = [
     path: resolve('dist'),
     filename: 'css/[name].css'
   }),
-  // 优化moment打包后体积
-  new AntdDayjsWebpackPlugin(),
   // new BundleAnalyzerPlugin()
 ];
