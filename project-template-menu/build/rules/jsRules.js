@@ -26,9 +26,7 @@ module.exports = [
             tsImportPluginFactory({
               libraryName: 'antd',
               libraryDirectory: 'lib',
-              // true => less
-              // css => css 不能定制主题
-              style: true
+              style: true,
             })
           ]
         })
