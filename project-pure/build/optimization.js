@@ -10,6 +10,12 @@ module.exports = {
         test: /[\\/]node_modules[\\/]/,
         name: 'common',
         chunks: 'all'
+      },
+      react: {
+        name: 'react',
+        chunks: 'all',
+        priority: 1,
+        test: /react/
       }
     }
   }
