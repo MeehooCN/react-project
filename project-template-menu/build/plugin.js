@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 // css分离
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { resolveAssetsRootDir } = require('./utils');
+const { resolve } = require('./utils');
 // momentJs 替换成 dayJs
 // const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin');
 
@@ -16,8 +16,8 @@ module.exports = [
   new MiniCssExtractPlugin({
     // Options similar to the same options in webpackOptions.output
     // both options are optional
-    filename: resolveAssetsRootDir('css/[name].css'),
-    chunkFilename: resolveAssetsRootDir('css/[name].css')
+    path: resolve('dist'),
+    filename: 'css/[name].css'
   }),
   // 优化moment打包后体积
   // new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/),
