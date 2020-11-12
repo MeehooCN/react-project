@@ -5,7 +5,7 @@
 import { message, Modal } from 'antd';
 import Axios from 'axios';
 import qs from 'qs';
-import { platform } from '@utils/CommonVars';
+import { platform, serverPath } from '@utils/CommonVars';
 
 /**
  * post 传参
@@ -22,7 +22,7 @@ const post = (url: string, data: any, config: any, thenCallBack: any) => {
       'Content-type': 'multipart/form-data'
     };
   }
-  return Axios.post(url, params, config).then((response: any) => {
+  return Axios.post(serverPath + url, params, config).then((response: any) => {
     if (response.status === 200) {
       let responseData = response.data;
       if (responseData.hasOwnProperty('flag')) {
@@ -61,7 +61,7 @@ const post = (url: string, data: any, config: any, thenCallBack: any) => {
  * **/
 const get = (url: string, config: any, thenCallBack: any) => {
   // get 参数放在 config.params 里
-  return Axios.get(url, config).then((response: any) => {
+  return Axios.get(serverPath + url, config).then((response: any) => {
     if (response.status === 200) {
       let responseData = response.data;
       if (responseData.hasOwnProperty('flag')) {

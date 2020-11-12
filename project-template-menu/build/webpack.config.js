@@ -31,7 +31,22 @@ let config = {
   plugins: [...developmentPlugins],
   optimization,
   devServer: {
-    port: 3000
+    port: 3000,
+    // 代理，将请求接口做代理，将前端从后台完全剥离出来
+    // 部署时使用 nginx 反向代理到后台端口
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8080',
+        pathRewrite: {
+          '^/api': ''
+        },
+        bypass: (req) => {
+          if (req.headers.accept.indexOf('html') !== -1) {
+            return '/index.html';
+          }
+        }
+      },
+    }
   }
 };
 module.exports = (env, argv) => {
