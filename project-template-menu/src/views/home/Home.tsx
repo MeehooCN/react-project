@@ -48,19 +48,19 @@ const Home = (props: IProps) => {
       <Header />
       <Content className="content">
         <Row>
-          <Col className="menu" span={3} style={{ height: getClientHeight() - 70 }}>
+          <Col className="menu" span={3} style={{ height: getClientHeight() - 60 }}>
             <Menu
               selectedKeys={selectedKeys}
               openKeys={openKeys}
               onSelect={(item: any) => setSelectedKeys(item.keyPath)}
               onOpenChange={(openKeys: any) => setOpenKeys(openKeys)}
               mode="inline"
-              style={{ height: getClientHeight() - 70 }}
+              style={{ height: getClientHeight() - 60 }}
             >
               {initMenu(menuList, '/')}
             </Menu>
           </Col>
-          <Col span={21} style={{ padding: 20, height: getClientHeight() - 70, overflowY: 'auto' }}>
+          <Col span={21} style={{ padding: 60, height: getClientHeight() - 60, overflowY: 'auto' }}>
             {!loading && children}
           </Col>
         </Row>
