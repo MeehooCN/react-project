@@ -4,7 +4,7 @@
  * @createTime: 2020/7/16 15:42
  **/
 import React from 'react';
-import { HashRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ErrorBoundary } from '@components/index';
 import { NotFound, Home, Welcome } from '@views/index';
 import { platform } from '@utils/CommonVars';
