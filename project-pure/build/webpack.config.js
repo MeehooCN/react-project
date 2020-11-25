@@ -6,6 +6,8 @@ const fileRules = require('./rules/fileRules');
 const optimization = require('./optimization');
 // 映射 tsconfig 路径
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+// 压缩代码
+const TerserPlugin = require('terser-webpack-plugin');
 const { resolve } = require('./utils');
 
 let config = {
@@ -59,6 +61,16 @@ module.exports = (env, argv) => {
     config.devtool = 'cheap-module-source-map';
   } else if (argv.mode === 'production') {
     config.plugins = [...developmentPlugins, ...productionPlugin];
+    // 去掉 LICENSE.txt 文件
+    config.optimization.minimize = true;
+    config.optimization.minimizer = [
+      new TerserPlugin({
+        test: /\.js(\?.*)?$/i,
+        exclude: /[\\/]node_modules[\\/]/,
+        parallel: true,
+        extractComments: false
+      })
+    ];
   }
   return config;
 };

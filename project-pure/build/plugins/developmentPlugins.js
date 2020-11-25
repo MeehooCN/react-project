@@ -1,7 +1,10 @@
-// 自动生成带 js 和 css 路径（为什么会是反斜杠呢）的 html 文件
+// 每次 config 之前可以自动先清除输出文件夹
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+// 自动生成带 js 和 css 路径的 html 文件
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = [
+  new CleanWebpackPlugin({}),
   new HtmlWebpackPlugin({
     template: 'build/template/index.html',
     hash: true
