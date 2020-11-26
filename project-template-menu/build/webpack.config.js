@@ -44,11 +44,24 @@ let config = {
           '^/api': ''
         },
         bypass: (req) => {
-          if (req.headers.accept.indexOf('html') !== -1) {
+          // 第一种方法，访问静态资源，判断路径中是否包含后缀，如果包含，就不进入index.html页面，就可以访问到代理的静态资源
+          // https://webpack.js.org/configuration/dev-server/#devserverproxy
+          if (req.url.indexOf('.') !== -1) {
+            return null;
+          }
+          // 如果是访问页面
+          else if (req.headers.accept.indexOf('html') !== -1) {
             return '/index.html';
           }
         }
       },
+      // 第二种方法就是直接配置一个代理去访问静态资源路径，不在 index.html 页面中
+      // '/imagesStatic': {
+      //   target: 'http://localhost:8084',
+      //   pathRewrite: {
+      //     '^/imagesStatic': ''
+      //   }
+      // }
     }
   }
 };
