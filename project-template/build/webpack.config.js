@@ -17,7 +17,6 @@ let config = {
   output: {
     path: resolve('dist'),
     publicPath: '/',
-    // publicPath: '/static/',
     filename: 'js/[name].js'
   },
   resolve: {
