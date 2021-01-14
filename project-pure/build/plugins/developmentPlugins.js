@@ -2,11 +2,13 @@
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 // 自动生成带 js 和 css 路径的 html 文件
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { resolve } = require('../utils');
 
 module.exports = [
   new CleanWebpackPlugin({}),
   new HtmlWebpackPlugin({
     template: 'build/template/index.html',
-    hash: true
+    hash: true,
+    favicon: resolve('src/static/images/logo.png')
   })
 ];
