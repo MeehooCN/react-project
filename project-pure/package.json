@@ -11,7 +11,7 @@
   "keywords": [
     "keywords"
   ],
-  "author": "author",
+  "author": "meehoo",
   "license": "ISC",
   "dependencies": {
     "@types/react-router-dom": "^5.1.5",
