@@ -20,7 +20,7 @@ module.exports = [
         loader: 'css-loader',
         options: { importLoaders: 1 }
       },
-      // 'postcss-loader'
+      'postcss-loader'
     ]
   }, {
     test: /\.less$/,
@@ -31,8 +31,11 @@ module.exports = [
           publicPath: '../../'
         }
       },
-      'css-loader',
-      // 'postcss-loader',
+      {
+        loader: 'css-loader',
+        options: { importLoaders: 1 }
+      },
+      'postcss-loader',
       {
         loader: 'cache-loader',
         options: {
