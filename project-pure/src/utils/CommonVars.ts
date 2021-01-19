@@ -18,7 +18,7 @@ export const colors: Colors = {
 /**
  * 服务器部署前缀路径
  * **/
-export const platform: string = '';
+export const platform: string = '/';
 /**
  * API 接口路径
  **/

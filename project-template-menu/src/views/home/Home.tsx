@@ -4,14 +4,15 @@
  * @createTime: 2020/7/16 17:03
  **/
 import React, { useState } from 'react';
-import { Row, Layout, BackTop, Col, Menu } from 'antd';
-import { VerticalAlignTopOutlined } from '@ant-design/icons';
+import { Row, Layout, Menu } from 'antd';
+import { VerticalAlignTopOutlined, SmileTwoTone } from '@ant-design/icons';
 import { Header } from '@components/index';
 import { initMenu, getClientHeight } from '@utils/CommonFunc';
 import { MenuData } from '@utils/CommonInterface';
 import './index.less';
+import { colors, platform, projectName } from '@utils/CommonVars';
 
-const { Content } = Layout;
+const { Content, Sider } = Layout;
 
 interface IProps {
   children?: any
@@ -44,32 +45,33 @@ const Home = (props: IProps) => {
   const [selectedKeys, setSelectedKeys] = useState<Array<string>>([]);
   const [openKeys, setOpenKeys] = useState<Array<string>>(menuList.map((menu: MenuData) => menu.id));
   return (
-    <Row style={{ width: '100%', minWidth: 1200 }}>
-      <Header />
-      <Content className="content">
-        <Row>
-          <Col className="menu" span={3} style={{ height: getClientHeight() - 60 }}>
-            <Menu
-              selectedKeys={selectedKeys}
-              openKeys={openKeys}
-              onSelect={(item: any) => setSelectedKeys(item.keyPath)}
-              onOpenChange={(openKeys: any) => setOpenKeys(openKeys)}
-              mode="inline"
-              style={{ height: getClientHeight() - 60 }}
-            >
-              {initMenu(menuList, '/')}
-            </Menu>
-          </Col>
-          <Col span={21} style={{ padding: 60, height: getClientHeight() - 60, overflowY: 'auto' }}>
-            {!loading && children}
-          </Col>
+    <Row style={{ width: '100%', overflowY: 'hidden' }}>
+      <Sider style={{ width: 200 }}>
+        <Row align="middle" justify="center" className="header-title-icon">
+          <SmileTwoTone twoToneColor={colors.primaryColor} style={{ fontSize: 24 }} />
+          <div className="header-title">{projectName}</div>
         </Row>
-      </Content>
-      <BackTop>
-        <div className="back-top">
-          <VerticalAlignTopOutlined className="back-top-icon" />
-        </div>
-      </BackTop>
+        <Row className="menu" style={{ height: getClientHeight() - 60 }}>
+          <Menu
+            theme="dark"
+            selectedKeys={selectedKeys}
+            openKeys={openKeys}
+            onSelect={(item: any) => setSelectedKeys(item.keyPath)}
+            onOpenChange={(openKeys: any) => setOpenKeys(openKeys)}
+            mode="inline"
+          >
+            {initMenu(menuList, platform)}
+          </Menu>
+        </Row>
+      </Sider>
+      <Row style={{ width: 'calc(100% - 200px)' }}>
+        <Header />
+        <Content className="content">
+          <div>
+            {!loading && children}
+          </div>
+        </Content>
+      </Row>
     </Row>
   );
 };

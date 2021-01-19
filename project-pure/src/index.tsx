@@ -16,7 +16,7 @@ const App = () => {
         <Home>
           <Switch>
             <ErrorBoundary>
-              <Route exact path={platform + '/'} component={Welcome} />
+              <Route exact path={platform} component={Welcome} />
             </ErrorBoundary>
             <Route component={NotFound} />
           </Switch>
