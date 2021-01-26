@@ -21,13 +21,13 @@ const Home = (props: IProps) => {
   const { children } = props;
   const menuList: Array<MenuData> = [{
     id: '1',
-    name: '菜单一',
-    url: 'menu1',
+    name: '系统管理',
+    url: 'systemManage',
     icon: 'icon-menu',
     children: [{
       id: '1-1',
-      name: '子级菜单一',
-      url: 'menu1/children1',
+      name: '前端系统日志',
+      url: 'systemManage/sysLog',
       icon: 'icon-menu',
     }, {
       id: '1-2',

@@ -6,3 +6,4 @@
 export { default as Welcome } from '@views/home/Welcome';
 export { default as Home } from '@views/home/Home';
 export { default as NotFound } from '@views/error/NotFound';
+export { default as SysLog } from '@views/systemManage/SysLog';

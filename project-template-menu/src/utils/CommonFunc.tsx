@@ -8,7 +8,7 @@ import { MenuData } from '@utils/CommonInterface';
 import { Link } from 'react-router-dom';
 import { Menu } from 'antd';
 import { createFromIconfontCN } from '@ant-design/icons';
-import dayJs from 'dayjs';
+import dayJs, { Dayjs } from 'dayjs';
 import { iconUrl } from '@utils/CommonVars';
 
 const SubMenu = Menu.SubMenu;
@@ -20,13 +20,13 @@ const IconFont = createFromIconfontCN({
 /**
  * 时间转为时间字符串
  * **/
-export const dateTimeToDateTimeString = (dateTime: Date) => {
+export const dateTimeToDateTimeString = (dateTime: Dayjs) => {
   return dayJs(dateTime).format('YYYY-MM-DD HH:mm:ss');
 };
 /**
  * 日期转为日期字符串
  * **/
-export const dateToDateString = (date: Date) => {
+export const dateToDateString = (date: Dayjs) => {
   return dayJs(date).format('YYYY-MM-DD');
 };
 /**

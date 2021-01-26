@@ -6,7 +6,7 @@
 import React, { createContext, useReducer } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ErrorBoundary } from '@components/index';
-import { NotFound, Home, Welcome } from '@views/index';
+import { NotFound, Home, Welcome, SysLog } from '@views/index';
 import { platform } from '@utils/CommonVars';
 import { homeInit, homeReducer } from '@views/home/HomeReducer';
 
@@ -22,6 +22,7 @@ const App = () => {
             <Switch>
               <ErrorBoundary>
                 <Route exact path={platform} component={Welcome} />
+                <Route exact path={platform + 'systemManage/sysLog'} component={SysLog} />
               </ErrorBoundary>
               <Route component={NotFound} />
             </Switch>
