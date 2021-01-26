@@ -42,10 +42,6 @@ const SysLog = () => {
     }
     setLoading(false);
   };
-  // 删除系统日志
-  const deleteLog = (id: string) => {
-    message.success('删除成功！');
-  };
   // 查看系统日志
   const viewDetail = (log: Log) => {
     setLogDetailVisible(true);
@@ -61,17 +57,10 @@ const SysLog = () => {
   }, {
     title: '操作',
     dataIndex: 'opt',
-    width: 200,
+    width: 150,
+    align: 'center',
     render: (text: string, row: Log) => {
-      return (
-        <>
-          <a onClick={() => viewDetail(row)}>查看系统日志</a>
-          <Divider type="vertical" />
-          <Popconfirm title="确定要删除该系统日志吗？" onConfirm={() => deleteLog(row.id)}>
-            <a>删除</a>
-          </Popconfirm>
-        </>
-      );
+      return <a onClick={() => viewDetail(row)}>查看系统日志</a>;
     }
   }];
   return (
