@@ -34,10 +34,8 @@ const useTableHook = () => {
     // 如果当前页是最后一页，且最后一页只有1个，则修改 pagination 为上一页
     if (pagination.current === Math.ceil(pagination.total / pagination.pageSize) && lastPageRows === 1 && pagination.current > 1) {
       pagination.current = pagination.current - 1;
-      setPagination({ ...pagination });
-    } else {
-      setPagination({ ...pagination });
     }
+    setPagination({ ...pagination });
   };
   return {
     loading, setLoading, pagination, setPagination, searchContent, handleTableChange,
