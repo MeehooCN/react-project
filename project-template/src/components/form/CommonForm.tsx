@@ -309,7 +309,7 @@ const CommonForm = (props: IProps, ref: any) => {
     </Col>
   ));
   return (
-    <Form {...itemLayOut} form={form} onFinish={onFinish} autoComplete="off" style={{ width: '100%', marginBottom: -24 }} onValuesChange={onValuesChange}>
+    <Form {...itemLayOut} form={form} onFinish={onFinish} autoComplete="off" style={{ width: '100%' }} onValuesChange={onValuesChange}>
       <Row gutter={16}>
         {columns}
       </Row>
