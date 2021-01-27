@@ -1,0 +1,41 @@
+@import "./../../static/styles/colors";
+.header {
+  padding: 0 20px;
+  width: 100%;
+  height: 60px;
+  z-index: 2;
+  background-color: @header-background;
+  box-sizing: border-box;
+}
+.header-shadow {
+  //box-shadow: 5px 0 5px 1px #eee;
+}
+.header-title-icon {
+  cursor: pointer;
+  color: @header-text-color;
+  height: 60px;
+}
+.header-title-icon:hover {
+  color: @primary-color;
+}
+.header-title {
+  margin-left: 10px;
+  margin-right: 10px;
+  color: @header-background;
+}
+.log-out {
+  cursor: pointer;
+  color: @header-text-color;
+}
+.log-out:hover {
+  color: @primary-color
+}
+.person {
+  margin-right: 30px;
+  cursor: pointer;
+  color: @header-text-color;
+}
+.person-avatar {
+  background-color: @primary-color;
+  margin-right: 10px;
+}

@@ -1,0 +1,21 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "ie": "11",
+          "esmodules": true
+        },
+        "corejs": 2,
+        "useBuiltIns": "entry"
+      }
+    ],
+    "@babel/preset-typescript",
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    ["import", { "libraryName": "antd", "style": true }],
+    ["transform-class-properties"]
+  ]
+}

@@ -5,7 +5,7 @@
 import { message, Modal } from 'antd';
 import Axios from 'axios';
 import qs from 'qs';
-import { platform, serverPath } from '@utils/CommonVars';
+import { serverPath } from '@utils/CommonVars';
 
 /**
  * post 传参

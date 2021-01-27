@@ -16,6 +16,7 @@ const Header = () => {
   const history = useHistory();
   // 注销登录
   const logOut = () => {
+    sessionStorage.clear();
     window.location.href = '/';
   };
   // 跳至主页
