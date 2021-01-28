@@ -8,13 +8,14 @@ import { Row, Avatar } from 'antd';
 import { SmileTwoTone, UserOutlined, PoweroffOutlined } from '@ant-design/icons';
 import { HomeContext } from '../../index';
 import './index.less';
+import { platform } from '@utils/CommonVars';
 
 const Header = () => {
   const { homeState } = useContext(HomeContext);
   // 注销登录
   const logOut = () => {
     sessionStorage.clear();
-    window.location.href = '/';
+    window.location.href = platform;
   };
   return (
     <Row className="header header-shadow" justify="end" align="middle">

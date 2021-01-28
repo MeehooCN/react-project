@@ -8,6 +8,7 @@ import { Row, Card, Button, message } from 'antd';
 import { CommonHorizFormHook, IFormColumns, MyTitle } from '@components/index';
 import { HomeContext } from '../../index';
 import { post } from '@utils/Ajax';
+import { platform } from '@utils/CommonVars';
 
 const UpdatePassword = () => {
   const formRef: any = useRef();
@@ -24,7 +25,7 @@ const UpdatePassword = () => {
           if (data.flag === 0) {
             message.success('操作成功');
             // 密码修改成功，注销登录
-            window.location.href = '/';
+            window.location.href = platform;
           }
           setButtonLoading(false);
         });

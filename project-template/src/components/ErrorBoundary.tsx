@@ -8,6 +8,7 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Result, Button } from 'antd';
 import { dateTimeToDateTimeString } from '@utils/CommonFunc';
 import dayjs from 'dayjs';
+import { platform } from '@utils/CommonVars';
 
 export interface ErrorStack {
   id: string,
@@ -58,7 +59,7 @@ class ErrorBoundary extends React.Component<RouteComponentProps & IProps, IState
   render() {
     const { hasError } = this.state;
     const backLogin = () => {
-      window.location.href = '/';
+      window.location.href = platform;
     };
     if (hasError) {
       return (

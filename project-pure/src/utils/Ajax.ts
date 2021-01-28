@@ -5,7 +5,7 @@
 import Axios from 'axios';
 // @ts-ignore
 import qs from 'qs';
-import { serverPath } from '@utils/CommonVars';
+import { platform, serverPath } from '@utils/CommonVars';
 
 /**
  * post 传参
@@ -32,7 +32,7 @@ const post = (url: string, data: any, config: any, thenCallBack: any) => {
         } else if (responseData.flag === 4004) {
           window.alert('没有登录信息或登录信息过期，请重新登录。');
           window.setTimeout(() => {
-            window.location.href = '/';
+            window.location.href = platform;
           }, 1000);
         } else {
           thenCallBack(responseData);
@@ -73,7 +73,7 @@ const get = (url: string, config: any, thenCallBack: any) => {
         } else if (responseData.flag === 4004) {
           window.alert('没有登录信息或登录信息过期，请重新登录。');
           window.setTimeout(() => {
-            window.location.href = '/';
+            window.location.href = platform;
           }, 1000);
         } else {
           thenCallBack(responseData);

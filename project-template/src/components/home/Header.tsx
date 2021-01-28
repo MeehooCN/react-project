@@ -17,7 +17,7 @@ const Header = () => {
   // 注销登录
   const logOut = () => {
     sessionStorage.clear();
-    window.location.href = '/';
+    window.location.href = platform;
   };
   // 跳至主页
   const toHome = () => {

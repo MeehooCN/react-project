@@ -16,7 +16,7 @@ const Header = () => {
   // 注销登录
   const logOut = () => {
     sessionStorage.clear();
-    window.location.href = '/';
+    window.location.href = platform;
   };
   const menu = (
     <Menu style={{ marginTop: 5 }}>
