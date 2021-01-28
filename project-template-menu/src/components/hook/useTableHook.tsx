@@ -17,6 +17,7 @@ const paginationInit = {
 const useTableHook = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [searchContent, setSearchContent] = useState<any>();
+  const [isFirst, setIsFirst] = useState<boolean>(false);
   const [pagination, setPagination] = useState(() => {
     let current: number = 1;
     let tempPagination: any = { ...paginationInit };
@@ -49,9 +50,21 @@ const useTableHook = () => {
     }
     setPagination({ ...pagination });
   };
+  // 查看详情后返回列表复现查询条件
+  const reviewState = (state: any, searchFormRef: any) => {
+    if (state) {
+      searchFormRef.current.form().setFieldsValue(state.searchContent);
+      pagination.current = state.current;
+      setSearchContent(state.searchContent);
+      setPagination(pagination);
+      setIsFirst(true);
+    } else {
+      setIsFirst(true);
+    }
+  };
   return {
     loading, setLoading, pagination, setPagination, searchContent, handleTableChange,
-    handleSearch, backFrontPage
+    handleSearch, backFrontPage, reviewState, isFirst
   };
 };
 export default useTableHook;
