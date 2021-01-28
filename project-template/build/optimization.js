@@ -4,7 +4,7 @@ module.exports = {
   },
   splitChunks: {
     // 最大 split js 数，会包含入口文件的 js，默认为 3
-    maxInitialRequests: 4,
+    maxInitialRequests: 5,
     // 第三方打包
     cacheGroups: {
       default: false,
@@ -16,13 +16,13 @@ module.exports = {
       react: {
         name: 'react',
         chunks: 'all',
-        priority: 2,
+        priority: 1,
         test: /react/
       },
       antd: {
         name: 'antd',
         chunks: 'all',
-        priority: 1,
+        priority: 2,
         test: function(module) {
           const context = module.context;
           return context && (

@@ -16,7 +16,7 @@ module.exports = {
       react: {
         name: 'react',
         chunks: 'all',
-        priority: 3,
+        priority: 1,
         test: /react/
       },
       antd: {
@@ -37,7 +37,7 @@ module.exports = {
       iconfont: {
         name: 'iconfont',
         chunks: 'all',
-        priority: 1,
+        priority: 3,
         test: /iconfont/
       }
     }
