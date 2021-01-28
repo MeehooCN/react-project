@@ -13,6 +13,7 @@ import { colors, platform, projectName } from '@utils/CommonVars';
 import { HomeContext } from '../../index';
 import './index.less';
 import { post } from '@utils/Ajax';
+import { useHistory } from 'react-router';
 
 const { Content, Sider } = Layout;
 
@@ -21,6 +22,13 @@ interface IProps {
 }
 const Home = (props: IProps) => {
   const { children } = props;
+  const history = useHistory();
+  // 如果跳转路由了，则清除 current
+  history.listen((location, action) => {
+    if (action === 'PUSH') {
+      sessionStorage.removeItem('current');
+    }
+  });
   const { homeDispatch } = useContext(HomeContext);
   const [menuList, setMenuList] = useState<Array<MenuData>>([]);
   const [loading, setLoading] = useState<boolean>(false);

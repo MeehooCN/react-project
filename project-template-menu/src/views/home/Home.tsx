@@ -9,8 +9,9 @@ import { VerticalAlignTopOutlined, SmileTwoTone } from '@ant-design/icons';
 import { Header } from '@components/index';
 import { initMenu, getClientHeight } from '@utils/CommonFunc';
 import { MenuData } from '@utils/CommonInterface';
-import './index.less';
 import { colors, platform, projectName } from '@utils/CommonVars';
+import { useHistory } from 'react-router';
+import './index.less';
 
 const { Content, Sider } = Layout;
 
@@ -19,6 +20,13 @@ interface IProps {
 }
 const Home = (props: IProps) => {
   const { children } = props;
+  const history = useHistory();
+  // 如果跳转路由了，则清除 current
+  history.listen((location, action) => {
+    if (action === 'PUSH') {
+      sessionStorage.removeItem('current');
+    }
+  });
   const menuList: Array<MenuData> = [{
     id: '1',
     name: '系统管理',
