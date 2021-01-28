@@ -52,9 +52,9 @@ const Login = () => {
           name: data.data.name
         };
         // 如果登录成功，则存储 cookie， 过期时间一天。
-        const expireTime: number = 60 * 60 * 24;
-        setCookie('username', userInfo.userName, expireTime);
-        setCookie('password', value.password, expireTime);
+        // const expireTime: number = 60 * 60 * 24;
+        // setCookie('username', userInfo.userName, expireTime);
+        // setCookie('password', value.password, expireTime);
         // 设置 session
         sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
         homeDispatch({
