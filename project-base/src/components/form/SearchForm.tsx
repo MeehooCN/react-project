@@ -3,7 +3,7 @@
  * @author: cy
  * @createTime: 2021/1/19 9:10
  **/
-import React, { useEffect, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { DatePicker, Form, Input, InputNumber, Select, TreeSelect, Radio, Cascader, Button, Row, Col } from 'antd';
 import { UpOutlined, DownOutlined } from '@ant-design/icons';
 
@@ -73,8 +73,11 @@ interface IProps {
   colSpan?: number,
   searchText?: string
 }
-const SearchForm = (props: IProps) => {
+const SearchForm = (props: IProps, ref: any) => {
   const [form] = Form.useForm();
+  useImperativeHandle(ref, () => ({
+    form: () => form
+  }));
   const [expand, setExpand] = useState<boolean>(false);
   const { formColumns, search, submitLoading, hiddenButton, formValue, colSpan = 4, searchText } = props;
   useEffect(() => {
@@ -257,4 +260,4 @@ const SearchForm = (props: IProps) => {
     </Form>
   );
 };
-export default SearchForm;
+export default forwardRef(SearchForm);
