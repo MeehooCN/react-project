@@ -47,8 +47,13 @@ const post = (url: string, data: any, config: any, thenCallBack: any) => {
     } else {
       window.alert('未知异常');
     }
-  }).catch((e: any) => {
-    window.alert(e);
+  }).catch((e) => {
+    // 如果未授权
+    if (e.response && e.response.status === 403 && e.response.data && e.response.data.flag === 1) {
+      thenCallBack(e.response.data);
+    } else {
+      window.alert(e);
+    }
   });
 };
 
@@ -83,8 +88,13 @@ const get = (url: string, config: any, thenCallBack: any) => {
     } else {
       window.alert('未知异常');
     }
-  }).catch((e: any) => {
-    window.alert(e);
+  }).catch((e) => {
+    // 如果未授权
+    if (e.response && e.response.status === 403 && e.response.data && e.response.data.flag === 1) {
+      thenCallBack(e.response.data);
+    } else {
+      window.alert(e);
+    }
   });
 };
 

@@ -51,7 +51,12 @@ const post = (url: string, data: any, config: any, thenCallBack: any) => {
       message.error('未知异常', 5);
     }
   }).catch((e) => {
-    message.error(e, 5);
+    // 如果未授权
+    if (e.response && e.response.status === 403 && e.response.data && e.response.data.flag === 1) {
+      thenCallBack(e.response.data);
+    } else {
+      message.error(e, 3);
+    }
   });
 };
 
@@ -90,7 +95,12 @@ const get = (url: string, config: any, thenCallBack: any) => {
       message.error('未知异常', 5);
     }
   }).catch((e) => {
-    message.error(e, 5);
+    // 如果未授权
+    if (e.response && e.response.status === 403 && e.response.data && e.response.data.flag === 1) {
+      thenCallBack(e.response.data);
+    } else {
+      message.error(e, 3);
+    }
   });
 };
 
