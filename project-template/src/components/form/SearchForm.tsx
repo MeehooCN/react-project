@@ -93,7 +93,12 @@ const SearchForm = (props: IProps, ref: any) => {
   // 重置
   const handleReset = () => {
     form.resetFields();
-    const value = form.getFieldsValue();
+    let value = form.getFieldsValue();
+    let values: any = {};
+    for (let objName in value) {
+      values[objName] = undefined;
+    }
+    form.setFieldsValue(values);
     search(value);
   };
   // 值改变
