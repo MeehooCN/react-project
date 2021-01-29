@@ -4,6 +4,7 @@
  * @createTime: 2020/9/11 13:12
  **/
 import React, { useState } from 'react';
+import { useHistory } from 'react-router';
 
 const paginationInit = {
   current: 1,
@@ -15,15 +16,27 @@ const paginationInit = {
 };
 
 const useTableHook = () => {
+  const history = useHistory();
+  const { state }: any = history.location;
   const [loading, setLoading] = useState<boolean>(false);
-  const [searchContent, setSearchContent] = useState<any>();
-  const [isFirst, setIsFirst] = useState<boolean>(false);
+  const [searchContent, setSearchContent] = useState<any>(() => {
+    // 如果是页面返回的，则赋值
+    if (state) {
+      return state.searchContent;
+    } else {
+      return undefined;
+    }
+  });
   const [pagination, setPagination] = useState(() => {
     let current: number = 1;
     let tempPagination: any = { ...paginationInit };
     if (sessionStorage.getItem('current')) {
       // @ts-ignore
       current = parseInt(sessionStorage.getItem('current'), 0);
+    }
+    // 如果是页面返回的，则赋值
+    if (state) {
+      current = state.current;
     }
     tempPagination.current = current;
     return tempPagination;
@@ -50,21 +63,9 @@ const useTableHook = () => {
     }
     setPagination({ ...pagination });
   };
-  // 查看详情后返回列表复现查询条件
-  const reviewState = (state: any, searchFormRef: any) => {
-    if (state) {
-      searchFormRef.current.form().setFieldsValue(state.searchContent);
-      pagination.current = state.current;
-      setSearchContent(state.searchContent);
-      setPagination(pagination);
-      setIsFirst(true);
-    } else {
-      setIsFirst(true);
-    }
-  };
   return {
     loading, setLoading, pagination, setPagination, searchContent, handleTableChange,
-    handleSearch, backFrontPage, reviewState, isFirst
+    handleSearch, backFrontPage
   };
 };
 export default useTableHook;

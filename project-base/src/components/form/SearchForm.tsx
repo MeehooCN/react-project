@@ -71,7 +71,8 @@ interface IProps {
   hiddenButton?: boolean,
   formValue?: any,
   colSpan?: number,
-  searchText?: string
+  searchText?: string,
+  searchContent?: any
 }
 const SearchForm = (props: IProps, ref: any) => {
   const [form] = Form.useForm();
@@ -79,7 +80,7 @@ const SearchForm = (props: IProps, ref: any) => {
     form: () => form
   }));
   const [expand, setExpand] = useState<boolean>(false);
-  const { formColumns, search, submitLoading, hiddenButton, formValue, colSpan = 4, searchText } = props;
+  const { formColumns, search, submitLoading, hiddenButton, formValue, colSpan = 4, searchText, searchContent } = props;
   useEffect(() => {
     form.setFieldsValue(formValue);
   }, [formValue]);
@@ -242,7 +243,7 @@ const SearchForm = (props: IProps, ref: any) => {
     );
   };
   return (
-    <Form layout="inline" form={form} style={{ width: '100%' }}>
+    <Form layout="inline" form={form} style={{ width: '100%' }} initialValues={searchContent}>
       <Row style={{ width: '100%' }}>
         {columns()}
         {!hiddenButton && !isButtonBottomRight() && buttonGroup()}
