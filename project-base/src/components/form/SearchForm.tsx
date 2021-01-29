@@ -63,6 +63,7 @@ export interface ISearchFormColumns {
  * @property submitLoading 搜索时确定按钮添加 loading 状态
  * @property searchText 搜索时按钮文字
  * @property colSpan 搜索 span
+ * @property searchContent 查询初始值
  */
 interface IProps {
   formColumns: ISearchFormColumns[],
