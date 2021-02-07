@@ -99,7 +99,7 @@ const SearchForm = (props: IProps, ref: any) => {
       values[objName] = undefined;
     }
     form.setFieldsValue(values);
-    search(value);
+    search(values);
   };
   // 值改变
   const onChangeSearch = (v: any, option: any) => {
