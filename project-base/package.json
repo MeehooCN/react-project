@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack serve --config build/webpack.config.js --inline --mode development --hot --host 0.0.0.0",
-    "build": "webpack --config build/webpack.config.js --mode production"
+    "build": "webpack --config build/webpack.config.js --mode production",
+    "postbuild": "npm run deploy",
+    "deploy": "node ./scripts/deploy.js"
   },
   "keywords": [
     "keywords"
