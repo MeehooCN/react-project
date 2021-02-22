@@ -11,6 +11,10 @@ import ReactDOM from 'react-dom';
 import zhCN from 'antd/es/locale/zh_CN';
 import App from './index';
 import { ConfigProvider } from 'antd';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+
+moment.locale('zh-cn');
 
 ReactDOM.render(
   <ConfigProvider locale={zhCN}>
