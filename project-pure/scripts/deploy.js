@@ -64,8 +64,13 @@ function uploadFile() {
 
 // 执行远端部署脚本
 function startRemoteShell() {
-  // 在服务器上 cwd 配置的路径下执行 sh deploy.sh 脚本来实现发布
-  ssh.execCommand('sh deploy.sh', { cwd: configs.shPath }).then(result => {
+  let options;
+  // 如果是 linux 服务器
+  if (configs.hostType === 'linux') {
+    options = { cwd: configs.shPath };
+  }
+  // 在服务器上 cwd 配置的路径下执行 deploy.bat 脚本来实现发布
+  ssh.execCommand(configs.command, options).then(result => {
     console.log('远程STDOUT输出: ' + result.stdout);
     console.log('远程STDERR输出: ' + result.stderr);
     if (!result.stderr) {
