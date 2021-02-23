@@ -69,7 +69,8 @@ function startRemoteShell() {
   if (configs.hostType === 'linux') {
     options = { cwd: configs.shPath };
   }
-  // 在服务器上 cwd 配置的路径下执行 deploy.bat 脚本来实现发布
+  // linux 在服务器上 cwd 配置的路径下执行脚本
+  // windows 直接执行 command 中的脚本
   ssh.execCommand(configs.command, options).then(result => {
     console.log('远程STDOUT输出: ' + result.stdout);
     console.log('远程STDERR输出: ' + result.stderr);
