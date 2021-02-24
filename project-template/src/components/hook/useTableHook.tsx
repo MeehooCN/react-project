@@ -6,6 +6,11 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 
+interface Sorter {
+  field: string,
+  order: 'orderByDesc' | 'orderByASC'
+}
+
 const paginationInit = {
   current: 1,
   pageSize: 10,
@@ -41,13 +46,24 @@ const useTableHook = () => {
     tempPagination.current = current;
     return tempPagination;
   });
+  const [sorter, setSorter] = useState<Sorter>({
+    field: '',
+    order: 'orderByDesc'
+  });
   // 监听表格变化
-  const handleTableChange = (pagination: any) => {
-    pagination.showTotal = (total: number) => {
-      return `共查询到 ${total} 条数据`;
-    };
-    sessionStorage.setItem('current', pagination.current);
-    setPagination(pagination);
+  const handleTableChange = (pagination: any, filters: any, sorter: any, extra: any) => {
+    if (extra.action === 'paginate') {
+      pagination.showTotal = (total: number) => {
+        return `共查询到 ${total} 条数据`;
+      };
+      sessionStorage.setItem('current', pagination.current);
+      setPagination(pagination);
+    } else if (extra.action === 'sort') {
+      setSorter({
+        field: sorter.field,
+        order: sorter.order === 'ascend' ? 'orderByASC' : 'orderByDesc'
+      });
+    }
   };
   // 搜索
   const handleSearch = (content: any) => {
@@ -65,7 +81,7 @@ const useTableHook = () => {
   };
   return {
     loading, setLoading, pagination, setPagination, searchContent, handleTableChange,
-    handleSearch, backFrontPage
+    handleSearch, backFrontPage, sorter
   };
 };
 export default useTableHook;
