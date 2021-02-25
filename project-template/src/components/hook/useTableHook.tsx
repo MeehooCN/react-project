@@ -26,7 +26,7 @@ const useTableHook = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [searchContent, setSearchContent] = useState<any>(() => {
     // 如果是页面返回的，则赋值
-    if (state) {
+    if (state && state.searchContent) {
       return state.searchContent;
     } else {
       return undefined;
@@ -40,7 +40,7 @@ const useTableHook = () => {
       current = parseInt(sessionStorage.getItem('current'), 0);
     }
     // 如果是页面返回的，则赋值
-    if (state) {
+    if (state && state.current) {
       current = state.current;
     }
     tempPagination.current = current;
