@@ -7,9 +7,11 @@ import React, { useEffect, useImperativeHandle, forwardRef, useState } from 'rea
 import {
   Col, DatePicker, Form, Input, InputNumber, Select,
   TreeSelect, Radio, Cascader, Row, Button, Switch,
-  Slider, Checkbox, Modal
+  Slider, Checkbox, Modal, Upload
 } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 import { Rule } from 'antd/lib/form';
+import { UploadProps } from 'antd/es/upload';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -19,7 +21,7 @@ const { RangePicker } = DatePicker;
 const CheckboxGroup = Checkbox.Group;
 
 declare type FormItemType = 'text' | 'textArea' | 'inputNumber' | 'password' | 'select' | 'treeSelect' | 'date' | 'rangeDate'| 'dateNoTime' | 'radio' | 'switch'
-  | 'slider' | 'cascader' | 'hidden' | 'checkbox' | 'button';
+  | 'slider' | 'cascader' | 'hidden' | 'checkbox' | 'button' | 'upload';
 /**
  * @description 表单项
  * @property label 标签名
@@ -45,6 +47,7 @@ declare type FormItemType = 'text' | 'textArea' | 'inputNumber' | 'password' | '
  * @property checkedChildren switch 选中显示
  * @property unCheckedChildren switch 取消选中显示
  * @property viewComponent Modal 中显示的组件
+ * @property uploadProps upload 上传的props
  */
 export interface IFormColumns {
   label: string,
@@ -72,7 +75,8 @@ export interface IFormColumns {
   sliderMax?: number,
   checkedChildren?: string,
   unCheckedChildren?: string,
-  viewComponent?: React.ReactNode
+  viewComponent?: React.ReactNode,
+  uploadProps?: UploadProps
 }
 /**
  * @description 公共表单的参数
@@ -130,6 +134,24 @@ const CommonForm = (props: IProps, ref: any) => {
         onOK(values);
       }
     }
+  };
+  // 根据不同类型获取 valuePropName
+  const getValuePropName = (type: string) => {
+    switch (type) {
+      case 'switch':
+        return 'checked';
+      case 'upload':
+        return 'fileList';
+      default:
+        return 'value';
+    }
+  };
+  // 上传时返回值
+  const normFile = (e: any) => {
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
   };
   // 表单格式
   const itemLayOut = formItemLayout ? formItemLayout : {
@@ -288,26 +310,38 @@ const CommonForm = (props: IProps, ref: any) => {
             }
           />
         );
+      case 'upload':
+        return (
+          <Upload {...item.uploadProps}>
+            <Button icon={<UploadOutlined />} disabled={item.disabled}>上传</Button>
+          </Upload>
+        );
       case 'hidden':
         return <Input style={{ display: 'none' }} />;
     }
   };
   // 生成表单项
-  let columns = formColumns.map((item: IFormColumns, index: number) => (
-    <Col span={inlineSpan || 24} key={index} style={{ display: item.type === 'hidden' ? 'none' : 'block' }}>
-      <Form.Item
-        label={item.label}
-        name={item.name}
-        rules={item.rules || []}
-        hidden={item.type === 'hidden'}
-        initialValue={item.initialValue}
-        valuePropName={item.type === 'switch' ? 'checked' : 'value'}
-        style={formItemStyle}
-      >
-        {formItems(item)}
-      </Form.Item>
-    </Col>
-  ));
+  let columns = formColumns.map((item: IFormColumns, index: number) => {
+    const formProps: any = {
+      label: item.label,
+      name: item.name,
+      rules: item.rules || [],
+      hidden: item.type === 'hidden',
+      initialValue: item.initialValue,
+      valuePropName: getValuePropName(item.type),
+      style: props.formItemStyle
+    };
+    if (item.type === 'upload') {
+      formProps.getValueFromEvent = normFile;
+    }
+   return (
+     <Col span={inlineSpan || 24} key={index} style={{ display: item.type === 'hidden' ? 'none' : 'block' }}>
+       <Form.Item {...formProps}>
+         {formItems(item)}
+       </Form.Item>
+     </Col>
+   )
+  });
   return (
     <Form {...itemLayOut} form={form} onFinish={onFinish} autoComplete="off" style={{ width: '100%' }} onValuesChange={onValuesChange}>
       <Row gutter={16}>
