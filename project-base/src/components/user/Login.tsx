@@ -61,12 +61,13 @@ const Login = () => {
           type: 'setUserInfo',
           userInfo
         });
+        setLoading(false);
         history.push(platform + 'welcome');
       } else {
+        setLoading(false);
         message.error(data.msg);
         getKaptcha();
       }
-      setLoading(false);
     });
   };
   return (
