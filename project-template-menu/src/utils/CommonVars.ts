@@ -15,7 +15,7 @@ export enum colors {
 /**
  * 服务器部署前缀路径
  * **/
-export const platform: string = '/';
+export const { platform } = require('./../../scripts/config.js');
 /**
  * API 接口路径
  **/

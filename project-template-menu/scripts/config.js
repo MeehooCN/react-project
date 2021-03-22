@@ -11,6 +11,7 @@
  * @path 必填，打包上传地址 linux: '/opt/view/dist.zip'; windows: 'D:/opt/view/dist.zip'
  * @shPath windows 服务器可为空，脚本目录，linux 服务器需要该参数 '/opt/sh'
  * @command 必填，执行的命令, linux: 'sh deployMain.sh'; windows: 'D:/opt/sh/deploy.bat'
+ * @platform 必填，无服务器前缀：'/'，有前缀：'/前缀'
  **/
 // path 需精确到文件路径
 module.exports = {
@@ -20,5 +21,6 @@ module.exports = {
   password: '123456',
   path: 'D:/opt/view/dist.zip',
   shPath: '/opt/sh',
-  command: 'D:/opt/sh/deploy.bat'
+  command: 'D:/opt/sh/deploy.bat',
+  platform: '/'
 };

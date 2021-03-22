@@ -9,6 +9,7 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 // 压缩代码
 const TerserPlugin = require('terser-webpack-plugin');
 const { resolve } = require('./utils');
+const { platform } = require('../scripts/config');
 
 let config = {
   entry: {
@@ -16,7 +17,7 @@ let config = {
   },
   output: {
     path: resolve('dist'),
-    publicPath: '/',
+    publicPath: platform,
     filename: 'js/[name].js'
   },
   resolve: {

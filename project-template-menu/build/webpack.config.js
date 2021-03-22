@@ -9,6 +9,7 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 // 压缩代码
 const TerserPlugin = require('terser-webpack-plugin');
 const { resolve } = require('./utils');
+const { platform } = require('../scripts/config');
 
 let config = {
   entry: {
@@ -16,7 +17,7 @@ let config = {
   },
   output: {
     path: resolve('dist'),
-    publicPath: '/',
+    publicPath: platform,
     filename: 'js/[name].js'
   },
   resolve: {
@@ -33,7 +34,7 @@ let config = {
   plugins: [...developmentPlugins],
   optimization,
   devServer: {
-    port: 3000,
+    port: 3006,
     // 代理，将请求接口做代理，将前端从后台完全剥离出来
     // 部署时使用 nginx 反向代理到后台端口
     proxy: {
