@@ -246,6 +246,7 @@ const RoleManage = () => {
           cancel={handleCancel}
           onOK={handleOK}
           submitLoading={addLoading}
+          notReset={true}
         />
       </Modal>
       <Modal

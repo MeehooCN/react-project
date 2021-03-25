@@ -243,6 +243,7 @@ const MenuManage = () => {
           cancel={() => setAddView(false)}
           onOK={addMenuOk}
           submitLoading={submitLoading}
+          notReset={true}
         />
       </Modal>
     </Card>

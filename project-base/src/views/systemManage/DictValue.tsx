@@ -293,6 +293,7 @@ const DictValue = () => {
           cancel={handleTypeCancel}
           onOK={handleTypeOK}
           submitLoading={typeButtonLoading}
+          notReset={true}
         />
       </Modal>
       <Modal title={rowId ? '编辑选项' : '新增选项'} visible={valueVisible} footer={null} onCancel={handleValueCancel}>
@@ -304,6 +305,7 @@ const DictValue = () => {
           cancel={handleValueCancel}
           onOK={handleValueOK}
           submitLoading={valueButtonLoading}
+          notReset={true}
         />
       </Modal>
     </Card>
