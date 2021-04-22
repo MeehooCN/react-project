@@ -19,7 +19,7 @@ export const { platform } = require('./../../scripts/config.js');
 /**
  * API 接口路径
  **/
-export const serverPath: string = '/api/';
+export const { serverPath } = require('./../../scripts/config.js');
 /**
  * 图标库地址，iconfonts 库
  * **/
