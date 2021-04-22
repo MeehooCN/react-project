@@ -1,17 +1,19 @@
+/**
+ * @description: webpack 公共配置
+ * @author: cnn
+ * @createTime: 2021/4/22 14:28
+ **/
 const developmentPlugins = require('./plugins/developmentPlugins');
-const productionPlugin = require('./plugins/productionPlugin');
 const jsRules = require('./rules/jsRules');
 const styleRules = require('./rules/styleRules');
 const fileRules = require('./rules/fileRules');
 const optimization = require('./optimization');
 // 映射 tsconfig 路径
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-// 压缩代码
-const TerserPlugin = require('terser-webpack-plugin');
 const { resolve } = require('./utils');
 const { platform } = require('../scripts/config');
 
-let config = {
+module.exports = {
   entry: {
     'platform/index': resolve('src/app.tsx')
   },
@@ -64,28 +66,4 @@ let config = {
       // }
     }
   }
-};
-module.exports = (env, argv) => {
-  if (argv.mode === 'development') {
-    for (let item of styleRules) {
-      item.use[0] = 'style-loader';
-    }
-    // 生成source map，方便调试
-    config.devtool = 'cheap-module-source-map';
-  } else if (argv.mode === 'production') {
-    // 打包时能在 IE11 上正常运行
-    config.target = ['web', 'es5'];
-    config.plugins = [...developmentPlugins, ...productionPlugin];
-    // 去掉 LICENSE.txt 文件
-    config.optimization.minimize = true;
-    config.optimization.minimizer = [
-      new TerserPlugin({
-        test: /\.js(\?.*)?$/i,
-        exclude: /[\\/]node_modules[\\/]/,
-        parallel: true,
-        extractComments: false
-      })
-    ];
-  }
-  return config;
 };
