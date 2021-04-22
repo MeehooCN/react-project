@@ -4,6 +4,7 @@
  * @createTime: 2020/7/22 9:35
  **/
 import dayJs, { Dayjs } from 'dayjs';
+import { message, Upload } from 'antd';
 
 /**
  * 时间转为时间字符串
@@ -17,4 +18,31 @@ export const dateTimeToDateTimeString = (dateTime: Dayjs) => {
  * **/
 export const dateToDateString = (date: Dayjs) => {
   return dayJs(date).format('YYYY-MM-DD');
+};
+/**
+ * limitSize: 文件限制大小（MB）
+ * limitType： 限制文件的 格式
+ * limitFileNameLength: 限制文件名长度
+ * file: 文件
+ **/
+export const beforeUploadLimit = (limitSize: number, limitType: Array<any>, limitFileNameLength: number, file?: any) => {
+  const isLtLimitSize = file.size / 1024 / 1024 < limitSize;
+  // 限制文件大小
+  if (!isLtLimitSize) {
+    message.error('文件不能超过 ' + limitSize + ' MB');
+    return Upload.LIST_IGNORE;
+  }
+  // 限制文件格式
+  let fileSuf = file.name.split('.');
+  let suffix = fileSuf[fileSuf.length - 1].toLowerCase();
+  if (limitType.indexOf('.' + suffix) === -1) {
+    message.error('文件限' + limitType.join('、') + '格式');
+    return Upload.LIST_IGNORE;
+  }
+  // 限制文件名长度
+  if (file.name.length > limitFileNameLength) {
+    message.error('文件名长度不能超过 ' + limitFileNameLength + ' 字');
+    return Upload.LIST_IGNORE;
+  }
+  return true;
 };

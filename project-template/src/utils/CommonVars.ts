@@ -22,3 +22,14 @@ export const serverPath: string = '/api/';
  * 项目名称
  **/
 export const projectName: string = '项目名称';
+/**
+ * 文件后缀
+ **/
+export const fileAccept = {
+  doc: ['.doc', '.docx'],
+  pdf: ['.pdf'],
+  excel: ['.xls', '.xlsx'],
+  zip: ['.rar', '.zip'],
+  img: ['.jpg', '.jpeg', '.png', '.bmp'],
+  all: ['.doc', '.docx', '.pdf', '.xls', '.xlsx', '.rar', '.zip', '.jpg', '.jpeg', '.png', '.bmp']
+};

@@ -6,7 +6,7 @@
 import React from 'react';
 import { MenuData } from '@utils/CommonInterface';
 import { Link } from 'react-router-dom';
-import { Menu } from 'antd';
+import { Menu, message, Upload } from 'antd';
 import { createFromIconfontCN } from '@ant-design/icons';
 import dayJs, { Dayjs } from 'dayjs';
 import { iconUrl } from '@utils/CommonVars';
@@ -74,6 +74,13 @@ export const initMenu = (menuList: Array<MenuData>, type: string) => {
 export const getClientHeight = () => {
   // @ts-ignore
   return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+};
+/**
+ * 获取当前浏览器宽度
+ * **/
+export const getClientWidth = () => {
+  // @ts-ignore
+  return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 };
 /**
  * 将 children 长度为 0 的设置为 null
@@ -164,4 +171,31 @@ export const setCookie = (name: string, value: string, maxAge: number) => {
  * **/
 export const deleteCookie = (name: string) => {
   setCookie(name, '', 0);
+};
+/**
+ * limitSize: 文件限制大小（MB）
+ * limitType： 限制文件的 格式
+ * limitFileNameLength: 限制文件名长度
+ * file: 文件
+ **/
+export const beforeUploadLimit = (limitSize: number, limitType: Array<any>, limitFileNameLength: number, file?: any) => {
+  const isLtLimitSize = file.size / 1024 / 1024 < limitSize;
+  // 限制文件大小
+  if (!isLtLimitSize) {
+    message.error('文件不能超过 ' + limitSize + ' MB');
+    return Upload.LIST_IGNORE;
+  }
+  // 限制文件格式
+  let fileSuf = file.name.split('.');
+  let suffix = fileSuf[fileSuf.length - 1].toLowerCase();
+  if (limitType.indexOf('.' + suffix) === -1) {
+    message.error('文件限' + limitType.join('、') + '格式');
+    return Upload.LIST_IGNORE;
+  }
+  // 限制文件名长度
+  if (file.name.length > limitFileNameLength) {
+    message.error('文件名长度不能超过 ' + limitFileNameLength + ' 字');
+    return Upload.LIST_IGNORE;
+  }
+  return true;
 };

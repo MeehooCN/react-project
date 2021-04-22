@@ -35,3 +35,14 @@ export enum OrganizationStatus {
   ENABLE = 1,
   FORBID = 0
 }
+/**
+ * 文件后缀
+ **/
+export const fileAccept = {
+  doc: ['.doc', '.docx'],
+  pdf: ['.pdf'],
+  excel: ['.xls', '.xlsx'],
+  zip: ['.rar', '.zip'],
+  img: ['.jpg', '.jpeg', '.png', '.bmp'],
+  all: ['.doc', '.docx', '.pdf', '.xls', '.xlsx', '.rar', '.zip', '.jpg', '.jpeg', '.png', '.bmp']
+};
