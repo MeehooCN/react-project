@@ -23,9 +23,10 @@ export const dateToDateString = (date: Dayjs) => {
  * limitSize: 文件限制大小（MB）
  * limitType： 限制文件的 格式
  * limitFileNameLength: 限制文件名长度
+ * limitFileName: 文件名中不应包含字符
  * file: 文件
  **/
-export const beforeUploadLimit = (limitSize: number, limitType: Array<any>, limitFileNameLength: number, file?: any) => {
+export const beforeUploadLimit = (limitSize: number, limitType: Array<string>, limitFileNameLength: number, limitFileName: Array<string>, file: any) => {
   const isLtLimitSize = file.size / 1024 / 1024 < limitSize;
   // 限制文件大小
   if (!isLtLimitSize) {
@@ -43,6 +44,14 @@ export const beforeUploadLimit = (limitSize: number, limitType: Array<any>, limi
   if (file.name.length > limitFileNameLength) {
     message.error('文件名长度不能超过 ' + limitFileNameLength + ' 字');
     return Upload.LIST_IGNORE;
+  }
+  // 限制文件名中不应包含字符
+  for (let i = 0; i < limitFileName.length; i++) {
+    const item = limitFileName[i];
+    if (file.name.indexOf(item) !== -1) {
+      message.error('文件名中不应包含字符 ' + limitFileName.join(' ') + ' 字符');
+      return Upload.LIST_IGNORE;
+    }
   }
   return true;
 };
