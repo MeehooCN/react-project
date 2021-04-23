@@ -55,3 +55,16 @@ export const beforeUploadLimit = (limitSize: number, limitType: Array<string>, l
   }
   return true;
 };
+/**
+ * 文件上传不能有 # 和 &，上传时应该检查
+ * 文件 Url 转义
+ **/
+export const encodeFileUrl = (url: string) => {
+  // 测试得出 + 需要转义
+  if (url) {
+    let transformUrl: string = url.replace('+', '%2B');
+    return transformUrl;
+  } else {
+    return '';
+  }
+};
