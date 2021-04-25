@@ -222,7 +222,16 @@ const AdminManage = () => {
     label: '用户名',
     name: 'username',
     type: 'text',
-    rules: [{ required: true, message: '请输入用户名' }]
+    rules: [{
+      required: true,
+      message: '请输入用户名'
+    }, {
+      whitespace: true,
+      message: '用户名不能仅为空格'
+    }, {
+      pattern: /^[^\s]*$/,
+      message: '用户名不能包含空格及其他空白字符'
+    }]
   }, {
     label: '姓名',
     name: 'name',
