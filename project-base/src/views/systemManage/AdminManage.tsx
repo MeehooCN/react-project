@@ -103,6 +103,15 @@ const AdminManage = () => {
   };
   // 删除管理员
   const deleteAdmin = (id: string) => {
+    // 判断删除的用户是不是当前用户，如为当前用户则不能删除
+    if (sessionStorage.getItem('userInfo')) {
+      // @ts-ignore
+      const userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+      if (userInfo.userId === id) {
+        message.error('当前用户不能删除。');
+        return;
+      }
+    }
     post('security/admin/delete', { id: id }, {}, (data: any) => {
       if (data.flag === 0) {
         message.success('删除成功！');
