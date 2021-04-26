@@ -45,7 +45,7 @@ const useTableHook = (isBackSearchProp?: boolean) => {
         current = parseInt(sessionStorage.getItem('current'), 10);
       }
       // 如果是页面返回的，则赋值
-      if (state) {
+      if (state && state.current) {
         current = state.current;
       }
       tempPagination.current = current;
