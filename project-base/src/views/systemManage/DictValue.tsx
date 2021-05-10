@@ -43,8 +43,8 @@ const DictValue = () => {
         if (data.data.length > 0) {
           setCurrSelectKey([data.data[0].id]);
           setCurrentTypeName(data.data[0].name);
-          setTypeList(data.data);
         }
+        setTypeList(data.data);
       }
       setTypeLoading(false);
     });
