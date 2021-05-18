@@ -36,6 +36,7 @@
       "dom",
       "es2015"
     ],
+    // 图片引入配置
     "include": [
       "./__config__/images.d.ts"
     ]
