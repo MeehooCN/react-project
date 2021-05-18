@@ -76,17 +76,18 @@ export const getClientHeight = () => {
   return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 };
 /**
- * limitSize: 文件限制大小（MB）
  * limitType： 限制文件的 格式
+ * file: 文件
+ * limitSize: 文件限制大小（MB）
  * limitFileNameLength: 限制文件名长度
  * limitFileName: 文件名中不应包含字符
- * file: 文件
  **/
-export const beforeUploadLimit = (limitSize: number, limitType: Array<string>, limitFileNameLength: number, limitFileName: Array<string>, file: any) => {
-  const isLtLimitSize = file.size / 1024 / 1024 < limitSize;
+export const beforeUploadLimit = (limitType: Array<string>, file: any, limitSize?: number, limitFileNameLength?: number, limitFileName?: Array<string>) => {
+  let fileSize = limitSize ? limitSize : 40;
+  const isLtLimitSize = file.size / 1024 / 1024 < fileSize;
   // 限制文件大小
   if (!isLtLimitSize) {
-    message.error('文件不能超过 ' + limitSize + ' MB');
+    message.error('文件不能超过 ' + fileSize + ' MB');
     return Upload.LIST_IGNORE;
   }
   // 限制文件格式
@@ -96,16 +97,18 @@ export const beforeUploadLimit = (limitSize: number, limitType: Array<string>, l
     message.error('文件限' + limitType.join('、') + '格式');
     return Upload.LIST_IGNORE;
   }
+  let nameLength = limitFileNameLength ? limitFileNameLength : 100;
   // 限制文件名长度
-  if (file.name.length > limitFileNameLength) {
-    message.error('文件名长度不能超过 ' + limitFileNameLength + ' 字');
+  if (file.name.length > nameLength) {
+    message.error('文件名长度不能超过 ' + nameLength + ' 字');
     return Upload.LIST_IGNORE;
   }
+  let nameLimit = limitFileName ? limitFileName : ['&', '+', '=', '#', '%'];
   // 限制文件名中不应包含字符
-  for (let i = 0; i < limitFileName.length; i++) {
-    const item = limitFileName[i];
+  for (let i = 0; i < nameLimit.length; i++) {
+    const item = nameLimit[i];
     if (file.name.indexOf(item) !== -1) {
-      message.error('文件名中不应包含字符 ' + limitFileName.join(' ') + ' 字符');
+      message.error('文件名中不应包含字符 ' + nameLimit.join(' ') + ' 字符');
       return Upload.LIST_IGNORE;
     }
   }
