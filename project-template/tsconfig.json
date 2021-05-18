@@ -35,6 +35,9 @@
     "lib": [
       "dom",
       "es2015"
+    ],
+    "include": [
+      "./__config__/images.d.ts"
     ]
   }
 }
