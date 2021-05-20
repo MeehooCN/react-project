@@ -84,6 +84,7 @@ const useTableHook = (isBackSearchProp?: boolean) => {
     if (pagination.current === Math.ceil(pagination.total / pagination.pageSize) && lastPageRows === 1 && pagination.current > 1) {
       pagination.current = pagination.current - 1;
     }
+    sessionStorage.setItem('current', pagination.current);
     setPagination({ ...pagination });
   };
   return {
