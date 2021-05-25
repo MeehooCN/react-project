@@ -5,7 +5,7 @@
  **/
 import React, { useState } from 'react';
 import { Row, Layout, Menu } from 'antd';
-import { VerticalAlignTopOutlined, SmileTwoTone } from '@ant-design/icons';
+import { SmileTwoTone } from '@ant-design/icons';
 import { Header } from '@components/index';
 import { initMenu, getClientHeight } from '@utils/CommonFunc';
 import { MenuData } from '@utils/CommonInterface';
@@ -59,7 +59,7 @@ const Home = (props: IProps) => {
           <SmileTwoTone twoToneColor={colors.primaryColor} style={{ fontSize: 24 }} />
           <div className="header-title">{projectName}</div>
         </Row>
-        <Row className="menu" style={{ height: getClientHeight() - 60 }}>
+        <Row className="menu" style={{ height: 'calc(100vh - 60px)' }}>
           <Menu
             theme="dark"
             selectedKeys={selectedKeys}
