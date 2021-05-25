@@ -160,7 +160,7 @@ const OrganizationManage = () => {
     title: '地址',
     dataIndex: 'detailAddress',
     width: 200,
-    render: (contactPerson: string) => <OverText content={contactPerson} overflowLength={10} />
+    render: (contactPerson: string) => <OverText content={contactPerson} overflowLength={180} />
   }, {
     title: '状态',
     dataIndex: 'status',

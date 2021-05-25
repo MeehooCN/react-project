@@ -161,7 +161,8 @@ const RoleManage = () => {
   }, {
     title: '备注',
     dataIndex: 'remark',
-    render: (remark: string) => remark && <OverText overflowLength={10} content={remark} />
+    width: 200,
+    render: (remark: string) => remark && <OverText overflowLength={180} content={remark} />
   }, {
     title: '操作',
     dataIndex: 'option',

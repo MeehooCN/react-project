@@ -6,6 +6,10 @@
 import React from 'react';
 import { Popover } from 'antd';
 
+/**
+ * content: 显示的内容
+ * overflowLength: 宽度
+ **/
 interface IProps {
   content: string,
   overflowLength: number
@@ -14,11 +18,9 @@ interface IProps {
 const OverText = (props: IProps) => {
   const { content, overflowLength } = props;
   return (
-    content.length > overflowLength ? (
-      <Popover content={content}>
-        <div>{content.substring(0, overflowLength) + '...'}</div>
-      </Popover>
-    ) : <span>{content}</span>
+    <Popover content={content}>
+      <div style={{ width: overflowLength, overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{content}</div>
+    </Popover>
   );
 };
 export default OverText;
