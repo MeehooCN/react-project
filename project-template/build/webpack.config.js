@@ -11,7 +11,8 @@ const optimization = require('./optimization');
 // 映射 tsconfig 路径
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const { resolve } = require('./utils');
-const { platform } = require('../scripts/config');
+const serverConfigs = require('./../scripts/config');
+const { platform } = serverConfigs();
 
 module.exports = {
   entry: {

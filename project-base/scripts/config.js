@@ -16,9 +16,13 @@
  **/
 // path 需精确到文件路径
 module.exports = (mode) => {
+  let config = {
+    platform: '/',
+    serverPath: '/api/'
+  };
   // 测试环境配置
   if (mode === 'test') {
-    return {
+    config = {
       hostType: 'windows',
       host: '127.0.0.1',
       user: 'admin',
@@ -26,12 +30,11 @@ module.exports = (mode) => {
       path: 'D:/opt/view/dist.zip',
       shPath: '/opt/sh',
       command: 'D:/opt/sh/deploy.bat',
-      platform: '/',
-      serverPath: '/api/'
-    }
+      ...config
+    };
   } else {
     // 正式环境配置
-    return {
+    config = {
       hostType: 'windows',
       host: '127.0.0.1',
       user: 'admin',
@@ -39,8 +42,8 @@ module.exports = (mode) => {
       path: 'D:/opt/view/dist.zip',
       shPath: '/opt/sh',
       command: 'D:/opt/sh/deploy.bat',
-      platform: '/',
-      serverPath: '/api/'
-    }
+      ...config
+    };
   }
+  return config;
 };
