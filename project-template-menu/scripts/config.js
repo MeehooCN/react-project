@@ -28,7 +28,7 @@ module.exports = (mode) => {
       command: 'D:/opt/sh/deploy.bat',
       platform: '/',
       serverPath: '/api/'
-    }
+    };
   } else {
     // 正式环境配置
     return {
@@ -41,6 +41,6 @@ module.exports = (mode) => {
       command: 'D:/opt/sh/deploy.bat',
       platform: '/',
       serverPath: '/api/'
-    }
+    };
   }
 };
