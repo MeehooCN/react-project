@@ -15,14 +15,32 @@
  * @serverPath 必填，API 接口路径
  **/
 // path 需精确到文件路径
-module.exports = {
-  hostType: 'windows',
-  host: '127.0.0.1',
-  user: 'admin',
-  password: '123456',
-  path: 'D:/opt/view/dist.zip',
-  shPath: '/opt/sh',
-  command: 'D:/opt/sh/deploy.bat',
-  platform: '/',
-  serverPath: '/api/'
+module.exports = (mode) => {
+  // 测试环境配置
+  if (mode === 'test') {
+    return {
+      hostType: 'windows',
+      host: '127.0.0.1',
+      user: 'admin',
+      password: '123456',
+      path: 'D:/opt/view/dist.zip',
+      shPath: '/opt/sh',
+      command: 'D:/opt/sh/deploy.bat',
+      platform: '/',
+      serverPath: '/api/'
+    }
+  } else {
+    // 正式环境配置
+    return {
+      hostType: 'windows',
+      host: '127.0.0.1',
+      user: 'admin',
+      password: '123456',
+      path: 'D:/opt/view/dist.zip',
+      shPath: '/opt/sh',
+      command: 'D:/opt/sh/deploy.bat',
+      platform: '/',
+      serverPath: '/api/'
+    }
+  }
 };

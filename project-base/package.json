@@ -7,8 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack serve --config build/webpack.dev.config.js --inline --mode development --hot --host 0.0.0.0",
     "build": "webpack --config build/webpack.pro.config.js --mode production",
-    "postbuild": "npm run deploy",
-    "deploy": "node ./scripts/deploy.js"
+    "postbuild": "node ./scripts/deploy.js production",
+    "testbuild": "webpack --config build/webpack.pro.config.js --mode production",
+    "posttestbuild": "node ./scripts/deploy.js test"
   },
   "keywords": [
     "keywords"
