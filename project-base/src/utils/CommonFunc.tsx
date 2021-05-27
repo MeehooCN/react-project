@@ -216,9 +216,10 @@ export const beforeUploadLimit = (limitType: Array<string>, file: any, limitSize
  **/
 export const encodeFileUrl = (url: string) => {
   if (url) {
-    let transformUrl: string = url.replace('+', '%2B')
-      .replace('&', '%26')
-      .replace('#', '%23');
+    let transformUrl: string = url.replace(/%/g, '%25')
+      .replace(/\+/g, '%2B')
+      .replace(/&/g, '%26')
+      .replace(/#/g, '%23');
     return transformUrl;
   } else {
     return '';
