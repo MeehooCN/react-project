@@ -10,7 +10,7 @@ import {
   useTableHook, useFormHook
 } from '@components/index';
 import { PlusOutlined } from '@ant-design/icons';
-import { Admin, Organization, SearchCondition } from '@utils/CommonInterface';
+import { Admin, Organization } from '@utils/CommonInterface';
 import { post } from '@utils/Ajax';
 import { getOrgTreeEnableList } from '@utils/CommonAPI';
 import { getTreeChildrenToNull, findInTree } from '@utils/CommonFunc';
@@ -38,19 +38,10 @@ const AdminManage = () => {
   // 获取管理员列表
   const getAdminList = () => {
     setLoading(true);
-    const searchConditionList: Array<SearchCondition> = [{
-      name: 'username',
-      operand: 'like',
-      value: searchContent ? searchContent.username : ''
-    }, {
-      name: 'name',
-      operand: 'like',
-      value: searchContent ? searchContent.name : ''
-    }];
     const params = {
       rows: pagination.pageSize,
       page: pagination.current,
-      searchConditionList
+      ...searchContent
     };
     post('security/admin/list', params, {}, (data: any) => {
       if (data.flag === 0) {
@@ -72,9 +63,9 @@ const AdminManage = () => {
   };
   // 获取角色列表
   const getRoleList = () => {
-    post('security/role/list', {}, {}, (data: any) => {
+    post('security/role/listAll', {}, {}, (data: any) => {
       if (data.flag === 0) {
-        const roleList = data.data.rows.map((roleItem: any) => {
+        const roleList = data.data.map((roleItem: any) => {
           return {
             key: roleItem.id + ',' + roleItem.name,
             value: roleItem.name

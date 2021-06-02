@@ -10,8 +10,9 @@ import {
   useTableHook, OverText
 } from '@components/index';
 import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
-import { Role, SearchCondition } from '@utils/CommonInterface';
+import { Role } from '@utils/CommonInterface';
 import { post } from '@utils/Ajax';
+
 const { TreeNode } = Tree;
 
 const RoleManage = () => {
@@ -33,19 +34,10 @@ const RoleManage = () => {
   // 获取角色列表
   const getRoleList = () => {
     setLoading(true);
-    const searchConditionList: Array<SearchCondition> = [{
-      name: 'name',
-      operand: 'like',
-      value: searchContent ? searchContent.name : ''
-    }, {
-      name: 'createTime',
-      operand: 'orderByDesc',
-      value: 'createTime'
-    }];
     const params = {
       rows: pagination.pageSize,
       page: pagination.current,
-      searchConditionList
+      ...searchContent
     };
     post('security/role/list', params, {}, (data: any) => {
       if (data.flag === 0) {
