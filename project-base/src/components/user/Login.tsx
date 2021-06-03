@@ -42,7 +42,7 @@ const Login = () => {
     const params = {
       username: value.username,
       password: md5(value.password),
-      kaptcha: value.verifyCode
+      code: value.verifyCode
     };
     post('login', params, { dataType: 'form' }, (data: any) => {
       if (data.flag === 0) {

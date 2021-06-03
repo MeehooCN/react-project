@@ -59,6 +59,12 @@ const MenuManage = () => {
     setAddView(true);
     setIsAdd(true);
     setIsChildAdd([false, '', '']);
+    setFormValue({
+      name: undefined,
+      url: undefined,
+      icon: undefined,
+      status: undefined
+    });
   };
   // 确认新增菜单
   const addMenuOk = (value: any) => {
@@ -81,6 +87,12 @@ const MenuManage = () => {
   const addChildMenu = (e: any, row: any) => {
     e.stopPropagation();
     setIsChildAdd([true, row.name, row.id]);
+    setFormValue({
+      name: undefined,
+      url: undefined,
+      icon: undefined,
+      status: undefined
+    });
     setAddView(true);
     setIsAdd(true);
   };
@@ -98,7 +110,7 @@ const MenuManage = () => {
     post('sysManage/menu/deleteById', { id }, {}, (data: any) => {
       if (data.flag === 0) {
         message.success('操作成功！');
-        backFrontPage(menuList.length);
+        getMenuList();
       }
     });
   };
