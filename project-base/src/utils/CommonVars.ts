@@ -32,9 +32,9 @@ export const projectName: string = '项目模板';
 /**
  * 机构启用禁用状态
  * **/
-export enum OrganizationStatus {
-  ENABLE = 1,
-  FORBID = 0
+export enum OrganizationEnable {
+  ENABLE = 1, // 启用
+  FORBID = 0 // 禁用
 }
 /**
  * 文件后缀

@@ -11,7 +11,7 @@ import { OptionData } from '@utils/CommonInterface';
  * **/
 export const getOrgTreeEnableList = async () => {
   return new Promise((resolve: any) => {
-    post('security/organization/listAllEnableForAdmin', {}, {}, (data: any) => {
+    get('security/organization/listAllEnableForAdmin', {}, (data: any) => {
       if (data.flag === 0) {
         resolve(data.data.children);
       }
@@ -48,7 +48,7 @@ export const getDictValueList = async (module: string, number: string) => {
  * **/
 export const getOrgTreeList = async () => {
   return new Promise((resolve: any) => {
-    post('security/organization/listAllForAdmin', {}, {}, (data: any) => {
+    post('security/organization/listAllInTree', {}, {}, (data: any) => {
       if (data.flag === 0) {
         resolve(data.data.children);
       }

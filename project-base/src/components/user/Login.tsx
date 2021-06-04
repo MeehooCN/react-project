@@ -40,7 +40,7 @@ const Login = () => {
   const login = (value: any) => {
     setLoading(true);
     const params = {
-      username: value.username,
+      userName: value.userName,
       password: md5(value.password),
       code: value.verifyCode
     };
@@ -74,7 +74,7 @@ const Login = () => {
     <div className="login-container">
       <div className="login-title">登  录</div>
       <Form form={form} onFinish={login} style={{ width: 400 }}>
-        <Form.Item rules={[{ required: true, message: '请输入用户名' }]} name="username">
+        <Form.Item rules={[{ required: true, message: '请输入用户名' }]} name="userName">
           <Input
             className="login-input"
             size="large"

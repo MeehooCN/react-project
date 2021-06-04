@@ -41,10 +41,10 @@ const Register = (props: IProps) => {
   }, [canGetTime]);
   // 获取验证码
   const getCode = () => {
-    if (form.getFieldValue('username') && form.getFieldValue('username').length > 0) {
+    if (form.getFieldValue('userName') && form.getFieldValue('username').length > 0) {
       if (phoneCanUse) {
         setVerifyLoading(true);
-        const phone: string = form.getFieldValue('username');
+        const phone: string = form.getFieldValue('userName');
         post('security/userRegister/sendCode', { phone }, { dataType: 'form' }, (data: any) => {
           if (data.flag !== 0) {
             message.error('获取验证码失败！');
@@ -64,7 +64,7 @@ const Register = (props: IProps) => {
   const register = (value: any) => {
     setLoading(true);
     const params = {
-      phone: value.username,
+      phone: value.userName,
       password: md5(value.password),
       code: value.verifyCode
     };
@@ -87,7 +87,7 @@ const Register = (props: IProps) => {
   };
   // 失去焦点验证手机号
   const verifyPhone = () => {
-    const phone: string = form.getFieldValue('username');
+    const phone: string = form.getFieldValue('userName');
     post('security/userRegister/validate', { phone }, { dataType: 'form' }, (data: any) => {
       if (data.flag !== 0) {
         setPhoneCanUse(false);
@@ -108,7 +108,7 @@ const Register = (props: IProps) => {
             message: '手机号输入不合法',
             pattern: /^1(3|4|5|6|7|8|9)\d{9}$/
           }]}
-          name="username"
+          name="userName"
         >
           <Input
             className="login-input"

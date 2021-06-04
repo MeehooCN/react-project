@@ -10,7 +10,7 @@ import { CommonHorizFormHook, IFormColumns, MyTitle, OverText, useFormHook, useT
 import { OptionData, Organization } from '@utils/CommonInterface';
 import { getAreaNameAndCode, getProvinceCityArea, getTreeChildrenToNull } from '@utils/CommonFunc';
 import { post } from '@utils/Ajax';
-import { OrganizationStatus } from '@utils/CommonVars';
+import { OrganizationEnable } from '@utils/CommonVars';
 import { getAllProvinceCityArea, getDictValueList, getOrgTreeList } from '@utils/CommonAPI';
 
 const OrganizationManage = () => {
@@ -53,7 +53,7 @@ const OrganizationManage = () => {
   // 新增子机构
   const addChildOrganization = (e: any, row: Organization) => {
     e.stopPropagation();
-    setIsChildAdd([true, row.label, row.value, row.code]);
+    setIsChildAdd([true, row.label, row.value, row.key]);
     setEditMode([true, false, '']);
   };
   // 编辑机构
@@ -70,10 +70,10 @@ const OrganizationManage = () => {
   // 删除机构
   const deleteOrganization = (e: any, id: string) => {
     e.stopPropagation();
-    post('security/organization/delete', { id }, {}, (data: any) => {
+    post('security/organization/delete', { id }, { dataType: 'form' }, (data: any) => {
       if (data.flag === 0) {
         message.success('删除成功！');
-        backFrontPage(orgList.length);
+        getOrgList();
       }
     });
   };
@@ -93,10 +93,7 @@ const OrganizationManage = () => {
   const addOrgOk = (values: any) => {
     setSubmitLoading(true);
     // 默认启用该机构
-    let params: any = {
-      ...values,
-      status: 1
-    };
+    let params: any = { ...values };
     // 如果选择了省市区
     if (values.region) {
       const regions: any = getAreaNameAndCode(values.region);
@@ -113,6 +110,8 @@ const OrganizationManage = () => {
     // 如果是编辑
     if (editMode[1]) {
       params.id = editMode[2];
+    } else {
+      params.enable = values.enable ? OrganizationEnable.ENABLE : OrganizationEnable.FORBID;
     }
     post('security/organization/create', params, {}, (data: any) => {
       if (data.flag === 0) {
@@ -125,12 +124,12 @@ const OrganizationManage = () => {
     });
   };
   // 改变机构状态
-  const handleStatusChange = (checked: boolean, id: string) => {
+  const handleEnableChange = (checked: boolean, id: string) => {
     const params = {
       id,
-      status: checked ? OrganizationStatus.ENABLE : OrganizationStatus.FORBID
+      enable: checked ? OrganizationEnable.ENABLE : OrganizationEnable.FORBID
     };
-    post('security/organization/updateEnableStatus', params, {}, (data: any) => {
+    post('security/organization/changeEnable', params, {}, (data: any) => {
       if (data.flag === 0) {
         message.success('操作成功！');
         getOrgList();
@@ -139,7 +138,7 @@ const OrganizationManage = () => {
   };
   const organizationColumns = [{
     title: '编号',
-    dataIndex: 'code',
+    dataIndex: 'key',
     width: 200
   }, {
     title: '机构名称',
@@ -163,15 +162,15 @@ const OrganizationManage = () => {
     render: (contactPerson: string) => <OverText content={contactPerson} overflowLength={180} />
   }, {
     title: '状态',
-    dataIndex: 'status',
+    dataIndex: 'enable',
     width: 120,
-    render: (status: number, row: Organization) => (
+    render: (enable: number, row: Organization) => (
       <Switch
         size="small"
         checkedChildren="启用"
         unCheckedChildren="禁用"
-        checked={status === OrganizationStatus.ENABLE}
-        onChange={(checked: boolean) => handleStatusChange(checked, row.value)}
+        checked={enable === OrganizationEnable.ENABLE}
+        onChange={(checked: boolean) => handleEnableChange(checked, row.value)}
       />
     )
   }, {
@@ -226,7 +225,18 @@ const OrganizationManage = () => {
     name: 'address',
     type: 'text',
     rules: []
+  }, {
+    label: '状态',
+    name: 'enable',
+    type: 'switch',
+    checkedChildren: '启用',
+    unCheckedChildren: '禁用',
+    rules: []
   }];
+  // 如果是编辑，则不显示编辑状态
+  if (editMode[1]) {
+    orgFormColumns.pop();
+  }
   return (
     <Card
       title={<MyTitle title="机构管理" />}

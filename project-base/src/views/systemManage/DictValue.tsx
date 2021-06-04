@@ -86,12 +86,16 @@ const DictValue = () => {
       setTypeFormValue(row);
     } else {
       setRowId('');
-      setTypeFormValue('');
+      setTypeFormValue({
+        name: undefined,
+        code: undefined,
+        id: undefined
+      });
     }
   };
   // 删除类型
   const deleteType = (id: string) => {
-    post('sysmanage/dictType/delete', { id }, {}, (data: any) => {
+    post('sysmanage/dictType/delete', { id }, { dataType: 'form' }, (data: any) => {
       if (data.flag === 0) {
         message.success('删除成功！');
         getTypeList();
@@ -111,7 +115,13 @@ const DictValue = () => {
       setValueFormValue(row);
     } else {
       setRowId('');
-      setValueFormValue({ dictTypeId: currSelectKey[0], dictTypeName: currentTypeName });
+      setValueFormValue({
+        dictTypeId: currSelectKey[0],
+        dictTypeName: currentTypeName,
+        mkey: undefined,
+        mvalue: undefined,
+        id: undefined
+      });
     }
   };
   // 新增选项-确定
@@ -133,7 +143,7 @@ const DictValue = () => {
   };
   // 删除选项
   const deleteValue = (id: string) => {
-    post('sysmanage/dictValue/delete', { id }, {}, (data: any) => {
+    post('sysmanage/dictValue/delete', { id }, { dataType: 'form' }, (data: any) => {
       if (data.flag === 0) {
         message.success('删除成功！');
         backFrontPage(valueList.length);

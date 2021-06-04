@@ -23,7 +23,7 @@ const UserInfo = () => {
       if (data.flag === 0) {
         const userInfo = {
           userId: data.data.id,
-          userName: data.data.username,
+          userName: data.data.userName,
           name: data.data.name
         };
         sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
@@ -63,7 +63,7 @@ const UserInfo = () => {
   };
   const personFormColumns: Array<IFormColumns> = [{
     label: '用户名',
-    name: 'username',
+    name: 'userName',
     type: 'text',
     rules: [{ required: true, message: '请输入用户名' }],
     disabled: true

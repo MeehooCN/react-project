@@ -3,7 +3,7 @@
  * @author: cnn
  * @createTime: 2020/7/22 9:30
  **/
-import { OrganizationStatus } from '@utils/CommonVars';
+import { OrganizationEnable } from '@utils/CommonVars';
 
 /**
  * 基础实体
@@ -28,8 +28,8 @@ export interface MenuData extends BaseEntity {
 export interface Organization {
   label: string,
   value: string,
-  code: string,
-  status: OrganizationStatus,
+  key: string,
+  enable: OrganizationEnable,
   children: Array<Organization>,
   detailAddress?: string,
   contactPerson?: string,
@@ -40,7 +40,7 @@ export interface Organization {
  * 管理员
  * **/
 export interface Admin extends BaseEntity {
-  username: string,
+  userName: string,
   phone: string,
   roleId: string,
   roleName: string,

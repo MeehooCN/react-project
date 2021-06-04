@@ -11,7 +11,7 @@ import {
 } from '@components/index';
 import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import { Role } from '@utils/CommonInterface';
-import { post } from '@utils/Ajax';
+import { post, get } from '@utils/Ajax';
 
 const { TreeNode } = Tree;
 
@@ -39,7 +39,7 @@ const RoleManage = () => {
       page: pagination.current,
       ...searchContent
     };
-    post('security/role/list', params, {}, (data: any) => {
+    get('security/role/list', { params }, (data: any) => {
       if (data.flag === 0) {
         pagination.total = data.data.total;
         setPagination(pagination);
@@ -61,7 +61,7 @@ const RoleManage = () => {
   };
   // 删除角色
   const deleteRole = (id: string) => {
-    post('security/role/delete', { id: id }, {}, (data: any) => {
+    post('security/role/delete', { id: id }, { dataType: 'form' }, (data: any) => {
       if (data.flag === 0) {
         message.success('删除成功！');
         backFrontPage(roleList.length);

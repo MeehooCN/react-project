@@ -4,14 +4,14 @@
  * @createTime: 2020/9/8 17:31
  **/
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, Card, Divider, Popconfirm, Row, Table, Modal, message } from 'antd';
+import { Button, Card, Divider, Popconfirm, Row, Table, Modal, message, Space } from 'antd';
 import {
   ISearchFormColumns, MyTitle, SearchInlineForm, CommonHorizFormHook, IFormColumns,
   useTableHook, useFormHook
 } from '@components/index';
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import { Admin, Organization } from '@utils/CommonInterface';
-import { post } from '@utils/Ajax';
+import { get, post } from '@utils/Ajax';
 import { getOrgTreeEnableList } from '@utils/CommonAPI';
 import { getTreeChildrenToNull, findInTree } from '@utils/CommonFunc';
 
@@ -43,7 +43,7 @@ const AdminManage = () => {
       page: pagination.current,
       ...searchContent
     };
-    post('security/admin/list', params, {}, (data: any) => {
+    get('security/admin/list', { params }, (data: any) => {
       if (data.flag === 0) {
         pagination.total = data.data.total;
         setAdminList(data.data.rows);
@@ -56,14 +56,14 @@ const AdminManage = () => {
   const getOrgList = () => {
     getOrgTreeEnableList().then((data: any) => {
       const templateTree = getTreeChildrenToNull(data, (item: Organization) => {
-        item.value = item.value + '/' + item.label + '/' + item.code;
+        item.value = item.value + '/' + item.label + '/' + item.key;
       });
       setOrgList(templateTree);
     });
   };
   // 获取角色列表
   const getRoleList = () => {
-    post('security/role/listAll', {}, {}, (data: any) => {
+    get('security/role/listAll', {}, (data: any) => {
       if (data.flag === 0) {
         const roleList = data.data.map((roleItem: any) => {
           return {
@@ -103,7 +103,7 @@ const AdminManage = () => {
         return;
       }
     }
-    post('security/admin/delete', { id: id }, {}, (data: any) => {
+    post('security/admin/delete', { id: id }, { dataType: 'form' }, (data: any) => {
       if (data.flag === 0) {
         message.success('删除成功！');
         backFrontPage(adminList.length);
@@ -173,7 +173,7 @@ const AdminManage = () => {
   };
   const adminColumns = [{
     title: '用户名',
-    dataIndex: 'username'
+    dataIndex: 'userName'
   }, {
     title: '角色',
     dataIndex: 'roleName',
@@ -211,7 +211,7 @@ const AdminManage = () => {
   }];
   const searchFormColumns: Array<ISearchFormColumns> = [{
     label: '用户名',
-    name: 'username',
+    name: 'userName',
     type: 'text'
   }, {
     label: '姓名',
@@ -220,7 +220,7 @@ const AdminManage = () => {
   }];
   const formColumns: Array<IFormColumns> = [{
     label: '用户名',
-    name: 'username',
+    name: 'userName',
     type: 'text',
     rules: [{
       required: true,
@@ -274,7 +274,12 @@ const AdminManage = () => {
         title={<MyTitle title="用户管理" />}
         size="small"
         style={{ width: '100%' }}
-        extra={<Button type="primary" icon={<PlusOutlined />} onClick={() => addOrEdit()}>添加用户</Button>}
+        extra={(
+          <Space size={15}>
+            <Button type="primary" icon={<PlusOutlined />} onClick={() => addOrEdit()}>添加用户</Button>
+            <Button type="text" icon={<ReloadOutlined />} onClick={getAdminList} title="刷新" />
+          </Space>
+        )}
       >
         <Row style={{ width: '100%' }}>
           <Table
