@@ -22,7 +22,7 @@
     "@babel/preset-env": "^7.12.10",
     "@babel/preset-react": "^7.12.10",
     "@babel/preset-typescript": "^7.12.7",
-    "antd": "^4.15.2",
+    "antd": "^4.16.1",
     "archiver": "^5.2.0",
     "axios": "^0.19.0",
     "babel-eslint": "^10.0.3",
