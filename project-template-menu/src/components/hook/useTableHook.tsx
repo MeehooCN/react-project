@@ -71,12 +71,17 @@ const useTableHook = () => {
     setPagination(pagination);
     setSearchContent(content);
   };
-  //  删除中调用该方法，解决：删除最后一页最后一条数据时，table表展示空页面 bug
-  const backFrontPage = (lastPageRows: number) => {
-    // 如果当前页是最后一页，且最后一页只有1个，则修改 pagination 为上一页
-    if (pagination.current === Math.ceil(pagination.total / pagination.pageSize) && lastPageRows === 1 && pagination.current > 1) {
+  /**
+   * @description 删除中调用该方法，解决：删除最后一页最后一条数据或删除多条数据后当前页没有数据展示，table表展示空页面 bug
+   * @param lastPageRows 删除前的数组长度
+   * @param deleteLength 被删除的数组长度
+   */
+  const backFrontPage = (lastPageRows: number, deleteLength?: number) => {
+    // 如果当前页是最后一页，且最后一页被删以后没有数据了，则修改 pagination 为上一页
+    let frontFlag = lastPageRows === 1 || (deleteLength && (lastPageRows - deleteLength === 0));
+    if (pagination.current === Math.ceil(pagination.total / pagination.pageSize) && frontFlag && pagination.current > 1) {
       pagination.current = pagination.current - 1;
-      sessionStorage.setItem('current', pagination.current);
+      sessionStorage.setItem('currentPage', String(pagination.current));
     }
     setPagination({ ...pagination });
   };
