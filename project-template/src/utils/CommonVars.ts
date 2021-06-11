@@ -34,3 +34,14 @@ export const fileAccept = {
   img: ['.jpg', '.jpeg', '.png', '.bmp'],
   all: ['.doc', '.docx', '.pdf', '.xls', '.xlsx', '.rar', '.zip', '.jpg', '.jpeg', '.png', '.bmp']
 };
+/**
+ * 校验类型
+ * required: 必填，可空格，空白字符等
+ * inputNotSpace: 不能包含空格，其他空白字符
+ * email: 验证邮箱
+ * phone: 验证手机
+ * idNumber: 身份证号
+ * url: url
+ * password: 密码，仅由英文字母，数字以及下划线组成
+ **/
+export type RuleType = 'required' | 'inputNotSpace' | 'email' | 'phone' | 'idNumber' | 'url' | 'password';

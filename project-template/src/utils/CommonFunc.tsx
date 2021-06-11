@@ -5,6 +5,8 @@
  **/
 import dayJs, { Dayjs } from 'dayjs';
 import { message, Upload } from 'antd';
+import { RuleType } from '@utils/CommonVars';
+import { Rule } from 'antd/lib/form';
 
 /**
  * 时间转为时间字符串
@@ -71,4 +73,51 @@ export const encodeFileUrl = (url: string) => {
   } else {
     return '';
   }
+};
+
+/**
+ * 获取常用校验
+ * @param ruleType: required | inputNotSpace | email | phone | idNumber | url | password
+ * @param required（可选）: 是否必填（如果单独需要必填，ruleType 设置为 required 即可，如果要满足其他校验且必填，该值才设为 true）
+ **/
+export const getRules = (ruleType: RuleType, required?: boolean) => {
+  const commonRules: Map<string, Array<Rule>> = new Map([
+    ['required', [{
+      required: true,
+      message: '请输入'
+    }]],
+    ['inputNotSpace', [{
+      whitespace: true,
+      message: '不能只有空格'
+    }, {
+      pattern: /^[^\s]*$/,
+      message: '不能包含空格及其他空白字符'
+    }]],
+    ['email', [{
+      pattern: /^([a-zA-Z0-9]+[-_\.]?)+@[a-zA-Z0-9]+\.[a-z]+$/,
+      message: '请输入正确邮箱格式'
+    }]],
+    ['phone', [{
+      pattern: /^1(3|4|5|6|7|8|9)\d{9}$/,
+      message: '请输入正确手机号格式'
+    }]],
+    ['idNumber', [{
+      pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/,
+      message: '请输入正确身份证号格式'
+    }]],
+    ['url', [{
+      pattern: /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/,
+      message: '请输入合法 url'
+    }]],
+    ['password', [{
+      pattern: /^[_a-zA-Z0-9]+$/,
+      message: '仅由英文字母，数字以及下划线组成'
+    }]]
+  ]);
+  const returnRules: Array<Rule> = commonRules.get(ruleType) || [];
+  if (required) {
+    // @ts-ignore
+    returnRules.unshift(commonRules.get('required')[0]);
+  }
+  return returnRules;
 };
