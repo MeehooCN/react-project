@@ -54,7 +54,8 @@ const DictValue = () => {
     setLoading(true);
     const params = {
       typeId: currSelectKey[0],
-      pageCriteria: { page: pagination.current, rows: pagination.pageSize }
+      page: pagination.current,
+      rows: pagination.pageSize
     };
     post('sysmanage/dictValue/pageByTypeId', params, { dataType: 'form' }, (data: any) => {
       if (data.flag === 0) {
