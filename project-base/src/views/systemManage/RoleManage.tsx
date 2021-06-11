@@ -188,6 +188,18 @@ const RoleManage = () => {
     type: 'text',
     rules: [{ required: true, message: '请输入角色名称' }]
   }, {
+    label: '角色类型',
+    name: 'roleType',
+    type: 'select',
+    rules: [{ required: true, message: '请选择角色类型' }],
+    options: [{
+      key: 0,
+      value: '管理员角色'
+    }, {
+      key: 1,
+      value: '用户角色'
+    }]
+  }, {
     label: '备注',
     name: 'remark',
     type: 'text',

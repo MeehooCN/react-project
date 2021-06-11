@@ -182,9 +182,6 @@ const AdminManage = () => {
     title: '姓名',
     dataIndex: 'name'
   }, {
-    title: '联系电话',
-    dataIndex: 'telephone',
-  }, {
     title: '所属机构',
     dataIndex: 'organizationName'
   }, {
@@ -237,11 +234,6 @@ const AdminManage = () => {
     name: 'name',
     type: 'text',
     rules: [{ required: true, message: '请输入姓名' }]
-  }, {
-    label: '联系电话',
-    name: 'telephone',
-    type: 'text',
-    rules: [{ required: true, message: '请填写联系电话' }, { message: '手机号输入不合法', pattern: /^1(3|4|5|6|7|8|9)\d{9}$/ }],
   }, {
     label: '所属机构',
     name: 'organization',
