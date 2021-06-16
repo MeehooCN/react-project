@@ -12,6 +12,8 @@ import {
 import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import { Role } from '@utils/CommonInterface';
 import { post, get } from '@utils/Ajax';
+import { IFormItemType } from '@components/form/CommonForm';
+import { ISearchFormItemType } from '@components/form/SearchForm';
 
 const { TreeNode } = Tree;
 
@@ -176,21 +178,21 @@ const RoleManage = () => {
   const searchFormColumns: Array<ISearchFormColumns> = [{
     label: '角色名称',
     name: 'name',
-    type: 'text'
+    type: ISearchFormItemType.Text
   }];
   const formColumns: Array<IFormColumns> = [{
     label: '角色编号',
     name: 'number',
-    type: 'text',
+    type: IFormItemType.Text,
   }, {
     label: '角色名称',
     name: 'name',
-    type: 'text',
+    type: IFormItemType.Text,
     rules: [{ required: true, message: '请输入角色名称' }]
   }, {
     label: '角色类型',
     name: 'roleType',
-    type: 'select',
+    type: IFormItemType.Select,
     rules: [{ required: true, message: '请选择角色类型' }],
     options: [{
       key: 0,
@@ -202,12 +204,12 @@ const RoleManage = () => {
   }, {
     label: '备注',
     name: 'remark',
-    type: 'text',
+    type: IFormItemType.Text,
     rules: [{ required: false, message: '请输入备注' }]
   }, {
     label: 'id',
     name: 'id',
-    type: 'hidden',
+    type: IFormItemType.Hidden,
   }];
   const formItemLayout = {
     labelCol: { span: 6 },

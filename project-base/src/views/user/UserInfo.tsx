@@ -8,6 +8,7 @@ import { Row, Card, Spin, Button } from 'antd';
 import { CommonHorizFormHook, IFormColumns, MyTitle } from '@components/index';
 import { post } from '@utils/Ajax';
 import { HomeContext } from '../../index';
+import { IFormItemType } from '@components/form/CommonForm';
 
 const UserInfo = () => {
   const formRef: any = useRef();
@@ -64,19 +65,19 @@ const UserInfo = () => {
   const personFormColumns: Array<IFormColumns> = [{
     label: '用户名',
     name: 'userName',
-    type: 'text',
+    type: IFormItemType.Text,
     rules: [{ required: true, message: '请输入用户名' }],
     disabled: true
   }, {
     label: '姓名',
     name: 'name',
-    type: 'text',
+    type: IFormItemType.Text,
     rules: [{ required: true, message: '请输入姓名' }],
     disabled: true
   }, {
     label: '联系电话',
     name: 'telephone',
-    type: 'text',
+    type: IFormItemType.Text,
     rules: [{ required: true, message: '请填写联系电话' }, { message: '手机号输入不合法', pattern: /^1(3|4|5|6|7|8|9)\d{9}$/ }],
     disabled: true
   }];

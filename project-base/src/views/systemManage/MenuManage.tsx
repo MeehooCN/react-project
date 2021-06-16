@@ -13,6 +13,7 @@ import {
 import { post } from '@utils/Ajax';
 import { iconUrl } from '@utils/CommonVars';
 import { getTreeChildrenToNull } from '@utils/CommonFunc';
+import { IFormItemType } from '@components/form/CommonForm';
 
 const IconFont = createFromIconfontCN({
   scriptUrl: iconUrl,
@@ -190,29 +191,29 @@ const MenuManage = () => {
   const menuFormColumns: Array<IFormColumns> = [{
     label: '菜单名称',
     name: 'name',
-    type: 'text',
+    type: IFormItemType.Text,
     rules: [{ required: true, message: '请输入菜单名称' }]
   }, {
     label: '菜单路径',
     name: 'url',
-    type: 'text',
+    type: IFormItemType.Text,
     rules: [{ required: isChildAdd[0], message: '请输入菜单路径' }]
   }, {
     label: '菜单图标',
     name: 'icon',
-    type: 'button',
+    type: IFormItemType.Button,
     viewComponent: <IconFontChoose onClick={onIconClick} />
   }, {
     label: '是否开启菜单',
     name: 'status',
-    type: 'switch',
+    type: IFormItemType.Switch,
     checkedChildren: '是',
     unCheckedChildren: '否',
     onChange: statusChange
   }, {
     label: 'id',
     name: 'id',
-    type: 'hidden',
+    type: IFormItemType.Hidden,
   }];
   const formItemLayout = {
     labelCol: { span: 6 },

@@ -9,6 +9,7 @@ import { CommonHorizFormHook, IFormColumns, MyTitle } from '@components/index';
 import { HomeContext } from '../../index';
 import { post } from '@utils/Ajax';
 import { platform } from '@utils/CommonVars';
+import { IFormItemType } from '@components/form/CommonForm';
 
 const UpdatePassword = () => {
   const formRef: any = useRef();
@@ -35,17 +36,17 @@ const UpdatePassword = () => {
   const formColumns: Array<IFormColumns> = [{
     label: '原密码',
     name: 'oldPw',
-    type: 'password',
+    type: IFormItemType.Password,
     rules: [{ required: true, message: '请输入原密码' }],
   }, {
     label: '新密码',
     name: 'newPw',
-    type: 'password',
+    type: IFormItemType.Password,
     rules: [{ required: true, message: '请输入新密码' }],
   }, {
     label: '确认新密码',
     name: 'confirmNewPw',
-    type: 'password',
+    type: IFormItemType.Password,
     rules: [{ required: true, message: '请输入新密码' }],
   }];
   const formLayout = {

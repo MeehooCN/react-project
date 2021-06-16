@@ -8,6 +8,7 @@ import { Table, Row, Card, Button } from 'antd';
 import { ReloadOutlined } from '@ant-design/icons';
 import { ISearchFormColumns, MyTitle, SearchInlineForm, useTableHook } from '@components/index';
 import { post } from '@utils/Ajax';
+import { ISearchFormItemType } from '@components/form/SearchForm';
 
 const OptLog = () => {
   const { loading, setLoading, pagination, setPagination, searchContent, handleSearch, handleTableChange} = useTableHook();
@@ -33,7 +34,7 @@ const OptLog = () => {
   const searchFormColumns: Array<ISearchFormColumns> = [{
     label: '操作人姓名',
     name: 'userName',
-    type: 'text',
+    type: ISearchFormItemType.Text,
   }];
   const logColumns: any = [{
     title: '操作人姓名',
