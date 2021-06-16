@@ -153,6 +153,8 @@ const DictValue = () => {
   };
   // 点击数据字典选项
   const onMenuChange = (item: any) => {
+    pagination.current = 1;
+    setPagination(pagination);
     setCurrSelectKey([item.key]);
     setCurrentTypeName(item.item.props.title);
   };
