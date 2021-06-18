@@ -143,7 +143,8 @@ const OrganizationManage = () => {
     width: 200
   }, {
     title: '机构名称',
-    dataIndex: 'label'
+    dataIndex: 'label',
+    render: (label: string) => <b>{label}</b>
   }, {
     title: '机构类型',
     dataIndex: 'proOrgType'

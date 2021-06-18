@@ -148,7 +148,8 @@ const RoleManage = () => {
     width: 150
   }, {
     title: '角色名称',
-    dataIndex: 'name'
+    dataIndex: 'name',
+    render: (name: string) => <b>{name}</b>
   }, {
     title: '创建时间',
     dataIndex: 'createTime'

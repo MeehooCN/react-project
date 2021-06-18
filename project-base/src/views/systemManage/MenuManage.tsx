@@ -140,11 +140,11 @@ const MenuManage = () => {
   }, {
     title: '名称',
     dataIndex: 'name',
-    width: 200
+    width: 200,
+    render: (name: string) => <b>{name}</b>
   }, {
     title: '路径',
-    dataIndex: 'url',
-    width: 300
+    dataIndex: 'url'
   }, {
     title: '图标',
     dataIndex: 'icon',
@@ -154,6 +154,7 @@ const MenuManage = () => {
   }, {
     title: '操作',
     dataIndex: 'opt',
+    width: 280,
     render: (text: string, row: MenuData) => {
       return (
         <>
