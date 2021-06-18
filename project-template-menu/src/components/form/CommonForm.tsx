@@ -19,9 +19,27 @@ const RadioGroup = Radio.Group;
 const RadioButton = Radio.Button;
 const { RangePicker } = DatePicker;
 const CheckboxGroup = Checkbox.Group;
-
-declare type FormItemType = 'text' | 'textArea' | 'inputNumber' | 'password' | 'select' | 'treeSelect' | 'date' | 'rangeDate'| 'dateNoTime' | 'radio' | 'switch'
-  | 'slider' | 'cascader' | 'hidden' | 'checkbox' | 'button' | 'upload';
+export enum IFormItemType {
+  Text = 'text',
+  TextArea = 'textArea',
+  InputBumber = 'inputNumber',
+  Password = 'password',
+  Select = 'select',
+  TreeSelect = 'treeSelect',
+  Date = 'date',
+  RangeDate = 'rangeDate',
+  DateNoTime = 'dateNoTime',
+  RangeDateNoTime = 'rangeDateNoTime',
+  Radio = 'radio',
+  Switch = 'switch',
+  Slider = 'slider',
+  Cascader = 'cascader',
+  Checkbox = 'checkbox',
+  Hidden = 'hidden',
+  Button = 'button',
+  Upload = 'upload',
+}
+declare type FormItemType = IFormItemType;
 /**
  * @description 表单项
  * @property label 标签名

@@ -4,16 +4,23 @@
  * @createTime: 2020/9/8 17:31
  **/
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, Card, Divider, Popconfirm, Row, Table, Modal, message, Space } from 'antd';
+import { Button, Card, Divider, message, Modal, Popconfirm, Row, Space, Table } from 'antd';
 import {
-  ISearchFormColumns, MyTitle, SearchInlineForm, CommonHorizFormHook, IFormColumns,
-  useTableHook, useFormHook
+  CommonHorizFormHook,
+  IFormColumns,
+  ISearchFormColumns,
+  MyTitle,
+  SearchInlineForm,
+  useFormHook,
+  useTableHook
 } from '@components/index';
 import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import { Admin, Organization } from '@utils/CommonInterface';
 import { get, post } from '@utils/Ajax';
 import { getOrgTreeEnableList } from '@utils/CommonAPI';
-import { getTreeChildrenToNull, findInTree } from '@utils/CommonFunc';
+import { findInTree, getTreeChildrenToNull } from '@utils/CommonFunc';
+import { IFormItemType } from '@components/form/CommonForm';
+import { ISearchFormItemType } from '@components/form/SearchForm';
 
 const AdminManage = () => {
   const formRef: any = useRef();
@@ -227,16 +234,16 @@ const AdminManage = () => {
   const searchFormColumns: Array<ISearchFormColumns> = [{
     label: '用户名',
     name: 'userName',
-    type: 'text'
+    type: ISearchFormItemType.Text
   }, {
     label: '姓名',
     name: 'name',
-    type: 'text'
+    type: ISearchFormItemType.Text
   }];
   const formColumns: Array<IFormColumns> = [{
     label: '用户名',
     name: 'userName',
-    type: 'text',
+    type: IFormItemType.Text,
     rules: [{
       required: true,
       message: '请输入用户名'
@@ -250,23 +257,23 @@ const AdminManage = () => {
   }, {
     label: '姓名',
     name: 'name',
-    type: 'text',
+    type: IFormItemType.Text,
     rules: [{ required: true, message: '请输入姓名' }]
   }, {
     label: '所属机构',
     name: 'organization',
-    type: 'treeSelect',
+    type: IFormItemType.TreeSelect,
     rules: [{ required: true, message: '请选择机构' }],
     options: orgList
   }, {
     label: 'id',
     name: 'id',
-    type: 'hidden',
+    type: IFormItemType.Hidden,
   }];
   const roleFormColumns: Array<IFormColumns> = [{
     label: '角色',
     name: 'roleId',
-    type: 'select',
+    type: IFormItemType.Select,
     options: getUpdateRoleList(),
     allowClear: true,
     rules: [{ required: false, message: '请选择角色' }]

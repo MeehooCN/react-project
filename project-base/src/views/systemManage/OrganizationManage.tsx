@@ -12,6 +12,7 @@ import { getAreaNameAndCode, getProvinceCityArea, getTreeChildrenToNull } from '
 import { post } from '@utils/Ajax';
 import { OrganizationEnable } from '@utils/CommonVars';
 import { getAllProvinceCityArea, getDictValueList, getOrgTreeList } from '@utils/CommonAPI';
+import { IFormItemType } from '@components/form/CommonForm';
 
 const OrganizationManage = () => {
   const orgRef: any = useRef();
@@ -196,39 +197,39 @@ const OrganizationManage = () => {
   const orgFormColumns: Array<IFormColumns> = [{
     label: '机构名称',
     name: 'name',
-    type: 'text',
+    type: IFormItemType.Text,
     rules: [{ required: true, message: '请输入机构名称' }]
   }, {
     label: '机构类型',
     name: 'proOrgType',
-    type: 'select',
+    type: IFormItemType.Select,
     options: orgTypeList,
     rules: [{ required: true, message: '请选择机构类型' }]
   }, {
     label: '联系人',
     name: 'contactPerson',
-    type: 'text',
+    type: IFormItemType.Text,
     rules: []
   }, {
     label: '联系电话',
     name: 'contactPhone',
-    type: 'text',
+    type: IFormItemType.Text,
     rules: []
   }, {
     label: '所在地区',
     name: 'region',
-    type: 'cascader',
+    type: IFormItemType.Cascader,
     options: regionList,
     rules: []
   }, {
     label: '详细地址',
     name: 'address',
-    type: 'text',
+    type: IFormItemType.Text,
     rules: []
   }, {
     label: '状态',
     name: 'enable',
-    type: 'switch',
+    type: IFormItemType.Switch,
     checkedChildren: '启用',
     unCheckedChildren: '禁用',
     rules: []

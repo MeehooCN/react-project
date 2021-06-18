@@ -9,6 +9,7 @@ import { MyTitle, CommonHorizFormHook, IFormColumns, useTableHook } from '@compo
 import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import { Dict } from '@utils/CommonInterface';
 import { post } from '@utils/Ajax';
+import { IFormItemType } from '@components/form/CommonForm';
 
 const DictValue = () => {
   const { loading, setLoading, pagination, setPagination, handleTableChange, backFrontPage } = useTableHook();
@@ -187,46 +188,46 @@ const DictValue = () => {
   const typeFormColumns: Array<IFormColumns> = [{
     label: '类型名称',
     name: 'name',
-    type: 'text',
+    type: IFormItemType.Text,
     rules: [{ required: true, message: '请输入类型名称' }]
   }, {
     label: '类型编号',
     name: 'code',
-    type: 'text',
+    type: IFormItemType.Text,
     rules: [{ required: true, message: '请输入类型编号' }]
   }, {
     label: 'id',
     name: 'id',
-    type: 'hidden',
+    type: IFormItemType.Hidden,
   }, {
     label: 'module',
     name: 'module',
-    type: 'hidden',
+    type: IFormItemType.Hidden,
     initialValue: 'system'
   }];
   const valueFormColumns: Array<IFormColumns> = [{
     label: '类型',
     name: 'dictTypeName',
-    type: 'text',
+    type: IFormItemType.Text,
     disabled: true
   }, {
     label: '键',
     name: 'mkey',
-    type: 'text',
+    type: IFormItemType.Text,
     rules: [{ required: true, message: '请输入键' }]
   }, {
     label: '值',
     name: 'mvalue',
-    type: 'text',
+    type: IFormItemType.Text,
     rules: [{ required: true, message: '请输入值' }]
   }, {
     label: 'id',
     name: 'id',
-    type: 'hidden',
+    type: IFormItemType.Hidden,
   }, {
     label: 'dictTypeId',
     name: 'dictTypeId',
-    type: 'hidden',
+    type: IFormItemType.Hidden,
   }];
   const formItemLayout = {
     labelCol: { span: 6 },
