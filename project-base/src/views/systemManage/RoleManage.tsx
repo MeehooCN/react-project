@@ -164,13 +164,13 @@ const RoleManage = () => {
     render: (text: any, role: Role) => {
       return (
         <>
-          <a onClick={() => addOrEdit(role)}>编辑</a>
+          <Button size="small" onClick={() => addOrEdit(role)}>编辑</Button>
           <Divider type="vertical" />
           <Popconfirm title="确定要删除该角色吗？" onConfirm={() => deleteRole(role.id)}>
-            <a>删除</a>
+            <Button size="small" danger>删除</Button>
           </Popconfirm>
           <Divider type="vertical" />
-          <a onClick={() => handleAuth(role.id)}>角色授权</a>
+          <Button size="small" type="primary" onClick={() => handleAuth(role.id)}>角色授权</Button>
         </>
       );
     }

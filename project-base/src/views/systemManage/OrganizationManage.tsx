@@ -177,18 +177,18 @@ const OrganizationManage = () => {
   }, {
     title: '操作',
     dataIndex: 'opt',
-    width: 200,
+    width: 260,
     render: (text: string, row: Organization) => {
       return (
         <>
           <>
-            <a onClick={(e: any) => addChildOrganization(e, row)}>新增子机构</a>
+            <Button size="small" type="primary" onClick={(e: any) => addChildOrganization(e, row)}>新增子机构</Button>
             <Divider type="vertical" />
           </>
-          <a onClick={(e: any) => editOrganization(e, row)}>编辑</a>
+          <Button size="small" onClick={(e: any) => editOrganization(e, row)}>编辑</Button>
           <Divider type="vertical" />
           <Popconfirm title="确定删除该机构吗？" onCancel={(e: any) => e.stopPropagation()} onConfirm={(e: any) => deleteOrganization(e, row.value)}>
-            <a onClick={(e: any) => e.stopPropagation()}>删除</a>
+            <Button size="small" danger onClick={(e: any) => e.stopPropagation()}>删除</Button>
           </Popconfirm>
         </>
       );

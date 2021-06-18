@@ -159,14 +159,14 @@ const MenuManage = () => {
         <>
           {row.url === undefined && (
             <>
-              <a onClick={(e: any) => addChildMenu(e, row)}>新增子菜单</a>
+              <Button type="primary" size="small" onClick={(e: any) => addChildMenu(e, row)}>新增子菜单</Button>
               <Divider type="vertical" />
             </>
           )}
-          <a onClick={(e: any) => editMenu(e, row)}>编辑</a>
+          <Button size="small" onClick={(e: any) => editMenu(e, row)}>编辑</Button>
           <Divider type="vertical" />
           <Popconfirm title="确定删除该菜单吗？" onCancel={(e: any) => e.stopPropagation()} onConfirm={(e: any) => deleteMenu(e, row.id)}>
-            <a onClick={(e: any) => e.stopPropagation()}>删除</a>
+            <Button size="small" danger onClick={(e: any) => e.stopPropagation()}>删除</Button>
           </Popconfirm>
         </>
       );
