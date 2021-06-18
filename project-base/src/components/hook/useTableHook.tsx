@@ -5,6 +5,7 @@
  **/
 import { useState } from 'react';
 import { useHistory } from 'react-router';
+import './Table.less';
 
 interface Sorter {
   field: string,
@@ -92,9 +93,11 @@ const useTableHook = (isBackSearchProp?: boolean) => {
     }
     setPagination({ ...pagination });
   };
+  // 获取表格的样式
+  const getRowClass = (record: any, index: number) => (index % 2 ? 'table-single' : '');
   return {
     loading, setLoading, pagination, setPagination, searchContent, handleTableChange,
-    handleSearch, backFrontPage, sorter, isBackSearch, setIsBackSearch
+    handleSearch, backFrontPage, sorter, isBackSearch, setIsBackSearch, getRowClass
   };
 };
 export default useTableHook;

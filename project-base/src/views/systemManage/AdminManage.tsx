@@ -6,13 +6,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, Card, Divider, message, Modal, Popconfirm, Row, Space, Table } from 'antd';
 import {
-  CommonHorizFormHook,
-  IFormColumns,
-  ISearchFormColumns,
-  MyTitle,
-  SearchInlineForm,
-  useFormHook,
-  useTableHook
+  CommonHorizFormHook, IFormColumns, ISearchFormColumns, MyTitle, SearchInlineForm,
+  useFormHook, useTableHook
 } from '@components/index';
 import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import { Admin, Organization } from '@utils/CommonInterface';
@@ -24,7 +19,10 @@ import { ISearchFormItemType } from '@components/form/SearchForm';
 
 const AdminManage = () => {
   const formRef: any = useRef();
-  const { loading, setLoading, pagination, setPagination, searchContent, handleTableChange, handleSearch, backFrontPage } = useTableHook();
+  const {
+    loading, setLoading, pagination, setPagination, searchContent,
+    handleTableChange, handleSearch, backFrontPage, getRowClass
+  } = useTableHook();
   const { submitLoading, setSubmitLoading, formValue, setFormValue } = useFormHook();
   const [adminList, setAdminList] = useState<Array<Admin>>([]);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -198,7 +196,8 @@ const AdminManage = () => {
   };
   const adminColumns = [{
     title: '用户名',
-    dataIndex: 'userName'
+    dataIndex: 'userName',
+    render: (userName: string) => <b>{userName}</b>
   }, {
     title: '角色',
     dataIndex: 'roleName',
@@ -212,21 +211,21 @@ const AdminManage = () => {
   }, {
     title: '操作',
     dataIndex: 'option',
-    width: 300,
+    width: 350,
     render: (text: any, admin: Admin) => {
       return (
         <>
-          <a onClick={() => addOrEdit(admin)}>编辑</a>
+          <Button size="small" onClick={() => addOrEdit(admin)}>编辑</Button>
           <Divider type="vertical" />
           <Popconfirm title="确定要删除该管理员用户吗？" onConfirm={() => deleteAdmin(admin.id)}>
-            <a>删除</a>
+            <Button size="small" danger>删除</Button>
           </Popconfirm>
           <Divider type="vertical" />
           <Popconfirm title="确定重置此人员的密码？" onConfirm={() => resetPassword(admin.id)} okText="确定" cancelText="取消">
-            <a>重置密码</a>
+            <Button size="small">重置密码</Button>
           </Popconfirm>
           <Divider type="vertical" />
-          <a onClick={() => setRole(admin)}>指派角色</a>
+          <Button type="primary" size="small" onClick={() => setRole(admin)}>指派角色</Button>
         </>
       );
     }
@@ -308,6 +307,7 @@ const AdminManage = () => {
             style={{ width: '100%' }}
             onChange={handleTableChange}
             loading={loading}
+            rowClassName={getRowClass}
           />
         </Row>
         <Modal visible={modalVisible} maskClosable={false} footer={null} title={modalTitle} onCancel={handleCancel}>

@@ -6,4 +6,6 @@
 module.exports = {
   'primary-color': '#1890ff',
   'link-color': '#1890ff',
+  'border-radius-base': '4px',
+  'table-header-bg': '#F0F0F0',
 };

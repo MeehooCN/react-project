@@ -7,11 +7,10 @@ import React, { useEffect, useState } from 'react';
 import { Card, Row, Table, Modal, Alert, Button } from 'antd';
 import { ReloadOutlined } from '@ant-design/icons';
 import { MyTitle, useTableHook } from '@components/index';
-import { PlusOutlined } from '@ant-design/icons';
 import { ErrorStack } from '@components/ErrorBoundary';
 
 const SysLog = () => {
-  const { loading, setLoading, pagination, handleTableChange } = useTableHook();
+  const { loading, setLoading, pagination, handleTableChange, getRowClass } = useTableHook();
   const [logList, setLogList] = useState<Array<ErrorStack>>([]);
   const [logDetailVisible, setLogDetailVisible] = useState<boolean>(false);
   const [selectLog, setSelectLog] = useState<ErrorStack>({
@@ -71,6 +70,7 @@ const SysLog = () => {
           style={{ width: '100%' }}
           onChange={handleTableChange}
           loading={loading}
+          rowClassName={getRowClass}
         />
       </Row>
       <Modal

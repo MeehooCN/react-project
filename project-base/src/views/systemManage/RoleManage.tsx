@@ -18,7 +18,7 @@ import { ISearchFormItemType } from '@components/form/SearchForm';
 const { TreeNode } = Tree;
 
 const RoleManage = () => {
-  const { loading, setLoading, pagination, setPagination, searchContent, handleTableChange, handleSearch, backFrontPage } = useTableHook();
+  const { loading, setLoading, pagination, setPagination, searchContent, handleTableChange, handleSearch, backFrontPage, getRowClass } = useTableHook();
   const [roleList, setRoleList] = useState<Array<Role>>([]);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [modalTitle, setModalTitle] = useState<string>();
@@ -241,6 +241,7 @@ const RoleManage = () => {
             pagination={pagination}
             onChange={handleTableChange}
             loading={loading}
+            rowClassName={getRowClass}
           />
         </Row>
       </Card>

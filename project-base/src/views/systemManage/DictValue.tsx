@@ -12,7 +12,7 @@ import { post } from '@utils/Ajax';
 import { IFormItemType } from '@components/form/CommonForm';
 
 const DictValue = () => {
-  const { loading, setLoading, pagination, setPagination, handleTableChange, backFrontPage } = useTableHook();
+  const { loading, setLoading, pagination, setPagination, handleTableChange, backFrontPage, getRowClass } = useTableHook();
   const [valueList, setValueList] = useState<Array<Dict>>([]);
   const [typeList, setTypeList] = useState<Array<any>>([]);
   const [rowId, setRowId] = useState<string>('');
@@ -176,10 +176,10 @@ const DictValue = () => {
       }
       return (
         <div>
-          <a onClick={() => addOrEditValue(row)}>编辑</a>
+          <Button size="small" type="primary" onClick={() => addOrEditValue(row)}>编辑</Button>
           <Divider type="vertical" />
           <Popconfirm title="确定删除此字典选项？" okText="确定" cancelText="取消" onConfirm={() => deleteValue(row.id)}>
-            <a>删除</a>
+            <Button size="small" danger>删除</Button>
           </Popconfirm>
         </div>
       );
@@ -255,16 +255,16 @@ const DictValue = () => {
                   typeList.map((item: any) => {
                     return <Menu.Item title={item.name} key={item.id}>
                       <Row justify="space-between" align="middle">
-                        <Col span={10}>{item.name}</Col>
-                        <Col span={14}>
+                        <div>{item.name}</div>
+                        <div>
                           {item.isSysSet === 1 ? <Tag>系统预设，不能操作</Tag> : <>
-                            <Button type="link" onClick={() => addOrEditType(item)}>编辑</Button>
+                            <Button size="small" type="primary" onClick={() => addOrEditType(item)}>编辑</Button>
                             <Divider type="vertical" />
                             <Popconfirm title="确定删除此字典类型？" okText="确定" cancelText="取消" onConfirm={() => deleteType(item.id)}>
-                              <Button type="link">删除</Button>
+                              <Button size="small" danger>删除</Button>
                             </Popconfirm>
                           </>}
-                        </Col>
+                        </div>
                       </Row>
                     </Menu.Item>;
                   })
@@ -294,6 +294,7 @@ const DictValue = () => {
               loading={loading}
               onChange={handleTableChange}
               pagination={pagination}
+              rowClassName={getRowClass}
             />
           </Card>
         </Col>

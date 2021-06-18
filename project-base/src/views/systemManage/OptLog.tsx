@@ -11,7 +11,7 @@ import { post } from '@utils/Ajax';
 import { ISearchFormItemType } from '@components/form/SearchForm';
 
 const OptLog = () => {
-  const { loading, setLoading, pagination, setPagination, searchContent, handleSearch, handleTableChange} = useTableHook();
+  const { loading, setLoading, pagination, setPagination, searchContent, handleSearch, handleTableChange, getRowClass } = useTableHook();
   const [logList, setLogList] = useState<Array<any>>([]);
   useEffect(() => {
     getLogList();
@@ -19,10 +19,11 @@ const OptLog = () => {
   const getLogList = () => {
     const params = {
       page: pagination.current,
-      rows: pagination.pageSize
+      rows: pagination.pageSize,
+      ...searchContent
     };
     setLoading(true);
-    post('sysmanage/optlog/listLog', params, {}, (data: any) => {
+    post('sysmanage/optlog/page', params, {}, (data: any) => {
       if (data.flag === 0) {
         setLogList(data.data.rows);
         pagination.total = data.data.total;
@@ -32,12 +33,12 @@ const OptLog = () => {
     });
   };
   const searchFormColumns: Array<ISearchFormColumns> = [{
-    label: '操作人姓名',
+    label: '操作人',
     name: 'userName',
     type: ISearchFormItemType.Text,
   }];
   const logColumns: any = [{
-    title: '操作人姓名',
+    title: '操作人',
     dataIndex: 'userName',
     width: 200
   }, {
@@ -76,6 +77,7 @@ const OptLog = () => {
           style={{ width: '100%' }}
           onChange={handleTableChange}
           loading={loading}
+          rowClassName={getRowClass}
         />
       </Card>
     </Row>

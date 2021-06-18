@@ -4,7 +4,7 @@
  * @createTime: 2020/10/13 9:12
  **/
 import React, { useEffect, useRef, useState } from 'react';
-import { Card, Table, Badge, Divider, Button, Popconfirm, Modal, message, Space } from 'antd';
+import { Card, Table, Divider, Button, Popconfirm, Modal, message, Space } from 'antd';
 import { PlusOutlined, createFromIconfontCN, ReloadOutlined } from '@ant-design/icons';
 import {
   CommonHorizFormHook, IFormColumns, MyTitle, useTableHook, IconFontChoose,
@@ -31,14 +31,13 @@ interface MenuData {
 
 const MenuManage = () => {
   const menuRef: any = useRef();
-  const { loading, setLoading, handleTableChange, pagination, setPagination, backFrontPage } = useTableHook();
+  const { loading, setLoading, handleTableChange, pagination, setPagination, getRowClass } = useTableHook();
   const { submitLoading, setSubmitLoading, formValue, setFormValue } = useFormHook();
   const [menuList, setMenuList] = useState<Array<MenuData>>([]);
   const [addView, setAddView] = useState<boolean>(false);
   const [isAdd, setIsAdd] = useState<boolean>(false);
   // 参数1 是否是子菜单添加 参数2 父菜单名称 参数3 父级菜单id
   const [isChildAdd, setIsChildAdd] = useState<[boolean, string, string]>([false, '', '']);
-  const [menuStatus, setMenuStatus] = useState<number>(1);
   useEffect(() => {
     getMenuList();
   }, []);
@@ -73,7 +72,7 @@ const MenuManage = () => {
     if (isChildAdd[2] !== '') {
       value.parentMenuId = isChildAdd[2];
     }
-    value.status = menuStatus;
+    value.status = 1;
     const url = isAdd ? 'sysManage/menu/addMenu' : 'sysManage/menu/updateMenu';
     post(url, value, {}, (data: any) => {
       if (data.flag === 0) {
@@ -123,14 +122,6 @@ const MenuManage = () => {
       return (isAdd ? '添加' : '编辑') + '菜单';
     }
   };
-  // 是否开启菜单
-  const statusChange = (value: any) => {
-    if (value) {
-      setMenuStatus(1);
-    } else {
-      setMenuStatus(0);
-    }
-  };
   const handleCancel = () => {
     setAddView(false);
     menuRef.current.form().resetFields();
@@ -160,13 +151,6 @@ const MenuManage = () => {
     align: 'center',
     width: 65,
     render: (icon: string) => <IconFont type={icon} style={{ fontSize: 20 }} />
-  }, {
-    title: '状态',
-    dataIndex: 'status',
-    width: 100,
-    render: (status: number) => {
-      return status === 0 ? <Badge text="未启用" color="red" /> : <Badge text="启用" color="green" />;
-    }
   }, {
     title: '操作',
     dataIndex: 'opt',
@@ -204,13 +188,6 @@ const MenuManage = () => {
     type: IFormItemType.Button,
     viewComponent: <IconFontChoose onClick={onIconClick} />
   }, {
-    label: '是否开启菜单',
-    name: 'status',
-    type: IFormItemType.Switch,
-    checkedChildren: '是',
-    unCheckedChildren: '否',
-    onChange: statusChange
-  }, {
     label: 'id',
     name: 'id',
     type: IFormItemType.Hidden,
@@ -239,6 +216,7 @@ const MenuManage = () => {
         expandRowByClick={true}
         bordered={true}
         onChange={handleTableChange}
+        rowClassName={getRowClass}
       />
       <Modal
         title={getModalTitle()}

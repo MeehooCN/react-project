@@ -74,12 +74,6 @@ const UserInfo = () => {
     type: IFormItemType.Text,
     rules: [{ required: true, message: '请输入姓名' }],
     disabled: true
-  }, {
-    label: '联系电话',
-    name: 'telephone',
-    type: IFormItemType.Text,
-    rules: [{ required: true, message: '请填写联系电话' }, { message: '手机号输入不合法', pattern: /^1(3|4|5|6|7|8|9)\d{9}$/ }],
-    disabled: true
   }];
   return (
     <Card size="small" title={<MyTitle title="个人信息" />} style={{ width: '100%' }}>

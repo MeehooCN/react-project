@@ -4,16 +4,16 @@
  * @createTime: 2020/7/16 17:03
  **/
 import React, { useContext, useEffect, useState } from 'react';
-import { Row, Layout, Menu } from 'antd';
-import { SmileTwoTone } from '@ant-design/icons';
-import { Header } from '@components/index';
-import { initMenu, getClientHeight } from '@utils/CommonFunc';
-import { MenuData } from '@utils/CommonInterface';
-import { colors, platform, projectName } from '@utils/CommonVars';
-import { HomeContext } from '../../index';
-import './index.less';
-import { post } from '@utils/Ajax';
 import { useHistory } from 'react-router';
+import { Row, Layout, Menu } from 'antd';
+import { Header } from '@components/index';
+import { initMenu } from '@utils/CommonFunc';
+import { MenuData } from '@utils/CommonInterface';
+import { platform, projectName } from '@utils/CommonVars';
+import logo from '@static/images/logo.png';
+import { HomeContext } from '../../index';
+import { post } from '@utils/Ajax';
+import './index.less';
 
 const { Content, Sider } = Layout;
 
@@ -59,7 +59,7 @@ const Home = (props: IProps) => {
     <Row style={{ width: '100%', overflowY: 'hidden' }}>
       <Sider style={{ width: 200 }}>
         <Row align="middle" justify="center" className="header-title-icon">
-          <SmileTwoTone twoToneColor={colors.primaryColor} style={{ fontSize: 24 }} />
+          <img src={logo} alt="logo" height={28} />
           <div className="header-title">{projectName}</div>
         </Row>
         <Row className="menu" style={{ height: 'calc(100vh - 60px)' }}>

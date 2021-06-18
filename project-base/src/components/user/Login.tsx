@@ -65,7 +65,6 @@ const Login = () => {
         history.push(platform + 'welcome');
       } else {
         setLoading(false);
-        message.error(data.msg);
         getKaptcha();
       }
     });
