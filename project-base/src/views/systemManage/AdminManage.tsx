@@ -171,6 +171,24 @@ const AdminManage = () => {
       setRoleLoading(false);
     });
   };
+  // 获取角色列表
+  const getUpdateRoleList = () => {
+    let flag: boolean = true;
+    // 如果当前角色已经被删除，则 push 当前角色进去
+    roleList.forEach((item: any) => {
+      if (roleValue && item.key === roleValue.roleId) {
+        flag = false;
+      }
+    });
+    if (roleValue && flag) {
+      return roleList.concat([{
+        key: roleValue.roleId,
+        value: roleValue.roleId.split(',')[1]
+      }]);
+    } else {
+      return roleList;
+    }
+  };
   const adminColumns = [{
     title: '用户名',
     dataIndex: 'userName'
@@ -249,7 +267,7 @@ const AdminManage = () => {
     label: '角色',
     name: 'roleId',
     type: 'select',
-    options: roleList,
+    options: getUpdateRoleList(),
     allowClear: true,
     rules: [{ required: false, message: '请选择角色' }]
   }];
