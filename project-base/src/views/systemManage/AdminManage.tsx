@@ -13,7 +13,7 @@ import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import { Admin, Organization } from '@utils/CommonInterface';
 import { get, post } from '@utils/Ajax';
 import { getOrgTreeEnableList } from '@utils/CommonAPI';
-import { findInTree, getTreeChildrenToNull } from '@utils/CommonFunc';
+import { findInTree, getRules, getTreeChildrenToNull } from '@utils/CommonFunc';
 import { IFormItemType } from '@components/form/CommonForm';
 import { ISearchFormItemType } from '@components/form/SearchForm';
 
@@ -243,26 +243,17 @@ const AdminManage = () => {
     label: '用户名',
     name: 'userName',
     type: IFormItemType.Text,
-    rules: [{
-      required: true,
-      message: '请输入用户名'
-    }, {
-      whitespace: true,
-      message: '用户名不能仅为空格'
-    }, {
-      pattern: /^[^\s]*$/,
-      message: '用户名不能包含空格及其他空白字符'
-    }]
+    rules: getRules('inputNotSpace', true)
   }, {
     label: '姓名',
     name: 'name',
     type: IFormItemType.Text,
-    rules: [{ required: true, message: '请输入姓名' }]
+    rules: getRules('required')
   }, {
     label: '所属机构',
     name: 'organization',
     type: IFormItemType.TreeSelect,
-    rules: [{ required: true, message: '请选择机构' }],
+    rules: getRules('selectRequired'),
     options: orgList
   }, {
     label: 'id',
@@ -275,7 +266,7 @@ const AdminManage = () => {
     type: IFormItemType.Select,
     options: getUpdateRoleList(),
     allowClear: true,
-    rules: [{ required: false, message: '请选择角色' }]
+    rules: getRules('selectRequired')
   }];
   const formItemLayout = {
     labelCol: { span: 6 },

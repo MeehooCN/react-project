@@ -1,5 +1,5 @@
 /**
- * @description: 系统日志
+ * @description: 系统日志，待完善到数据库存储
  * @author: cnn
  * @createTime: 2020/11/16 10:00
  **/

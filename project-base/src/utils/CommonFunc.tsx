@@ -228,7 +228,7 @@ export const encodeFileUrl = (url: string) => {
 };
 /**
  * 获取常用校验
- * @param ruleType: required | inputNotSpace | email | phone | idNumber | url | password
+ * @param ruleType: required | selectRequired | inputNotSpace | email | phone | idNumber | url | password
  * @param required（可选）: 是否必填（如果单独需要必填，ruleType 设置为 required 即可，如果要满足其他校验且必填，该值才设为 true）
  **/
 export const getRules = (ruleType: RuleType, required?: boolean) => {
@@ -236,6 +236,10 @@ export const getRules = (ruleType: RuleType, required?: boolean) => {
     ['required', [{
       required: true,
       message: '请输入'
+    }]],
+    ['selectRequired', [{
+      required: true,
+      message: '请选择'
     }]],
     ['inputNotSpace', [{
       whitespace: true,

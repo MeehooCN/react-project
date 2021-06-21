@@ -50,6 +50,7 @@ export const fileAccept = {
 /**
  * 校验类型
  * required: 必填，可空格，空白字符等
+ * selectRequired: 下拉必填，
  * inputNotSpace: 不能包含空格，其他空白字符
  * email: 验证邮箱
  * phone: 验证手机
@@ -57,4 +58,4 @@ export const fileAccept = {
  * url: url
  * password: 密码，仅由英文字母，数字以及下划线组成
  **/
-export type RuleType = 'required' | 'inputNotSpace' | 'email' | 'phone' | 'idNumber' | 'url' | 'password';
+export type RuleType = 'required' | 'selectRequired' | 'inputNotSpace' | 'email' | 'phone' | 'idNumber' | 'url' | 'password';

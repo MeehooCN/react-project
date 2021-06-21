@@ -14,6 +14,7 @@ import { Role } from '@utils/CommonInterface';
 import { post, get } from '@utils/Ajax';
 import { IFormItemType } from '@components/form/CommonForm';
 import { ISearchFormItemType } from '@components/form/SearchForm';
+import { getRules } from '@utils/CommonFunc';
 
 const { TreeNode } = Tree;
 
@@ -189,12 +190,12 @@ const RoleManage = () => {
     label: '角色名称',
     name: 'name',
     type: IFormItemType.Text,
-    rules: [{ required: true, message: '请输入角色名称' }]
+    rules: getRules('required')
   }, {
     label: '角色类型',
     name: 'roleType',
     type: IFormItemType.Select,
-    rules: [{ required: true, message: '请选择角色类型' }],
+    rules: getRules('selectRequired'),
     options: [{
       key: 0,
       value: '管理员角色'
@@ -206,7 +207,7 @@ const RoleManage = () => {
     label: '备注',
     name: 'remark',
     type: IFormItemType.Text,
-    rules: [{ required: false, message: '请输入备注' }]
+    rules: getRules('required')
   }, {
     label: 'id',
     name: 'id',

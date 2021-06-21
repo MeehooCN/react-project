@@ -8,7 +8,7 @@ import { Button, Card, Divider, message, Modal, Popconfirm, Space, Switch, Table
 import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import { CommonHorizFormHook, IFormColumns, MyTitle, OverText, useFormHook, useTableHook } from '@components/index';
 import { OptionData, Organization } from '@utils/CommonInterface';
-import { getAreaNameAndCode, getProvinceCityArea, getTreeChildrenToNull } from '@utils/CommonFunc';
+import { getAreaNameAndCode, getProvinceCityArea, getRules, getTreeChildrenToNull } from '@utils/CommonFunc';
 import { post } from '@utils/Ajax';
 import { OrganizationEnable } from '@utils/CommonVars';
 import { getAllProvinceCityArea, getDictValueList, getOrgTreeList } from '@utils/CommonAPI';
@@ -199,13 +199,13 @@ const OrganizationManage = () => {
     label: '机构名称',
     name: 'name',
     type: IFormItemType.Text,
-    rules: [{ required: true, message: '请输入机构名称' }]
+    rules: getRules('required')
   }, {
     label: '机构类型',
     name: 'proOrgType',
     type: IFormItemType.Select,
     options: orgTypeList,
-    rules: [{ required: true, message: '请选择机构类型' }]
+    rules: getRules('selectRequired')
   }, {
     label: '联系人',
     name: 'contactPerson',

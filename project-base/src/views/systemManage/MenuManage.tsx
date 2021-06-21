@@ -12,7 +12,7 @@ import {
 } from '@components/index';
 import { post } from '@utils/Ajax';
 import { iconUrl } from '@utils/CommonVars';
-import { getTreeChildrenToNull } from '@utils/CommonFunc';
+import { getRules, getTreeChildrenToNull } from '@utils/CommonFunc';
 import { IFormItemType } from '@components/form/CommonForm';
 
 const IconFont = createFromIconfontCN({
@@ -177,7 +177,7 @@ const MenuManage = () => {
     label: '菜单名称',
     name: 'name',
     type: IFormItemType.Text,
-    rules: [{ required: true, message: '请输入菜单名称' }]
+    rules: getRules('required')
   }, {
     label: '菜单路径',
     name: 'url',

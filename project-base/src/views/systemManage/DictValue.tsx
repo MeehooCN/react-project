@@ -10,6 +10,7 @@ import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import { Dict } from '@utils/CommonInterface';
 import { post } from '@utils/Ajax';
 import { IFormItemType } from '@components/form/CommonForm';
+import { getRules } from '@utils/CommonFunc';
 
 const DictValue = () => {
   const { loading, setLoading, pagination, setPagination, handleTableChange, backFrontPage, getRowClass } = useTableHook();
@@ -189,12 +190,12 @@ const DictValue = () => {
     label: '类型名称',
     name: 'name',
     type: IFormItemType.Text,
-    rules: [{ required: true, message: '请输入类型名称' }]
+    rules: getRules('required')
   }, {
     label: '类型编号',
     name: 'code',
     type: IFormItemType.Text,
-    rules: [{ required: true, message: '请输入类型编号' }]
+    rules: getRules('required')
   }, {
     label: 'id',
     name: 'id',
@@ -214,12 +215,12 @@ const DictValue = () => {
     label: '键',
     name: 'mkey',
     type: IFormItemType.Text,
-    rules: [{ required: true, message: '请输入键' }]
+    rules: getRules('required')
   }, {
     label: '值',
     name: 'mvalue',
     type: IFormItemType.Text,
-    rules: [{ required: true, message: '请输入值' }]
+    rules: getRules('required')
   }, {
     label: 'id',
     name: 'id',
