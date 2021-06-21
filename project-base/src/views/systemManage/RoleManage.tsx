@@ -57,7 +57,13 @@ const RoleManage = () => {
       setModalTitle('编辑角色');
       setFormValue(row);
     } else {
-      setFormValue('');
+      setFormValue({
+        number: undefined,
+        name: undefined,
+        roleType: undefined,
+        remark: undefined,
+        id: undefined,
+      });
       setModalTitle('新增角色');
     }
     setModalVisible(true);
@@ -130,7 +136,7 @@ const RoleManage = () => {
     setModalVisible(false);
     setFormValue({});
   };
-  // 渲染treeNode
+  // 渲染 treeNode
   const renderTreeNodesLevelOne = (data: any) => {
     return data.map((item:any) => {
       if (item.children.length > 0) {
@@ -144,10 +150,6 @@ const RoleManage = () => {
     });
   };
   const roleColumns = [{
-    title: '角色编号',
-    dataIndex: 'number',
-    width: 150
-  }, {
     title: '角色名称',
     dataIndex: 'name',
     render: (name: string) => <b>{name}</b>
@@ -183,10 +185,6 @@ const RoleManage = () => {
     type: ISearchFormItemType.Text
   }];
   const formColumns: Array<IFormColumns> = [{
-    label: '角色编号',
-    name: 'number',
-    type: IFormItemType.Text,
-  }, {
     label: '角色名称',
     name: 'name',
     type: IFormItemType.Text,
@@ -266,7 +264,8 @@ const RoleManage = () => {
         visible={authVisible}
         onOk={handleAuthOK}
         confirmLoading={authLoading}
-        onCancel={() => handleAuth('')}>
+        onCancel={() => handleAuth('')}
+      >
         <Spin spinning={roleLoading}>
           <Tree
             checkable
