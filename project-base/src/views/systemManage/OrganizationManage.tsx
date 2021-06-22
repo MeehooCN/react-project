@@ -140,7 +140,7 @@ const OrganizationManage = () => {
   const organizationColumns = [{
     title: '编号',
     dataIndex: 'key',
-    width: 200
+    width: 100
   }, {
     title: '机构名称',
     dataIndex: 'label',

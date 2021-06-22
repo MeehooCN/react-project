@@ -1,5 +1,8 @@
 @import "./../../static/styles/colors";
 @import "./../../static/styles/space";
+.site-layout {
+  background-color: #fff;
+}
 .content {
   width: 100%;
   height: calc(100vh - 60px);
@@ -9,9 +12,18 @@
 }
 .menu {
   overflow-y: hidden;
+  height: calc(100vh - 104px);
 }
 .menu:hover {
   overflow-y: auto;
+}
+.menu::-webkit-scrollbar {
+  width: 8px;
+  background-color: @scroll-background;
+}
+.menu::-webkit-scrollbar-thumb {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: @primary-color-opacity-4;
 }
 .back-top {
   width: 40px;

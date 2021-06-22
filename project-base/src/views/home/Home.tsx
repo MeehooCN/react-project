@@ -5,7 +5,7 @@
  **/
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
-import { Row, Layout, Menu } from 'antd';
+import { Row, Layout, Menu, Spin } from 'antd';
 import { Header } from '@components/index';
 import { initMenu } from '@utils/CommonFunc';
 import { MenuData } from '@utils/CommonInterface';
@@ -34,6 +34,7 @@ const Home = (props: IProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedKeys, setSelectedKeys] = useState<Array<string>>([]);
   const [openKeys, setOpenKeys] = useState<Array<string>>(menuList.map((menu: MenuData) => menu.id));
+  const [collapsed, setCollapsed] = useState<boolean>(false);
   useEffect(() => {
     // 如果存在当前登录用户，则赋值
     if (sessionStorage.getItem('userInfo')) {
@@ -55,35 +56,41 @@ const Home = (props: IProps) => {
       setLoading(false);
     });
   };
+  // 折叠
+  const onCollapse = () => {
+    setCollapsed(!collapsed);
+  };
   return (
-    <Row style={{ width: '100%', overflowY: 'hidden' }}>
-      <Sider style={{ width: 200 }}>
-        <Row align="middle" justify="center" className="header-title-icon">
-          <img src={logo} alt="logo" height={28} />
-          <div className="header-title">{projectName}</div>
-        </Row>
-        <Row className="menu" style={{ height: 'calc(100vh - 60px)' }}>
-          <Menu
-            theme="dark"
-            selectedKeys={selectedKeys}
-            openKeys={openKeys}
-            onSelect={(item: any) => setSelectedKeys(item.keyPath)}
-            onOpenChange={(openKeys: any) => setOpenKeys(openKeys)}
-            mode="inline"
-          >
-            {initMenu(menuList, platform)}
-          </Menu>
-        </Row>
-      </Sider>
-      <Row style={{ width: 'calc(100% - 200px)' }}>
-        <Header />
-        <Content className="content">
-          <div>
-            {!loading && children}
-          </div>
-        </Content>
-      </Row>
-    </Row>
+    <Spin spinning={loading}>
+      <Layout style={{ minHeight: '100vh' }}>
+        <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
+          <Row align="middle" justify="center" className="header-title-icon">
+            <img src={logo} alt="logo" height={28} />
+            {!collapsed && <div className="header-title">{projectName}</div>}
+          </Row>
+          <Row className="menu">
+            <Menu
+              theme="dark"
+              selectedKeys={selectedKeys}
+              openKeys={openKeys}
+              onSelect={(item: any) => setSelectedKeys(item.keyPath)}
+              onOpenChange={(openKeys: any) => setOpenKeys(openKeys)}
+              mode="inline"
+            >
+              {initMenu(menuList, platform)}
+            </Menu>
+          </Row>
+        </Sider>
+        <Layout className="site-layout">
+          <Header />
+          <Content className="content">
+            <div>
+              {!loading && children}
+            </div>
+          </Content>
+        </Layout>
+      </Layout>
+    </Spin>
   );
 };
 
