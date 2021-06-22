@@ -276,3 +276,14 @@ export const getRules = (ruleType: RuleType, required?: boolean) => {
   }
   return returnRules;
 };
+/**
+ * 面包屑使用 BrowserRouter
+ **/
+export const itemRender = (route: any, params: any, routes: any, paths: Array<any>) => {
+  const last = routes.indexOf(route) === routes.length - 1;
+  return last ? (
+    <span>{route.breadcrumbName}</span>
+  ) : (
+    <Link to={{ pathname: route.path, state: route.state }}>{route.breadcrumbName}</Link>
+  );
+};

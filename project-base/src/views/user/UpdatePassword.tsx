@@ -4,12 +4,13 @@
  * @createTime: 2021/1/2 9:37
  **/
 import React, { useContext, useRef, useState } from 'react';
-import { Row, Card, Button, message } from 'antd';
+import { Row, Card, Button, message, PageHeader } from 'antd';
 import { CommonHorizFormHook, IFormColumns, MyTitle } from '@components/index';
 import { HomeContext } from '../../index';
 import { post } from '@utils/Ajax';
 import { platform } from '@utils/CommonVars';
 import { IFormItemType } from '@components/form/CommonForm';
+import { itemRender } from '@utils/CommonFunc';
 
 const UpdatePassword = () => {
   const formRef: any = useRef();
@@ -62,9 +63,21 @@ const UpdatePassword = () => {
       span: 18
     },
   };
+  const routes = [{
+    path: platform + 'welcome',
+    breadcrumbName: '首页',
+  }, {
+    path: '',
+    breadcrumbName: '修改密码',
+  }];
   return (
-    <Row style={{ width: '100%' }}>
-      <Card size="small" title={<MyTitle title="修改密码" />} style={{ width: '100%' }}>
+    <>
+      <PageHeader
+        title="修改密码"
+        breadcrumb={{ routes, itemRender }}
+        style={{ margin: '-10px -10px 10px -10px', backgroundColor: '#fff' }}
+      />
+      <Card size="small" style={{ width: '100%' }}>
         <Row justify="center" style={{ padding: '20px 0 20px 0' }}>
           <Row style={{ width: '40%' }} justify="center">
             <CommonHorizFormHook
@@ -79,7 +92,7 @@ const UpdatePassword = () => {
           </Row>
         </Row>
       </Card>
-    </Row>
+    </>
   );
 };
 export default UpdatePassword;

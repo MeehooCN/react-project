@@ -4,11 +4,13 @@
  * @createTime: 2020/9/10 13:14
  **/
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Row, Card, Spin, Button } from 'antd';
+import { Row, Card, Spin, Button, PageHeader } from 'antd';
 import { CommonHorizFormHook, IFormColumns, MyTitle } from '@components/index';
 import { post } from '@utils/Ajax';
 import { HomeContext } from '../../index';
 import { IFormItemType } from '@components/form/CommonForm';
+import { itemRender } from '@utils/CommonFunc';
+import { platform } from '@utils/CommonVars';
 
 const UserInfo = () => {
   const formRef: any = useRef();
@@ -77,24 +79,38 @@ const UserInfo = () => {
     rules: [{ required: true, message: '请输入姓名' }],
     disabled: true
   }];
+  const routes = [{
+    path: platform + 'welcome',
+    breadcrumbName: '首页',
+  }, {
+    path: '',
+    breadcrumbName: '个人信息',
+  }];
   return (
-    <Card size="small" title={<MyTitle title="个人信息" />} style={{ width: '100%' }}>
-      <Spin spinning={loading}>
-        <Row justify="center" style={{ padding: '20px 0 20px 0' }}>
-          <Row style={{ width: '40%' }} justify="center">
-            <CommonHorizFormHook
-              formColumns={personFormColumns}
-              formValue={{}}
-              ref={formRef}
-              formItemLayout={formLayout}
-            />
-            <Row style={{ width: '100%' }} justify="end">
-              <Button onClick={save} type="primary" style={{ width: 100 }} loading={buttonLoading} disabled={true}>保存</Button>
+    <>
+      <PageHeader
+        title="个人信息"
+        breadcrumb={{ routes, itemRender }}
+        style={{ margin: '-10px -10px 10px -10px', backgroundColor: '#fff' }}
+      />
+      <Card size="small" style={{ width: '100%' }}>
+        <Spin spinning={loading}>
+          <Row justify="center" style={{ padding: '20px 0 20px 0' }}>
+            <Row style={{ width: '40%' }} justify="center">
+              <CommonHorizFormHook
+                formColumns={personFormColumns}
+                formValue={{}}
+                ref={formRef}
+                formItemLayout={formLayout}
+              />
+              <Row style={{ width: '100%' }} justify="end">
+                <Button onClick={save} type="primary" style={{ width: 100 }} loading={buttonLoading} disabled={true}>保存</Button>
+              </Row>
             </Row>
           </Row>
-        </Row>
-      </Spin>
-    </Card>
+        </Spin>
+      </Card>
+    </>
   );
 };
 export default UserInfo;
