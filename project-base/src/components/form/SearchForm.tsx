@@ -5,7 +5,7 @@
  **/
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { DatePicker, Form, Input, InputNumber, Select, TreeSelect, Radio, Cascader, Button, Row, Col } from 'antd';
-import { UpOutlined, DownOutlined } from '@ant-design/icons';
+import { UpOutlined, DownOutlined, SearchOutlined, ReloadOutlined } from '@ant-design/icons';
 
 const { TextArea, Search } = Input;
 const { Option } = Select;
@@ -73,7 +73,7 @@ export interface ISearchFormColumns {
  * @property formColumns 表单项
  * @property hiddenButton 是否隐藏按钮
  * @event search 搜索操作
- * @property submitLoading 搜索时确定按钮添加 loading 状态
+ * @property submitLoading 搜索时确定按钮新增 loading 状态
  * @property searchText 搜索时按钮文字
  * @property colSpan 搜索 span
  * @property searchContent 查询初始值
@@ -256,8 +256,8 @@ const SearchForm = (props: IProps, ref: any) => {
   const buttonGroup = () => {
     return (
       <>
-        <Button onClick={handleReset} style={{ marginRight: 10 }}>重置</Button>
-        <Button type="primary" onClick={handleSearch} loading={submitLoading}>{searchText || '搜索'}</Button>
+        <Button onClick={handleReset} style={{ marginRight: 10 }} icon={<ReloadOutlined />}>重置</Button>
+        <Button type="primary" onClick={handleSearch} loading={submitLoading} icon={<SearchOutlined />}>{searchText || '搜索'}</Button>
       </>
     );
   };

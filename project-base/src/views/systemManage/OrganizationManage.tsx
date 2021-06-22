@@ -21,7 +21,7 @@ const OrganizationManage = () => {
   const [orgList, setOrgList] = useState<Array<Organization>>([]);
   // [窗口显示，是否为编辑（false 新增），编辑时 id]
   const [editMode, setEditMode] = useState<[boolean, boolean, string]>([false, false, '']);
-  // [是否是子菜单添加，父菜单名称，父级菜单id， 父级菜单code]
+  // [是否是子菜单新增，父菜单名称，父级菜单id， 父级菜单code]
   const [isChildAdd, setIsChildAdd] = useState<[boolean, string, string, string]>([false, '', '', '']);
   const [regionList, setRegionList] = useState<Array<any>>([]);
   const [orgTypeList, setOrgTypeList] = useState<Array<OptionData>>([]);
@@ -81,9 +81,9 @@ const OrganizationManage = () => {
   // 获取模态框标题
   const getModalTitle = () => {
     if (isChildAdd[0]) {
-      return '添加子机构 - ' + isChildAdd[1];
+      return '新增子机构 - ' + isChildAdd[1];
     } else {
-      return (editMode[1] ? '编辑' : '添加') + '机构';
+      return (editMode[1] ? '编辑' : '新增') + '机构';
     }
   };
   // 关闭窗口
@@ -103,7 +103,7 @@ const OrganizationManage = () => {
         ...regions
       };
     }
-    // 如果是添加子菜单
+    // 如果是新增子菜单
     if (isChildAdd[0]) {
       params.parentOrgId = isChildAdd[2];
       params.parentOrgCode = isChildAdd[3];
@@ -245,7 +245,7 @@ const OrganizationManage = () => {
       size="small"
       extra={(
         <Space size={CommonSpace.md}>
-          <Button type="primary" icon={<PlusOutlined />} onClick={addOrganization}>添加机构</Button>
+          <Button type="primary" icon={<PlusOutlined />} onClick={addOrganization}>新增机构</Button>
           <Button type="text" icon={<ReloadOutlined />} onClick={getOrgList} title="刷新" />
         </Space>
       )}

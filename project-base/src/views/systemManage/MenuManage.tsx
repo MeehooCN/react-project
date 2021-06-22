@@ -36,7 +36,7 @@ const MenuManage = () => {
   const [menuList, setMenuList] = useState<Array<MenuData>>([]);
   const [addView, setAddView] = useState<boolean>(false);
   const [isAdd, setIsAdd] = useState<boolean>(false);
-  // 参数1 是否是子菜单添加 参数2 父菜单名称 参数3 父级菜单id
+  // 参数1 是否是子菜单新增 参数2 父菜单名称 参数3 父级菜单id
   const [isChildAdd, setIsChildAdd] = useState<[boolean, string, string]>([false, '', '']);
   useEffect(() => {
     getMenuList();
@@ -117,9 +117,9 @@ const MenuManage = () => {
   // 获取模态框标题
   const getModalTitle = () => {
     if (isChildAdd[0]) {
-      return '添加子菜单 - ' + isChildAdd[1];
+      return '新增子菜单 - ' + isChildAdd[1];
     } else {
-      return (isAdd ? '添加' : '编辑') + '菜单';
+      return (isAdd ? '新增' : '编辑') + '菜单';
     }
   };
   // 取消
@@ -200,7 +200,7 @@ const MenuManage = () => {
       size="small"
       extra={(
         <Space size={CommonSpace.md}>
-          <Button type="primary" icon={<PlusOutlined />} onClick={addMenu}>添加一级菜单</Button>
+          <Button type="primary" icon={<PlusOutlined />} onClick={addMenu}>新增一级菜单</Button>
           <Button type="text" icon={<ReloadOutlined />} onClick={getMenuList} title="刷新" />
         </Space>
       )}

@@ -229,7 +229,7 @@ const RoleManage = () => {
         style={{ width: '100%' }}
         extra={(
           <Space size={CommonSpace.md}>
-            <Button type="primary" icon={<PlusOutlined />} onClick={() => addOrEdit('')}>添加角色</Button>
+            <Button type="primary" icon={<PlusOutlined />} onClick={() => addOrEdit('')}>新增角色</Button>
             <Button type="text" icon={<ReloadOutlined />} onClick={getRoleList} title="刷新" />
           </Space>
         )}

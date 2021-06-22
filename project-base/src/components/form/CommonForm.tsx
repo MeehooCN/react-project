@@ -100,7 +100,7 @@ export interface IFormColumns {
  * @description 公共表单的参数
  * @property formColumns 表单项
  * @property formValue 表单值
- * @property submitLoading 提交时确定按钮添加 loading 状态
+ * @property submitLoading 提交时确定按钮新增 loading 状态
  * @property formItemLayout label 和 item 的显示布局
  * @property inlineSpan 每行的 span
  * @property footerBtn 是否显示底部按钮

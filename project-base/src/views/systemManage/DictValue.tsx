@@ -69,7 +69,7 @@ const DictValue = () => {
       setLoading(false);
     });
   };
-  // 添加类型-确定
+  // 新增类型-确定
   const handleTypeOK = (value: any) => {
     setTypeButtonLoading(true);
     const url = value.id ? 'sysmanage/dictType/update' : 'sysmanage/dictType/create';

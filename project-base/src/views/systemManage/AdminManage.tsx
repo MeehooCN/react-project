@@ -285,7 +285,7 @@ const AdminManage = () => {
         style={{ width: '100%' }}
         extra={(
           <Space size={CommonSpace.md}>
-            <Button type="primary" icon={<PlusOutlined />} onClick={() => addOrEdit()}>添加用户</Button>
+            <Button type="primary" icon={<PlusOutlined />} onClick={() => addOrEdit()}>新增用户</Button>
             <Button type="text" icon={<ReloadOutlined />} onClick={getAdminList} title="刷新" />
           </Space>
         )}
