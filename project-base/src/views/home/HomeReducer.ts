@@ -6,7 +6,8 @@
 interface UserInfo {
   userId: string,
   userName: string,
-  name: string
+  name: string,
+  roleName: string
 }
 interface HomeInit {
   userInfo: UserInfo
@@ -16,7 +17,8 @@ const homeInit: HomeInit = {
   userInfo: {
     userId: '1',
     userName: 'admin',
-    name: '管理员'
+    name: '管理员',
+    roleName: ''
   }
 };
 const homeReducer = (state = homeInit, action: any) => {

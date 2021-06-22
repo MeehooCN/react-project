@@ -49,7 +49,8 @@ const Login = () => {
         const userInfo = {
           userId: data.data.id,
           userName: data.data.userName,
-          name: data.data.name
+          name: data.data.name,
+          roleName: data.data.roleName
         };
         // 如果登录成功，则存储 cookie， 过期时间一天。
         // const expireTime: number = 60 * 60 * 24;

@@ -26,7 +26,8 @@ const UserInfo = () => {
         const userInfo = {
           userId: data.data.id,
           userName: data.data.userName,
-          name: data.data.name
+          name: data.data.name,
+          roleName: data.data.roleName
         };
         sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
         homeDispatch({
