@@ -13,6 +13,15 @@ export enum colors {
   error = '#f5222d'
 }
 /**
+ * 公共间距
+**/
+export enum CommonSpace {
+  lg= 24,
+  md = 16,
+  sm = 10,
+  xs = 5
+}
+/**
  * 服务器部署前缀路径
  * **/
 const serverConfigs = require('./../../scripts/config.js');

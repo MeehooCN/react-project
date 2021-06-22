@@ -10,7 +10,7 @@ import { CommonHorizFormHook, IFormColumns, MyTitle, OverText, useFormHook, useT
 import { OptionData, Organization } from '@utils/CommonInterface';
 import { getAreaNameAndCode, getProvinceCityArea, getRules, getTreeChildrenToNull } from '@utils/CommonFunc';
 import { post } from '@utils/Ajax';
-import { OrganizationEnable } from '@utils/CommonVars';
+import { CommonSpace, OrganizationEnable } from '@utils/CommonVars';
 import { getAllProvinceCityArea, getDictValueList, getOrgTreeList } from '@utils/CommonAPI';
 import { IFormItemType } from '@components/form/CommonForm';
 
@@ -244,7 +244,7 @@ const OrganizationManage = () => {
       title={<MyTitle title="机构管理" />}
       size="small"
       extra={(
-        <Space size={15}>
+        <Space size={CommonSpace.md}>
           <Button type="primary" icon={<PlusOutlined />} onClick={addOrganization}>添加机构</Button>
           <Button type="text" icon={<ReloadOutlined />} onClick={getOrgList} title="刷新" />
         </Space>

@@ -11,6 +11,7 @@ import { Dict } from '@utils/CommonInterface';
 import { post } from '@utils/Ajax';
 import { IFormItemType } from '@components/form/CommonForm';
 import { getRules } from '@utils/CommonFunc';
+import { CommonSpace } from '@utils/CommonVars';
 
 const DictValue = () => {
   const { loading, setLoading, pagination, setPagination, handleTableChange, backFrontPage, getRowClass } = useTableHook();
@@ -230,13 +231,9 @@ const DictValue = () => {
     name: 'dictTypeId',
     type: IFormItemType.Hidden,
   }];
-  const formItemLayout = {
-    labelCol: { span: 6 },
-    wrapperCol: { span: 18 },
-  };
   return (
     <Card title={<MyTitle title="数据字典" />} size="small">
-      <Row style={{ width: '100%' }}>
+      <Row>
         <Col span={6}>
           <Card
             size="small"
@@ -244,7 +241,7 @@ const DictValue = () => {
             bordered={false}
             style={{ width: '100%' }}
             extra={(
-              <Space size={15}>
+              <Space size={CommonSpace.md}>
                 <Button icon={<PlusOutlined />} type="primary" onClick={() => addOrEditType('')} >新增类型</Button>
                 <Button type="text" icon={<ReloadOutlined />} onClick={getTypeList} title="刷新" />
               </Space>
@@ -281,7 +278,7 @@ const DictValue = () => {
             bordered={false}
             style={{ width: '100%' }}
             extra={(
-              <Space size={15}>
+              <Space size={CommonSpace.md}>
                 <Button icon={<PlusOutlined />} type="primary" onClick={() => addOrEditValue('')}>新增选项</Button>
                 <Button type="text" icon={<ReloadOutlined />} onClick={getValueList} title="刷新" />
               </Space>
@@ -304,7 +301,6 @@ const DictValue = () => {
         <CommonHorizFormHook
           formColumns={typeFormColumns}
           formValue={typeFormValue}
-          formItemLayout={formItemLayout}
           footerBtn
           cancel={handleTypeCancel}
           onOK={handleTypeOK}
@@ -316,7 +312,6 @@ const DictValue = () => {
         <CommonHorizFormHook
           formColumns={valueFormColumns}
           formValue={valueFormValue}
-          formItemLayout={formItemLayout}
           footerBtn
           cancel={handleValueCancel}
           onOK={handleValueOK}

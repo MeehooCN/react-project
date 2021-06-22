@@ -11,7 +11,7 @@ import {
   useFormHook
 } from '@components/index';
 import { post } from '@utils/Ajax';
-import { iconUrl } from '@utils/CommonVars';
+import { CommonSpace, iconUrl } from '@utils/CommonVars';
 import { getRules, getTreeChildrenToNull } from '@utils/CommonFunc';
 import { IFormItemType } from '@components/form/CommonForm';
 
@@ -194,16 +194,12 @@ const MenuManage = () => {
     name: 'id',
     type: IFormItemType.Hidden,
   }];
-  const formItemLayout = {
-    labelCol: { span: 6 },
-    wrapperCol: { span: 18 },
-  };
   return (
     <Card
       title={<MyTitle title="菜单管理" />}
       size="small"
       extra={(
-        <Space size={15}>
+        <Space size={CommonSpace.md}>
           <Button type="primary" icon={<PlusOutlined />} onClick={addMenu}>添加一级菜单</Button>
           <Button type="text" icon={<ReloadOutlined />} onClick={getMenuList} title="刷新" />
         </Space>
@@ -231,7 +227,6 @@ const MenuManage = () => {
           ref={menuRef}
           formColumns={menuFormColumns}
           formValue={formValue}
-          formItemLayout={formItemLayout}
           footerBtn
           cancel={() => setAddView(false)}
           onOK={addMenuOk}

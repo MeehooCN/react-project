@@ -9,6 +9,7 @@ import { ReloadOutlined } from '@ant-design/icons';
 import { ISearchFormColumns, MyTitle, SearchInlineForm, useTableHook } from '@components/index';
 import { post } from '@utils/Ajax';
 import { ISearchFormItemType } from '@components/form/SearchForm';
+import { CommonSpace } from '@utils/CommonVars';
 
 const OptLog = () => {
   const { loading, setLoading, pagination, setPagination, searchContent, handleSearch, handleTableChange, getRowClass } = useTableHook();
@@ -60,7 +61,7 @@ const OptLog = () => {
   }];
   return (
     <Row>
-      <Card style={{ width: '100%', marginBottom: 10 }} size="small">
+      <Card style={{ width: '100%', marginBottom: CommonSpace.sm }} size="small">
         <SearchInlineForm search={handleSearch} formColumns={searchFormColumns} />
       </Card>
       <Card

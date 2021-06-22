@@ -13,6 +13,8 @@ import App from './index';
 import { ConfigProvider } from 'antd';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
+// 全局样式
+import './static/styles/space.less';
 
 moment.locale('zh-cn');
 

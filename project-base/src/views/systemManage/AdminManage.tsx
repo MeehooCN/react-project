@@ -16,6 +16,7 @@ import { getOrgTreeEnableList } from '@utils/CommonAPI';
 import { findInTree, getRules, getTreeChildrenToNull } from '@utils/CommonFunc';
 import { IFormItemType } from '@components/form/CommonForm';
 import { ISearchFormItemType } from '@components/form/SearchForm';
+import { CommonSpace } from '@utils/CommonVars';
 
 const AdminManage = () => {
   const formRef: any = useRef();
@@ -220,17 +221,17 @@ const AdminManage = () => {
     render: (text: any, admin: Admin) => {
       return (
         <>
-          <Button size="small" onClick={() => addOrEdit(admin)}>编辑</Button>
+          <Button type="primary" size="small" onClick={() => setRole(admin)}>指派角色</Button>
           <Divider type="vertical" />
-          <Popconfirm title="确定要删除该管理员用户吗？" onConfirm={() => deleteAdmin(admin.id)}>
-            <Button size="small" danger>删除</Button>
-          </Popconfirm>
+          <Button size="small" onClick={() => addOrEdit(admin)}>编辑</Button>
           <Divider type="vertical" />
           <Popconfirm title="确定重置此人员的密码？" onConfirm={() => resetPassword(admin.id)} okText="确定" cancelText="取消">
             <Button size="small">重置密码</Button>
           </Popconfirm>
           <Divider type="vertical" />
-          <Button type="primary" size="small" onClick={() => setRole(admin)}>指派角色</Button>
+          <Popconfirm title="确定要删除该管理员用户吗？" onConfirm={() => deleteAdmin(admin.id)}>
+            <Button size="small" danger>删除</Button>
+          </Popconfirm>
         </>
       );
     }
@@ -273,13 +274,9 @@ const AdminManage = () => {
     allowClear: true,
     rules: getRules('selectRequired')
   }];
-  const formItemLayout = {
-    labelCol: { span: 6 },
-    wrapperCol: { span: 18 },
-  };
   return (
     <Row>
-      <Card style={{ width: '100%', marginBottom: 10 }} size="small">
+      <Card style={{ width: '100%', marginBottom: CommonSpace.sm }} size="small">
         <SearchInlineForm search={handleSearch} formColumns={searchFormColumns} />
       </Card>
       <Card
@@ -287,31 +284,28 @@ const AdminManage = () => {
         size="small"
         style={{ width: '100%' }}
         extra={(
-          <Space size={15}>
+          <Space size={CommonSpace.md}>
             <Button type="primary" icon={<PlusOutlined />} onClick={() => addOrEdit()}>添加用户</Button>
             <Button type="text" icon={<ReloadOutlined />} onClick={getAdminList} title="刷新" />
           </Space>
         )}
       >
-        <Row style={{ width: '100%' }}>
-          <Table
-            bordered
-            columns={adminColumns}
-            dataSource={adminList}
-            pagination={pagination}
-            rowKey={(row: Admin) => row.id}
-            style={{ width: '100%' }}
-            onChange={handleTableChange}
-            loading={loading}
-            rowClassName={getRowClass}
-          />
-        </Row>
+        <Table
+          bordered
+          columns={adminColumns}
+          dataSource={adminList}
+          pagination={pagination}
+          rowKey={(row: Admin) => row.id}
+          style={{ width: '100%' }}
+          onChange={handleTableChange}
+          loading={loading}
+          rowClassName={getRowClass}
+        />
         <Modal visible={modalVisible} maskClosable={false} footer={null} title={modalTitle} onCancel={handleCancel}>
           <CommonHorizFormHook
             ref={formRef}
             formColumns={formColumns}
             formValue={formValue}
-            formItemLayout={formItemLayout}
             footerBtn
             cancel={handleCancel}
             onOK={handleOK}
@@ -323,7 +317,6 @@ const AdminManage = () => {
           <CommonHorizFormHook
             formColumns={roleFormColumns}
             formValue={roleValue}
-            formItemLayout={formItemLayout}
             footerBtn
             cancel={setRoleCancel}
             onOK={setRoleOK}

@@ -15,6 +15,7 @@ import { post, get } from '@utils/Ajax';
 import { IFormItemType } from '@components/form/CommonForm';
 import { ISearchFormItemType } from '@components/form/SearchForm';
 import { getRules } from '@utils/CommonFunc';
+import { CommonSpace } from '@utils/CommonVars';
 
 const { TreeNode } = Tree;
 
@@ -170,13 +171,13 @@ const RoleManage = () => {
     render: (text: any, role: Role) => {
       return (
         <>
+          <Button size="small" type="primary" onClick={() => handleAuth(role.id)}>角色授权</Button>
+          <Divider type="vertical" />
           <Button size="small" onClick={() => addOrEdit(role)}>编辑</Button>
           <Divider type="vertical" />
           <Popconfirm title="确定要删除该角色吗？" onConfirm={() => deleteRole(role.id)}>
             <Button size="small" danger>删除</Button>
           </Popconfirm>
-          <Divider type="vertical" />
-          <Button size="small" type="primary" onClick={() => handleAuth(role.id)}>角色授权</Button>
         </>
       );
     }
@@ -213,13 +214,9 @@ const RoleManage = () => {
     name: 'id',
     type: IFormItemType.Hidden,
   }];
-  const formItemLayout = {
-    labelCol: { span: 6 },
-    wrapperCol: { span: 18 },
-  };
   return (
     <Row>
-      <Card style={{ width: '100%', marginBottom: 10 }} size="small">
+      <Card style={{ width: '100%', marginBottom: CommonSpace.sm }} size="small">
         <SearchInlineForm search={handleSearch} formColumns={searchFormColumns} />
       </Card>
       <Card
@@ -227,7 +224,7 @@ const RoleManage = () => {
         size="small"
         style={{ width: '100%' }}
         extra={(
-          <Space size={15}>
+          <Space size={CommonSpace.md}>
             <Button type="primary" icon={<PlusOutlined />} onClick={() => addOrEdit('')}>添加角色</Button>
             <Button type="text" icon={<ReloadOutlined />} onClick={getRoleList} title="刷新" />
           </Space>
@@ -251,7 +248,6 @@ const RoleManage = () => {
         <CommonHorizFormHook
           formColumns={formColumns}
           formValue={formValue}
-          formItemLayout={formItemLayout}
           footerBtn
           cancel={handleCancel}
           onOK={handleOK}
