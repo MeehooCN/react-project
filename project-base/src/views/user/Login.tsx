@@ -7,7 +7,6 @@ import React, { useState } from 'react';
 import { Row } from 'antd';
 import { platform, projectName } from '@utils/CommonVars';
 import { Login, Register } from '@components/index';
-import { getClientHeight } from '@utils/CommonFunc';
 import { useHistory } from 'react-router';
 import './login.less';
 
@@ -24,7 +23,7 @@ const LoginView = () => {
     history.push(platform);
   };
   return (
-    <Row justify="space-between" align="middle" className="login" style={{ height: getClientHeight() }}>
+    <Row justify="space-between" align="middle" className="login" style={{ height: '100vh' }}>
       <div className="project-name" onClick={toHome}>
         {projectName}
       </div>
