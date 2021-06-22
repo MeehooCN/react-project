@@ -68,3 +68,10 @@ export const fileAccept = {
  * password: 密码，仅由英文字母，数字以及下划线组成
  **/
 export type RuleType = 'required' | 'selectRequired' | 'inputNotSpace' | 'email' | 'phone' | 'idNumber' | 'url' | 'password';
+/**
+ * 角色类型
+**/
+export enum RoleType {
+  Admin = 0,
+  User = 1
+}

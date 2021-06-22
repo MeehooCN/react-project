@@ -4,18 +4,18 @@
  * @createTime: 2020/9/8 17:32
  **/
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Divider, Popconfirm, Row, Table, Modal, Tree, message, Spin, Space } from 'antd';
+import { Button, Card, Divider, message, Modal, Popconfirm, Row, Space, Spin, Table, Tree } from 'antd';
 import {
-  ISearchFormColumns, MyTitle, SearchInlineForm, CommonHorizFormHook, IFormColumns,
-  useTableHook, OverText
+  CommonHorizFormHook, IFormColumns, ISearchFormColumns, MyTitle, OverText,
+  SearchInlineForm, useTableHook
 } from '@components/index';
 import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import { Role } from '@utils/CommonInterface';
-import { post, get } from '@utils/Ajax';
+import { get, post } from '@utils/Ajax';
 import { IFormItemType } from '@components/form/CommonForm';
 import { ISearchFormItemType } from '@components/form/SearchForm';
 import { getRules } from '@utils/CommonFunc';
-import { CommonSpace } from '@utils/CommonVars';
+import { CommonSpace, RoleType } from '@utils/CommonVars';
 
 const { TreeNode } = Tree;
 
@@ -156,6 +156,10 @@ const RoleManage = () => {
     title: '角色名称',
     dataIndex: 'name',
     render: (name: string) => <b>{name}</b>
+  }, {
+    title: '角色类型',
+    dataIndex: 'roleType',
+    render: (roleType: RoleType) => roleType === RoleType.Admin ? '管理员角色' : '用户角色'
   }, {
     title: '创建时间',
     dataIndex: 'createTime'

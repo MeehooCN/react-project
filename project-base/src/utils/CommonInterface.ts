@@ -3,7 +3,7 @@
  * @author: cnn
  * @createTime: 2020/7/22 9:30
  **/
-import { OrganizationEnable } from '@utils/CommonVars';
+import { OrganizationEnable, RoleType } from '@utils/CommonVars';
 
 /**
  * 基础实体
@@ -78,5 +78,6 @@ export interface OptionData {
  * **/
 export interface Role extends BaseEntity {
   number: string,
-  remark: string
+  remark: string,
+  roleType: RoleType
 }
