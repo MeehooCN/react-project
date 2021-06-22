@@ -16,6 +16,7 @@ const OptLog = () => {
   useEffect(() => {
     getLogList();
   }, [pagination, searchContent]);
+  // 获取操作日志
   const getLogList = () => {
     const params = {
       page: pagination.current,

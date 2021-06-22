@@ -16,13 +16,14 @@ const { RangePicker } = DatePicker;
 export enum ISearchFormItemType {
   Text = 'text',
   TextArea = 'textArea',
-  InputBumber = 'inputNumber',
+  InputNumber = 'inputNumber',
   Password = 'password',
   Select = 'select',
   TreeSelect = 'treeSelect',
   Date = 'date',
   RangeDate = 'rangeDate',
   DateNoTime = 'dateNoTime',
+  RangeDateNoTime = 'rangeDateNoTime',
   Radio = 'radio',
   Cascader = 'cascader',
 }

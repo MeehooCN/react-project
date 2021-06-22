@@ -3,7 +3,7 @@
  * @author: lll
  * @createTime: 2021/1/2 9:37
  **/
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { Row, Card, Button, message } from 'antd';
 import { CommonHorizFormHook, IFormColumns, MyTitle } from '@components/index';
 import { HomeContext } from '../../index';
@@ -15,6 +15,7 @@ const UpdatePassword = () => {
   const formRef: any = useRef();
   const { homeState } = useContext(HomeContext);
   const [buttonLoading, setButtonLoading] = useState<boolean>(false);
+  // 确定修改密码
   const save = () => {
     formRef.current.form().validateFields().then((value: any) => {
       if (value.newPw !== value.confirmNewPw) {

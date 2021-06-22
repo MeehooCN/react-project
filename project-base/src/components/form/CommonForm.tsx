@@ -22,7 +22,7 @@ const CheckboxGroup = Checkbox.Group;
 export enum IFormItemType {
   Text = 'text',
   TextArea = 'textArea',
-  InputBumber = 'inputNumber',
+  InputNumber = 'inputNumber',
   Password = 'password',
   Select = 'select',
   TreeSelect = 'treeSelect',
@@ -37,6 +37,7 @@ export enum IFormItemType {
   Checkbox = 'checkbox',
   Hidden = 'hidden',
   Button = 'button',
+  Upload = 'upload'
 }
 declare type FormItemType = IFormItemType;
 /**
@@ -346,18 +347,18 @@ const CommonForm = (props: IProps, ref: any) => {
       hidden: item.type === 'hidden',
       initialValue: item.initialValue,
       valuePropName: getValuePropName(item.type),
-      style: props.formItemStyle
+      style: formItemStyle
     };
-    if (item.type === 'upload') {
+    if (item.type === IFormItemType.Upload) {
       formProps.getValueFromEvent = normFile;
     }
-   return (
-     <Col span={inlineSpan || 24} key={index} style={{ display: item.type === 'hidden' ? 'none' : 'block' }}>
-       <Form.Item {...formProps}>
-         {formItems(item)}
-       </Form.Item>
-     </Col>
-   )
+    return (
+      <Col span={inlineSpan || 24} key={index} style={{ display: item.type === 'hidden' ? 'none' : 'block' }}>
+        <Form.Item {...formProps}>
+          {formItems(item)}
+        </Form.Item>
+      </Col>
+    );
   });
   return (
     <Form {...itemLayOut} form={form} onFinish={onFinish} autoComplete="off" style={{ width: '100%' }} onValuesChange={onValuesChange}>

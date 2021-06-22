@@ -18,6 +18,7 @@ const UserInfo = () => {
   useEffect(() => {
     getUserInfo();
   }, []);
+  // 获取当前登录用户信息
   const getUserInfo = () => {
     setLoading(true);
     post('security/admin/getCurrLoginAdmin', {}, {}, (data: any) => {

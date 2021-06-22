@@ -124,6 +124,7 @@ const AdminManage = () => {
       }
     });
   };
+  // 提交新增或编辑
   const handleOK = (value: any) => {
     setSubmitLoading(true);
     const url = value.id ? 'security/admin/update' : 'security/admin/create';
@@ -144,10 +145,12 @@ const AdminManage = () => {
       setSubmitLoading(false);
     });
   };
+  // 取消
   const handleCancel = () => {
     setModalVisible(false);
     setFormValue({});
   };
+  // 设置权限
   const setRole = (admin: Admin) => {
     setAdminItem(admin);
     setRoleVisible(true);
@@ -155,10 +158,12 @@ const AdminManage = () => {
       setRoleValue({ roleId: admin.roleId + ',' + admin.roleName });
     }
   };
+  // 取消设置权限
   const setRoleCancel = () => {
     setRoleVisible(false);
     setRoleValue(undefined);
   };
+  // 确认设置权限
   const setRoleOK = (value: any) => {
     setRoleLoading(true);
     const valueList = value.roleId && value.roleId.split(',');

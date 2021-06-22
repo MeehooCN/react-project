@@ -19,6 +19,7 @@ enum Type {
 const LoginView = () => {
   const history = useHistory();
   const [type, setType] = useState<Type>(Type.Login);
+  // 跳至主页
   const toHome = () => {
     history.push(platform);
   };

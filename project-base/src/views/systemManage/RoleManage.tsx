@@ -94,6 +94,7 @@ const RoleManage = () => {
       setAuthVisible(false);
     }
   };
+  // 编辑新增角色
   const handleOK = (value: any) => {
     setAddLoading(true);
     const url = value.id ? 'security/role/update' : 'security/role/create';
@@ -132,6 +133,7 @@ const RoleManage = () => {
   const onTreeCheck = (checkedKeys: any) => {
     setCheckedKeys(checkedKeys);
   };
+  // 取消
   const handleCancel = () => {
     setModalVisible(false);
     setFormValue({});
