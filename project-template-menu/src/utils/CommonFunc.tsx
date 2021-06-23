@@ -136,34 +136,38 @@ export const encodeFileUrl = (url: string) => {
  **/
 export const getRules = (ruleType: RuleType, required?: boolean) => {
   const commonRules: Map<string, Array<Rule>> = new Map([
-    ['required', [{
+    [RuleType.required, [{
       required: true,
       message: '请输入'
     }]],
-    ['inputNotSpace', [{
+    [RuleType.selectRequired, [{
+      required: true,
+      message: '请选择'
+    }]],
+    [RuleType.inputNotSpace, [{
       whitespace: true,
       message: '不能只有空格'
     }, {
       pattern: /^[^\s]*$/,
       message: '不能包含空格及其他空白字符'
     }]],
-    ['email', [{
+    [RuleType.email, [{
       pattern: /^([a-zA-Z0-9]+[-_\.]?)+@[a-zA-Z0-9]+\.[a-z]+$/,
       message: '请输入正确邮箱格式'
     }]],
-    ['phone', [{
+    [RuleType.phone, [{
       pattern: /^1(3|4|5|6|7|8|9)\d{9}$/,
       message: '请输入正确手机号格式'
     }]],
-    ['idNumber', [{
+    [RuleType.idNumber, [{
       pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/,
       message: '请输入正确身份证号格式'
     }]],
-    ['url', [{
+    [RuleType.url, [{
       pattern: /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/,
       message: '请输入合法 url'
     }]],
-    ['password', [{
+    [RuleType.password, [{
       pattern: /^[_a-zA-Z0-9]+$/,
       message: '仅由英文字母，数字以及下划线组成'
     }]]

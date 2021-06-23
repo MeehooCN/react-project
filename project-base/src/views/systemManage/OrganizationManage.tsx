@@ -16,7 +16,7 @@ import { IFormItemType } from '@components/form/CommonForm';
 
 const OrganizationManage = () => {
   const orgRef: any = useRef();
-  const { loading, setLoading, handleTableChange, getRowClass } = useTableHook();
+  const { setLoading, tableParam } = useTableHook({ hidePage: true });
   const { submitLoading, setSubmitLoading, formValue, setFormValue } = useFormHook();
   const [orgList, setOrgList] = useState<Array<Organization>>([]);
   // [窗口显示，是否为编辑（false 新增），编辑时 id]
@@ -251,15 +251,11 @@ const OrganizationManage = () => {
       )}
     >
       <Table
-        loading={loading}
+        {...tableParam}
         columns={organizationColumns}
         dataSource={orgList}
         rowKey={row => row.value}
-        pagination={false}
         expandRowByClick={true}
-        bordered={true}
-        onChange={handleTableChange}
-        rowClassName={getRowClass}
       />
       <Modal
         title={getModalTitle()}

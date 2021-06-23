@@ -20,10 +20,7 @@ import { CommonSpace } from '@utils/CommonVars';
 
 const AdminManage = () => {
   const formRef: any = useRef();
-  const {
-    loading, setLoading, pagination, setPagination, searchContent,
-    handleTableChange, handleSearch, backFrontPage, getRowClass
-  } = useTableHook();
+  const {  setLoading, pagination, setPagination, searchContent, handleSearch, backFrontPage, tableParam } = useTableHook({});
   const { submitLoading, setSubmitLoading, formValue, setFormValue } = useFormHook();
   const [adminList, setAdminList] = useState<Array<Admin>>([]);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -292,15 +289,11 @@ const AdminManage = () => {
         )}
       >
         <Table
-          bordered
+          {...tableParam}
           columns={adminColumns}
           dataSource={adminList}
-          pagination={pagination}
           rowKey={(row: Admin) => row.id}
           style={{ width: '100%' }}
-          onChange={handleTableChange}
-          loading={loading}
-          rowClassName={getRowClass}
         />
         <Modal visible={modalVisible} maskClosable={false} footer={null} title={modalTitle} onCancel={handleCancel}>
           <CommonHorizFormHook

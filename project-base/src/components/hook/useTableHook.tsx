@@ -3,9 +3,10 @@
  * @author: cnn
  * @createTime: 2020/9/11 13:12
  **/
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import './Table.less';
+import { TableProps } from 'antd/lib/table';
 
 interface Sorter {
   field: string,
@@ -21,9 +22,17 @@ export const paginationInit = {
   },
   showSizeChanger: true
 };
-
-const useTableHook = (isBackSearchProp?: boolean) => {
+interface ITableHookProps {
+  isBackSearchProp?: boolean; // 是否是返回的页面 true: 给searchContent赋值
+  pageSize?: number; // 每页条数
+  tableSize?: 'small' | 'default' | 'large'; // 表格大小
+  bordered?: boolean; // 是否显示表格
+  hidePage?: boolean; // 是否隐藏分页
+  sessionName?: string; // sessionStorage里面current的命名，如果页面中有多个表格，使用sessionName区分current
+}
+const useTableHook = (props: ITableHookProps) => {
   const history = useHistory();
+  const { isBackSearchProp, pageSize, tableSize, bordered, hidePage, sessionName } = props;
   const { state }: any = history.location;
   const [loading, setLoading] = useState<boolean>(false);
   const [searchContent, setSearchContent] = useState<any>(() => {
@@ -38,12 +47,19 @@ const useTableHook = (isBackSearchProp?: boolean) => {
     }
   });
   const [pagination, setPagination] = useState(() => {
-    let tempPagination: any = { ...paginationInit };
+    let tempPagination: any = {
+      current: 1,
+      pageSize: pageSize || 10,
+      total: 0,
+      showTotal(total:number): React.ReactNode {
+        return `共查询到 ${total} 条数据`;
+      }
+    };
     if (!isBackSearchProp) {
       let current: number = 1;
-      if (sessionStorage.getItem('current')) {
+      if (sessionStorage.getItem('current' + sessionName)) {
         // @ts-ignore
-        current = parseInt(sessionStorage.getItem('current'), 10);
+        current = parseInt(sessionStorage.getItem('current' + sessionName), 10);
       }
       // 如果是页面返回的，则赋值
       if (state && state.current) {
@@ -64,7 +80,7 @@ const useTableHook = (isBackSearchProp?: boolean) => {
       pagination.showTotal = (total: number) => {
         return `共查询到 ${total} 条数据`;
       };
-      sessionStorage.setItem('current', pagination.current);
+      sessionStorage.setItem('current' + sessionName, pagination.current);
       setPagination(pagination);
     } else if (extra.action === 'sort') {
       setSorter({
@@ -89,15 +105,24 @@ const useTableHook = (isBackSearchProp?: boolean) => {
     let frontFlag = lastPageRows === 1 || (deleteLength && (lastPageRows - deleteLength === 0));
     if (pagination.current === Math.ceil(pagination.total / pagination.pageSize) && frontFlag && pagination.current > 1) {
       pagination.current = pagination.current - 1;
-      sessionStorage.setItem('current', String(pagination.current));
+      sessionStorage.setItem('current' + sessionName, String(pagination.current));
     }
     setPagination({ ...pagination });
   };
   // 获取表格的样式
   const getRowClass = (record: any, index: number) => (index % 2 ? 'table-single' : '');
+
+  const tableParam: TableProps =  {
+    size: tableSize || 'default',
+    loading: loading,
+    bordered: bordered || true,
+    pagination: hidePage ? false : pagination,
+    onChange: handleTableChange,
+    rowClassName: getRowClass
+  };
   return {
     loading, setLoading, pagination, setPagination, searchContent, handleTableChange,
-    handleSearch, backFrontPage, sorter, isBackSearch, setIsBackSearch, getRowClass
+    handleSearch, backFrontPage, sorter, isBackSearch, setIsBackSearch, getRowClass, tableParam
   };
 };
 export default useTableHook;

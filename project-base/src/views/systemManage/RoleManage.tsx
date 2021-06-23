@@ -20,7 +20,7 @@ import { CommonSpace, RoleType } from '@utils/CommonVars';
 const { TreeNode } = Tree;
 
 const RoleManage = () => {
-  const { loading, setLoading, pagination, setPagination, searchContent, handleTableChange, handleSearch, backFrontPage, getRowClass } = useTableHook();
+  const { setLoading, pagination, setPagination, searchContent, handleSearch, backFrontPage, tableParam } = useTableHook({});
   const [roleList, setRoleList] = useState<Array<Role>>([]);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [modalTitle, setModalTitle] = useState<string>();
@@ -236,15 +236,11 @@ const RoleManage = () => {
       >
         <Row style={{ width: '100%' }}>
           <Table
-            bordered
+            {...tableParam}
             columns={roleColumns}
             dataSource={roleList}
             rowKey={(row: Role) => row.id}
             style={{ width: '100%' }}
-            pagination={pagination}
-            onChange={handleTableChange}
-            loading={loading}
-            rowClassName={getRowClass}
           />
         </Row>
       </Card>

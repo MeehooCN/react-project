@@ -44,4 +44,19 @@ export const fileAccept = {
  * url: url
  * password: 密码，仅由英文字母，数字以及下划线组成
  **/
-export type RuleType = 'required' | 'inputNotSpace' | 'email' | 'phone' | 'idNumber' | 'url' | 'password';
+export enum RuleType {
+  required = 'required',
+  inputNotSpace = 'inputNotSpace',
+  selectRequired = 'selectRequired',
+  email = 'email',
+  phone = 'phone',
+  idNumber = 'idNumber',
+  url = 'url',
+  password = 'password'
+}
+export enum IPageSession { // page current的类型
+  demo = '-demo', // 示例
+}
+export const PageSessionList: Array<IPageSession> = [
+  IPageSession.demo
+];

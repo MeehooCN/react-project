@@ -40,6 +40,7 @@ export const fileAccept = {
   img: ['.jpg', '.jpeg', '.png', '.bmp'],
   all: ['.doc', '.docx', '.pdf', '.xls', '.xlsx', '.rar', '.zip', '.jpg', '.jpeg', '.png', '.bmp']
 };
+
 /**
  * 校验类型
  * required: 必填，可空格，空白字符等
@@ -50,4 +51,20 @@ export const fileAccept = {
  * url: url
  * password: 密码，仅由英文字母，数字以及下划线组成
  **/
-export type RuleType = 'required' | 'inputNotSpace' | 'email' | 'phone' | 'idNumber' | 'url' | 'password';
+export enum RuleType {
+  required = 'required',
+  inputNotSpace = 'inputNotSpace',
+  selectRequired = 'selectRequired',
+  email = 'email',
+  phone = 'phone',
+  idNumber = 'idNumber',
+  url = 'url',
+  password = 'password'
+}
+
+export enum IPageSession {
+  demo = '-demo', // 示例
+}
+export const PageSessionList: Array<IPageSession> = [
+  IPageSession.demo
+];

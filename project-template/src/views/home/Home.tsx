@@ -9,6 +9,7 @@ import { VerticalAlignTopOutlined } from '@ant-design/icons';
 import { Header } from '@components/index';
 import { useHistory } from 'react-router';
 import './index.less';
+import { PageSessionList } from '@utils/CommonVars';
 
 const { Content } = Layout;
 
@@ -23,6 +24,9 @@ const Home = (props: IProps) => {
   history.listen((location, action) => {
     if (action === 'PUSH') {
       sessionStorage.removeItem('current');
+      PageSessionList.forEach(item => {
+        sessionStorage.removeItem(item);
+      });
     }
   });
   const [loading, setLoading] = useState<boolean>(false);

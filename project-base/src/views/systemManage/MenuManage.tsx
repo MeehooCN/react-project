@@ -31,7 +31,7 @@ interface MenuData {
 
 const MenuManage = () => {
   const menuRef: any = useRef();
-  const { loading, setLoading, handleTableChange, pagination, setPagination, getRowClass } = useTableHook();
+  const { setLoading, pagination, setPagination, tableParam } = useTableHook({ hidePage: false });
   const { submitLoading, setSubmitLoading, formValue, setFormValue } = useFormHook();
   const [menuList, setMenuList] = useState<Array<MenuData>>([]);
   const [addView, setAddView] = useState<boolean>(false);
@@ -206,15 +206,11 @@ const MenuManage = () => {
       )}
     >
       <Table
-        loading={loading}
+        {...tableParam}
         columns={menuColumns}
         dataSource={menuList}
         rowKey={row => row.id}
-        pagination={false}
         expandRowByClick={true}
-        bordered={true}
-        onChange={handleTableChange}
-        rowClassName={getRowClass}
       />
       <Modal
         title={getModalTitle()}

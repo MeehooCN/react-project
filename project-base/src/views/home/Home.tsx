@@ -9,7 +9,7 @@ import { Row, Layout, Menu, Spin } from 'antd';
 import { Header } from '@components/index';
 import { initMenu } from '@utils/CommonFunc';
 import { MenuData } from '@utils/CommonInterface';
-import { platform, projectName } from '@utils/CommonVars';
+import { PageSessionList, platform, projectName } from '@utils/CommonVars';
 import logo from '@static/images/logo.png';
 import { HomeContext } from '../../index';
 import { post } from '@utils/Ajax';
@@ -27,6 +27,9 @@ const Home = (props: IProps) => {
   history.listen((location, action) => {
     if (action === 'PUSH') {
       sessionStorage.removeItem('current');
+      PageSessionList.forEach(item => {
+        sessionStorage.removeItem(item);
+      });
     }
   });
   const { homeDispatch } = useContext(HomeContext);

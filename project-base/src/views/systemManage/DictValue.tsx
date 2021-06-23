@@ -14,7 +14,7 @@ import { getRules } from '@utils/CommonFunc';
 import { CommonSpace } from '@utils/CommonVars';
 
 const DictValue = () => {
-  const { loading, setLoading, pagination, setPagination, handleTableChange, backFrontPage, getRowClass } = useTableHook();
+  const { setLoading, pagination, setPagination, backFrontPage, tableParam } = useTableHook({});
   const [valueList, setValueList] = useState<Array<Dict>>([]);
   const [typeList, setTypeList] = useState<Array<any>>([]);
   const [rowId, setRowId] = useState<string>('');
@@ -285,14 +285,10 @@ const DictValue = () => {
             )}
           >
             <Table
-              bordered
+              {...tableParam}
               columns={columns}
               dataSource={valueList}
               rowKey={(row: Dict) => row.id}
-              loading={loading}
-              onChange={handleTableChange}
-              pagination={pagination}
-              rowClassName={getRowClass}
             />
           </Card>
         </Col>

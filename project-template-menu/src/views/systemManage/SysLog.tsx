@@ -14,7 +14,7 @@ interface Log extends ErrorStack {
 }
 
 const SysLog = () => {
-  const { loading, setLoading, pagination, handleTableChange } = useTableHook();
+  const { setLoading, handleTableChange, tableParam } = useTableHook({ tableSize: 'small' });
   const [logList, setLogList] = useState<Array<Log>>([]);
   const [logDetailVisible, setLogDetailVisible] = useState<boolean>(false);
   const [selectLog, setSelectLog] = useState<Log>({
@@ -67,15 +67,12 @@ const SysLog = () => {
     <Card title="前端系统日志" size="small">
       <Row style={{ width: '100%' }}>
         <Table
-          bordered
+          {...tableParam}
           columns={logColumns}
           dataSource={logList}
-          pagination={pagination}
           rowKey={(row: Log) => row.id}
           style={{ width: '100%' }}
           onChange={handleTableChange}
-          loading={loading}
-          size="small"
         />
       </Row>
       <Modal

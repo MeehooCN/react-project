@@ -12,7 +12,7 @@ import { ISearchFormItemType } from '@components/form/SearchForm';
 import { CommonSpace } from '@utils/CommonVars';
 
 const OptLog = () => {
-  const { loading, setLoading, pagination, setPagination, searchContent, handleSearch, handleTableChange, getRowClass } = useTableHook();
+  const { setLoading, pagination, setPagination, searchContent, handleSearch, tableParam } = useTableHook({});
   const [logList, setLogList] = useState<Array<any>>([]);
   useEffect(() => {
     getLogList();
@@ -71,15 +71,11 @@ const OptLog = () => {
         extra={<Button type="text" icon={<ReloadOutlined />} onClick={getLogList} title="刷新" />}
       >
         <Table
-          bordered
+          {...tableParam}
           columns={logColumns}
           dataSource={logList}
-          pagination={pagination}
           rowKey={(row: any) => row.id}
           style={{ width: '100%' }}
-          onChange={handleTableChange}
-          loading={loading}
-          rowClassName={getRowClass}
         />
       </Card>
     </Row>

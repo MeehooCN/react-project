@@ -9,7 +9,7 @@ import { SmileTwoTone } from '@ant-design/icons';
 import { Header } from '@components/index';
 import { initMenu, getClientHeight } from '@utils/CommonFunc';
 import { MenuData } from '@utils/CommonInterface';
-import { colors, platform, projectName } from '@utils/CommonVars';
+import { colors, PageSessionList, platform, projectName } from '@utils/CommonVars';
 import { useHistory } from 'react-router';
 import './index.less';
 
@@ -25,6 +25,9 @@ const Home = (props: IProps) => {
   history.listen((location, action) => {
     if (action === 'PUSH') {
       sessionStorage.removeItem('current');
+      PageSessionList.forEach(item => {
+        sessionStorage.removeItem('current' + item);
+      });
     }
   });
   const menuList: Array<MenuData> = [{

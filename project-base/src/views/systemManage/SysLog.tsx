@@ -10,7 +10,7 @@ import { MyTitle, useTableHook } from '@components/index';
 import { ErrorStack } from '@components/ErrorBoundary';
 
 const SysLog = () => {
-  const { loading, setLoading, pagination, handleTableChange, getRowClass } = useTableHook();
+  const { setLoading, tableParam } = useTableHook({});
   const [logList, setLogList] = useState<Array<ErrorStack>>([]);
   const [logDetailVisible, setLogDetailVisible] = useState<boolean>(false);
   const [selectLog, setSelectLog] = useState<ErrorStack>({
@@ -62,15 +62,11 @@ const SysLog = () => {
     >
       <Row style={{ width: '100%' }}>
         <Table
-          bordered
+          {...tableParam}
           columns={logColumns}
           dataSource={logList}
-          pagination={pagination}
           rowKey={(row: ErrorStack) => row.id}
           style={{ width: '100%' }}
-          onChange={handleTableChange}
-          loading={loading}
-          rowClassName={getRowClass}
         />
       </Row>
       <Modal
