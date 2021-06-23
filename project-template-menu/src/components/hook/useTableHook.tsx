@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import './Table.less';
 import { TableProps } from 'antd/lib/table';
+import { IPageSession } from '@utils/CommonVars';
 
 interface Sorter {
   field: string,
@@ -29,7 +30,7 @@ interface ITableHookProps {
   tableSize?: 'small' | 'default' | 'large'; // 表格大小
   bordered?: boolean; // 是否显示表格
   hidePage?: boolean; // 是否隐藏分页
-  sessionName?: string; // sessionStorage里面current的命名，如果页面中有多个表格，使用sessionName区分current
+  sessionName?: IPageSession; // sessionStorage里面current的命名，如果页面中有多个表格，使用sessionName区分current
 }
 const useTableHook = (props: ITableHookProps) => {
   const history = useHistory();
