@@ -37,7 +37,7 @@ export const getDictValueList = async (module: string, number: string) => {
   return new Promise((resolve: any) => {
     post('sysmanage/dictValue/getByTypeModuleNumber', { module, number }, {}, (data: any) => {
       if (data.flag === 0) {
-        const optionList: Array<OptionData> = data.data.map((item: any) => ({ key: item.mvalue, value: item.mvalue }));
+        const optionList: Array<OptionData> = data.data.map((item: any) => ({ label: item.mvalue, value: item.mvalue }));
         resolve(optionList);
       }
     });
