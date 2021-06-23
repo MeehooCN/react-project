@@ -89,7 +89,7 @@ const useTableHook = (isBackSearchProp?: boolean) => {
     let frontFlag = lastPageRows === 1 || (deleteLength && (lastPageRows - deleteLength === 0));
     if (pagination.current === Math.ceil(pagination.total / pagination.pageSize) && frontFlag && pagination.current > 1) {
       pagination.current = pagination.current - 1;
-      sessionStorage.setItem('currentPage', String(pagination.current));
+      sessionStorage.setItem('current', String(pagination.current));
     }
     setPagination({ ...pagination });
   };
