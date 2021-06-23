@@ -16,7 +16,7 @@ const { RangePicker } = DatePicker;
 export enum ISearchFormItemType {
   Text = 'text',
   TextArea = 'textArea',
-  InputBumber = 'inputNumber',
+  InputNumber = 'inputNumber',
   Password = 'password',
   Select = 'select',
   TreeSelect = 'treeSelect',
@@ -25,6 +25,7 @@ export enum ISearchFormItemType {
   DateNoTime = 'dateNoTime',
   Radio = 'radio',
   Cascader = 'cascader',
+  RangeDateNoTime = 'rangeDateNoTime',
 }
 declare type FormItemType = ISearchFormItemType;
 
@@ -122,7 +123,7 @@ const SearchForm = (props: IProps, ref: any) => {
   // 根据不同类型获取表单项
   const formItems = (item: ISearchFormColumns) => {
     switch (item.type) {
-      case 'text':
+      case ISearchFormItemType.Text:
       default:
         return (
           <Search
@@ -133,9 +134,9 @@ const SearchForm = (props: IProps, ref: any) => {
             style={{ width: '100%', ...item.style }}
           />
         );
-      case 'textArea':
+      case ISearchFormItemType.TextArea:
         return <TextArea disabled={item.disabled} placeholder={item.placeholder} rows={item.rows} style={{ width: '100%', ...item.style }} />;
-      case 'inputNumber':
+      case ISearchFormItemType.InputNumber:
         return (
           <InputNumber
             placeholder={item.placeholder}
@@ -147,9 +148,9 @@ const SearchForm = (props: IProps, ref: any) => {
             formatter={item.formatter}
           />
         );
-      case 'password':
+      case ISearchFormItemType.Password:
         return <Input.Password style={{ width: '100%', ...item.style }} />;
-      case 'select':
+      case ISearchFormItemType.Select:
         return (
           <Select
             disabled={item.disabled}
@@ -162,12 +163,12 @@ const SearchForm = (props: IProps, ref: any) => {
           >
             {
               item.options.map((optionItem: any) => (
-                <Option key={optionItem.key} disabled={optionItem.disabled ? optionItem.disabled : false} value={optionItem.key}>{optionItem.value}</Option>
+                <Option key={optionItem.value} disabled={optionItem.disabled ? optionItem.disabled : false} value={optionItem.value}>{optionItem.label}</Option>
               ))
             }
           </Select>
         );
-      case 'treeSelect':
+      case ISearchFormItemType.TreeSelect:
         return (
           <TreeSelect
             disabled={item.disabled}
@@ -181,16 +182,16 @@ const SearchForm = (props: IProps, ref: any) => {
             style={{ width: '100%', ...item.style }}
           />
         );
-      case 'date':
+      case ISearchFormItemType.Date:
         return <DatePicker showTime disabled={item.disabled} style={{ width: '100%', ...item.style }} />;
-      case 'dateNoTime':
+      case ISearchFormItemType.DateNoTime:
         return (
           <DatePicker
             disabled={item.disabled}
             style={{ width: '100%', ...item.style }}
             onChange={(date: any) => item.onChange ? item.onChange(date) : onChangeSearch(date, { ref: item.name })}
           />);
-      case 'rangeDateNoTime':
+      case ISearchFormItemType.RangeDateNoTime:
         return (
           <RangePicker
             format="YYYY-MM-DD"
@@ -199,22 +200,20 @@ const SearchForm = (props: IProps, ref: any) => {
             onChange={(date) => item.onChange && item.onChange(date)}
           />
         );
-      case 'rangeDate':
+      case ISearchFormItemType.RangeDate:
         return (
           <RangePicker showTime={{ format: 'HH:mm:ss' }} format="YYYY-MM-DD HH:mm:ss" disabled={item.disabled} style={{ width: '100%', ...item.style }} />
         );
-      case 'radio':
+      case ISearchFormItemType.Radio:
         return (
           <RadioGroup
             disabled={item.disabled}
             buttonStyle="solid"
+            options={item.options}
             onChange={(e: any) => item.onChange ? item.onChange(e) : onChangeSearch(e.target.value, { ref: item.name })}
-            style={{ width: '100%', ...item.style }}
-          >
-            {item.options.map((optionItem: any) => (<RadioButton key={optionItem.key} value={optionItem.key}>{optionItem.value}</RadioButton>))}
-          </RadioGroup>
+            style={{ width: '100%', ...item.style }} />
         );
-      case 'cascader': return (
+      case ISearchFormItemType.Cascader: return (
         <Cascader
           options={item.options}
           placeholder={item.placeholder}

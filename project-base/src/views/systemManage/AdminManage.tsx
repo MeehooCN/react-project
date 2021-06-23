@@ -63,6 +63,7 @@ const AdminManage = () => {
     getOrgTreeEnableList().then((data: any) => {
       const templateTree = getTreeChildrenToNull(data, (item: Organization) => {
         item.value = item.value + '/' + item.label + '/' + item.key;
+        item.label = item.label;
       });
       setOrgList(templateTree);
     });
@@ -73,8 +74,8 @@ const AdminManage = () => {
       if (data.flag === 0) {
         const roleList = data.data.map((roleItem: any) => {
           return {
-            key: roleItem.id + ',' + roleItem.name,
-            value: roleItem.name
+            value: roleItem.id + ',' + roleItem.name,
+            label: roleItem.name
           };
         });
         setRoleList(roleList);
@@ -187,14 +188,14 @@ const AdminManage = () => {
     let flag: boolean = true;
     // 如果当前角色已经被删除，则 push 当前角色进去
     roleList.forEach((item: any) => {
-      if (roleValue && item.key === roleValue.roleId) {
+      if (roleValue && item.value === roleValue.roleId) {
         flag = false;
       }
     });
     if (roleValue && flag) {
       return roleList.concat([{
-        key: roleValue.roleId,
-        value: roleValue.roleId.split(',')[1]
+        value: roleValue.roleId,
+        label: roleValue.roleId.split(',')[1]
       }]);
     } else {
       return roleList;

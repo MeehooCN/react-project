@@ -202,11 +202,11 @@ const RoleManage = () => {
     type: IFormItemType.Select,
     rules: getRules('selectRequired'),
     options: [{
-      key: 0,
-      value: '管理员角色'
+      value: 0,
+      label: '管理员角色'
     }, {
-      key: 1,
-      value: '用户角色'
+      value: 1,
+      label: '用户角色'
     }]
   }, {
     label: '备注',

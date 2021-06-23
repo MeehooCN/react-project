@@ -187,7 +187,7 @@ const CommonForm = (props: IProps, ref: any) => {
   // 获取表单中每个表单项
   const formItems = (item: IFormColumns) => {
     switch (item.type) {
-      case 'text':
+      case IFormItemType.Text:
       default:
         return (
           <Input
@@ -199,7 +199,7 @@ const CommonForm = (props: IProps, ref: any) => {
             onChange={(e: any) => item.onChange && item.onChange(e)}
           />
         );
-      case 'textArea':
+      case IFormItemType.TextArea:
         return (
           <TextArea
             disabled={item.disabled}
@@ -208,7 +208,7 @@ const CommonForm = (props: IProps, ref: any) => {
             onChange={(e: any) => item.onChange && item.onChange(e)}
           />
         );
-      case 'inputNumber':
+      case IFormItemType.InputNumber:
         return (
           <InputNumber
             placeholder={item.placeholder}
@@ -223,9 +223,9 @@ const CommonForm = (props: IProps, ref: any) => {
             onBlur={item.onBlur ? item.onBlur : () => {}}
           />
         );
-      case 'password':
+      case IFormItemType.Password:
         return <Input.Password />;
-      case 'select':
+      case IFormItemType.Select:
         return (
           <Select
             disabled={item.disabled}
@@ -239,12 +239,12 @@ const CommonForm = (props: IProps, ref: any) => {
           >
             {
               item.options.map((optionItem: any) => (
-                <Option key={optionItem.key} disabled={optionItem.disabled ? optionItem.disabled : false} value={optionItem.key}>{optionItem.value}</Option>
+                <Option key={optionItem.value} disabled={optionItem.disabled ? optionItem.disabled : false} value={optionItem.value}>{optionItem.label}</Option>
               ))
             }
           </Select>
         );
-      case 'treeSelect':
+      case IFormItemType.TreeSelect:
         return (
           <TreeSelect
             treeData={item.options}
@@ -257,13 +257,13 @@ const CommonForm = (props: IProps, ref: any) => {
             onChange={(value, label, extra) => item.onChange && item.onChange(value, label, extra)}
           />
         );
-      case 'date':
+      case IFormItemType.Date:
         return <DatePicker showTime disabled={item.disabled} style={{ width: '100%' }} />;
-      case 'dateNoTime':
+      case IFormItemType.DateNoTime:
         return <DatePicker disabled={item.disabled} style={{ width: '100%' }} />;
-      case 'rangeDate':
+      case IFormItemType.RangeDate:
         return <RangePicker showTime={{ format: 'HH:mm:ss' }} format="YYYY-MM-DD HH:mm:ss" disabled={item.disabled} style={{ width: '100%' }} />;
-      case 'radio':
+      case IFormItemType.Radio:
         return (
           <RadioGroup
             disabled={item.disabled}
@@ -272,12 +272,12 @@ const CommonForm = (props: IProps, ref: any) => {
           >
             {
               item.options.map((optionItem: any) => (
-                <RadioButton key={optionItem.key} value={optionItem.key}>{optionItem.value}</RadioButton>
+                <RadioButton key={optionItem.value} value={optionItem.value}>{optionItem.label}</RadioButton>
               ))
             }
           </RadioGroup>
         );
-      case 'cascader':
+      case IFormItemType.Cascader:
         return (
           <Cascader
             options={item.options}
@@ -286,7 +286,7 @@ const CommonForm = (props: IProps, ref: any) => {
             onChange={(value, selectedOptions) => item.onChange && item.onChange(value, selectedOptions)}
           />
         );
-      case 'switch':
+      case IFormItemType.Switch:
         return (
           <Switch
             defaultChecked
@@ -297,7 +297,7 @@ const CommonForm = (props: IProps, ref: any) => {
             onChange={(e) => item.onChange && item.onChange(e)}
           />
         );
-      case 'slider':
+      case IFormItemType.Slider:
         return (
           <Slider
             max={item.sliderMax}
@@ -307,15 +307,16 @@ const CommonForm = (props: IProps, ref: any) => {
             onChange={(value: any) => item.onChange && item.onChange(value)}
           />
         );
-      case 'checkbox':
+      case IFormItemType.Checkbox:
         return (
           <CheckboxGroup
             options={item.options}
+            buttonStyle="solid"
             disabled={item.disabled}
             onChange={(value: any) => item.onChange && item.onChange(value)}
           />
         );
-      case 'button':
+      case IFormItemType.Button:
         return (
           <Input
             disabled={true}
@@ -328,13 +329,13 @@ const CommonForm = (props: IProps, ref: any) => {
             }
           />
         );
-      case 'upload':
+      case IFormItemType.Upload:
         return (
           <Upload {...item.uploadProps}>
             <Button icon={<UploadOutlined />} disabled={item.disabled}>上传</Button>
           </Upload>
         );
-      case 'hidden':
+      case IFormItemType.Hidden:
         return <Input style={{ display: 'none' }} />;
     }
   };
@@ -344,7 +345,7 @@ const CommonForm = (props: IProps, ref: any) => {
       label: item.label,
       name: item.name,
       rules: item.rules || [],
-      hidden: item.type === 'hidden',
+      hidden: item.type === IFormItemType.Hidden,
       initialValue: item.initialValue,
       valuePropName: getValuePropName(item.type),
       style: formItemStyle
@@ -353,7 +354,7 @@ const CommonForm = (props: IProps, ref: any) => {
       formProps.getValueFromEvent = normFile;
     }
     return (
-      <Col span={inlineSpan || 24} key={index} style={{ display: item.type === 'hidden' ? 'none' : 'block' }}>
+      <Col span={inlineSpan || 24} key={index} style={{ display: item.type === IFormItemType.Hidden ? 'none' : 'block' }}>
         <Form.Item {...formProps}>
           {formItems(item)}
         </Form.Item>
