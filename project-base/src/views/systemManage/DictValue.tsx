@@ -11,7 +11,7 @@ import { Dict } from '@utils/CommonInterface';
 import { post } from '@utils/Ajax';
 import { IFormItemType } from '@components/form/CommonForm';
 import { getRules } from '@utils/CommonFunc';
-import { CommonSpace } from '@utils/CommonVars';
+import { CommonSpace, RuleType } from '@utils/CommonVars';
 
 const DictValue = () => {
   const { setLoading, pagination, setPagination, backFrontPage, tableParam } = useTableHook({});
@@ -191,12 +191,12 @@ const DictValue = () => {
     label: '类型名称',
     name: 'name',
     type: IFormItemType.Text,
-    rules: getRules('required')
+    rules: getRules(RuleType.required)
   }, {
     label: '类型编号',
     name: 'code',
     type: IFormItemType.Text,
-    rules: getRules('required')
+    rules: getRules(RuleType.required)
   }, {
     label: 'id',
     name: 'id',
@@ -216,12 +216,12 @@ const DictValue = () => {
     label: '键',
     name: 'mkey',
     type: IFormItemType.Text,
-    rules: getRules('required')
+    rules: getRules(RuleType.required)
   }, {
     label: '值',
     name: 'mvalue',
     type: IFormItemType.Text,
-    rules: getRules('required')
+    rules: getRules(RuleType.required)
   }, {
     label: 'id',
     name: 'id',

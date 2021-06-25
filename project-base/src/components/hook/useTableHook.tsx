@@ -3,10 +3,9 @@
  * @author: cnn
  * @createTime: 2020/9/11 13:12
  **/
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useHistory } from 'react-router';
 import './Table.less';
-import { TableProps } from 'antd/lib/table';
 import { IPageSession } from '@utils/CommonVars';
 
 interface Sorter {
@@ -113,7 +112,7 @@ const useTableHook = (props: ITableHookProps) => {
   // 获取表格的样式
   const getRowClass = (record: any, index: number) => (index % 2 ? 'table-single' : '');
 
-  const tableParam: TableProps =  {
+  const tableParam: any =  {
     size: tableSize || 'default',
     loading: loading,
     bordered: bordered || true,

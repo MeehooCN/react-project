@@ -10,7 +10,7 @@ import { CommonHorizFormHook, IFormColumns, MyTitle, OverText, useFormHook, useT
 import { OptionData, Organization } from '@utils/CommonInterface';
 import { getAreaNameAndCode, getProvinceCityArea, getRules, getTreeChildrenToNull } from '@utils/CommonFunc';
 import { post } from '@utils/Ajax';
-import { CommonSpace, OrganizationEnable } from '@utils/CommonVars';
+import { CommonSpace, OrganizationEnable, RuleType } from '@utils/CommonVars';
 import { getAllProvinceCityArea, getDictValueList, getOrgTreeList } from '@utils/CommonAPI';
 import { IFormItemType } from '@components/form/CommonForm';
 
@@ -199,13 +199,13 @@ const OrganizationManage = () => {
     label: '机构名称',
     name: 'name',
     type: IFormItemType.Text,
-    rules: getRules('required')
+    rules: getRules(RuleType.required)
   }, {
     label: '机构类型',
     name: 'proOrgType',
     type: IFormItemType.Select,
     options: orgTypeList,
-    rules: getRules('selectRequired')
+    rules: getRules(RuleType.selectRequired)
   }, {
     label: '联系人',
     name: 'contactPerson',

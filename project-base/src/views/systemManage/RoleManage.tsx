@@ -15,7 +15,7 @@ import { get, post } from '@utils/Ajax';
 import { IFormItemType } from '@components/form/CommonForm';
 import { ISearchFormItemType } from '@components/form/SearchForm';
 import { getRules } from '@utils/CommonFunc';
-import { CommonSpace, RoleType } from '@utils/CommonVars';
+import { CommonSpace, RoleType, RuleType } from '@utils/CommonVars';
 
 const { TreeNode } = Tree;
 
@@ -159,7 +159,7 @@ const RoleManage = () => {
   }, {
     title: '角色类型',
     dataIndex: 'roleType',
-    render: (roleType: RoleType) => roleType === RoleType.Admin ? '管理员角色' : '用户角色'
+    render: (roleType: RoleType) => (roleType === RoleType.Admin ? '管理员角色' : '用户角色')
   }, {
     title: '创建时间',
     dataIndex: 'createTime'
@@ -195,12 +195,12 @@ const RoleManage = () => {
     label: '角色名称',
     name: 'name',
     type: IFormItemType.Text,
-    rules: getRules('required')
+    rules: getRules(RuleType.required)
   }, {
     label: '角色类型',
     name: 'roleType',
     type: IFormItemType.Select,
-    rules: getRules('selectRequired'),
+    rules: getRules(RuleType.selectRequired),
     options: [{
       value: 0,
       label: '管理员角色'
@@ -212,7 +212,7 @@ const RoleManage = () => {
     label: '备注',
     name: 'remark',
     type: IFormItemType.Text,
-    rules: getRules('required')
+    rules: getRules(RuleType.required)
   }, {
     label: 'id',
     name: 'id',

@@ -11,7 +11,7 @@ import {
   useFormHook
 } from '@components/index';
 import { post } from '@utils/Ajax';
-import { CommonSpace, iconUrl } from '@utils/CommonVars';
+import { CommonSpace, iconUrl, RuleType } from '@utils/CommonVars';
 import { getRules, getTreeChildrenToNull } from '@utils/CommonFunc';
 import { IFormItemType } from '@components/form/CommonForm';
 
@@ -178,7 +178,7 @@ const MenuManage = () => {
     label: '菜单名称',
     name: 'name',
     type: IFormItemType.Text,
-    rules: getRules('required')
+    rules: getRules(RuleType.required)
   }, {
     label: '菜单路径',
     name: 'url',

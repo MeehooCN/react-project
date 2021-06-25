@@ -16,11 +16,11 @@ import { getOrgTreeEnableList } from '@utils/CommonAPI';
 import { findInTree, getRules, getTreeChildrenToNull } from '@utils/CommonFunc';
 import { IFormItemType } from '@components/form/CommonForm';
 import { ISearchFormItemType } from '@components/form/SearchForm';
-import { CommonSpace } from '@utils/CommonVars';
+import { CommonSpace, RuleType } from '@utils/CommonVars';
 
 const AdminManage = () => {
   const formRef: any = useRef();
-  const {  setLoading, pagination, setPagination, searchContent, handleSearch, backFrontPage, tableParam } = useTableHook({});
+  const { setLoading, pagination, setPagination, searchContent, handleSearch, backFrontPage, tableParam } = useTableHook({});
   const { submitLoading, setSubmitLoading, formValue, setFormValue } = useFormHook();
   const [adminList, setAdminList] = useState<Array<Admin>>([]);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -247,17 +247,17 @@ const AdminManage = () => {
     label: '用户名',
     name: 'userName',
     type: IFormItemType.Text,
-    rules: getRules('inputNotSpace', true)
+    rules: getRules(RuleType.inputNotSpace, true)
   }, {
     label: '姓名',
     name: 'name',
     type: IFormItemType.Text,
-    rules: getRules('required')
+    rules: getRules(RuleType.required)
   }, {
     label: '所属机构',
     name: 'organization',
     type: IFormItemType.TreeSelect,
-    rules: getRules('selectRequired'),
+    rules: getRules(RuleType.selectRequired),
     options: orgList
   }, {
     label: 'id',
@@ -270,7 +270,7 @@ const AdminManage = () => {
     type: IFormItemType.Select,
     options: getUpdateRoleList(),
     allowClear: true,
-    rules: getRules('selectRequired')
+    rules: getRules(RuleType.selectRequired)
   }];
   return (
     <Row>
