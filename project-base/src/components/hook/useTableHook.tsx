@@ -34,6 +34,7 @@ interface ITableHookProps {
 const useTableHook = (props: ITableHookProps) => {
   const history = useHistory();
   const { isBackSearchProp, pageSize, tableSize, bordered, hidePage, sessionName } = props;
+  const sessionCurrent = sessionName ? sessionName : '';
   const { state }: any = history.location;
   const [loading, setLoading] = useState<boolean>(false);
   const [searchContent, setSearchContent] = useState<any>(() => {
@@ -58,9 +59,9 @@ const useTableHook = (props: ITableHookProps) => {
     };
     if (!isBackSearchProp) {
       let current: number = 1;
-      if (sessionStorage.getItem('current' + sessionName)) {
+      if (sessionStorage.getItem('current' + sessionCurrent)) {
         // @ts-ignore
-        current = parseInt(sessionStorage.getItem('current' + sessionName), 10);
+        current = parseInt(sessionStorage.getItem('current' + sessionCurrent), 10);
       }
       // 如果是页面返回的，则赋值
       if (state && state.current) {
@@ -81,7 +82,7 @@ const useTableHook = (props: ITableHookProps) => {
       pagination.showTotal = (total: number) => {
         return `共查询到 ${total} 条数据`;
       };
-      sessionStorage.setItem('current' + sessionName, pagination.current);
+      sessionStorage.setItem('current' + sessionCurrent, pagination.current);
       setPagination(pagination);
     } else if (extra.action === 'sort') {
       setSorter({
@@ -106,7 +107,7 @@ const useTableHook = (props: ITableHookProps) => {
     let frontFlag = lastPageRows === 1 || (deleteLength && (lastPageRows - deleteLength === 0));
     if (pagination.current === Math.ceil(pagination.total / pagination.pageSize) && frontFlag && pagination.current > 1) {
       pagination.current = pagination.current - 1;
-      sessionStorage.setItem('current' + sessionName, String(pagination.current));
+      sessionStorage.setItem('current' + sessionCurrent, String(pagination.current));
     }
     setPagination({ ...pagination });
   };
