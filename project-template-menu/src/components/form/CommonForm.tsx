@@ -7,12 +7,13 @@ import React, { useEffect, useImperativeHandle, forwardRef, useState } from 'rea
 import {
   Col, DatePicker, Form, Input, InputNumber, Select,
   TreeSelect, Radio, Cascader, Row, Button, Switch,
-  Slider, Checkbox, Modal, Upload
+  Slider, Checkbox, Modal, Upload, Tooltip, Typography
 } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import { UploadOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { Rule } from 'antd/lib/form';
 import { UploadProps } from 'antd/es/upload';
 
+const { Text } = Typography;
 const { TextArea } = Input;
 const { Option } = Select;
 const RadioGroup = Radio.Group;
@@ -37,7 +38,7 @@ export enum IFormItemType {
   Checkbox = 'checkbox',
   Hidden = 'hidden',
   Button = 'button',
-  Upload = 'upload',
+  Upload = 'upload'
 }
 declare type FormItemType = IFormItemType;
 /**
@@ -66,6 +67,7 @@ declare type FormItemType = IFormItemType;
  * @property unCheckedChildren switch 取消选中显示
  * @property viewComponent Modal 中显示的组件
  * @property uploadProps upload 上传的props
+ * @property tooltip 表单项的提示
  */
 export interface IFormColumns {
   label: string,
@@ -94,13 +96,14 @@ export interface IFormColumns {
   checkedChildren?: string,
   unCheckedChildren?: string,
   viewComponent?: React.ReactNode,
-  uploadProps?: UploadProps
+  uploadProps?: UploadProps,
+  tooltip?: any
 }
 /**
  * @description 公共表单的参数
  * @property formColumns 表单项
  * @property formValue 表单值
- * @property submitLoading 提交时确定按钮添加 loading 状态
+ * @property submitLoading 提交时确定按钮新增 loading 状态
  * @property formItemLayout label 和 item 的显示布局
  * @property inlineSpan 每行的 span
  * @property footerBtn 是否显示底部按钮
@@ -109,6 +112,7 @@ export interface IFormColumns {
  * @property notReset 点击确定后是否清空表单
  * @property formItemStyle 表单项样式
  * @property onValuesChange 表单值改变监听
+ * @property showAllLabel 是否完全显示label
  */
 interface IProps {
   formColumns: IFormColumns[],
@@ -121,12 +125,16 @@ interface IProps {
   onOK?: (data: any) => void,
   notReset?: boolean,
   formItemStyle?: React.CSSProperties,
-  onValuesChange?: (changedValues: any, allValues: any) => void
+  onValuesChange?: (changedValues: any, allValues: any) => void,
+  showAllLabel?: boolean,
 }
 
 const CommonForm = (props: IProps, ref: any) => {
   const [form] = Form.useForm();
-  const { formColumns, formValue, submitLoading, formItemLayout, inlineSpan, footerBtn, cancel, onOK, notReset, formItemStyle, onValuesChange } = props;
+  const {
+    formColumns, formValue, submitLoading, formItemLayout, inlineSpan, footerBtn, cancel, onOK, notReset, formItemStyle, onValuesChange,
+    showAllLabel
+  } = props;
   const [viewComponent, setViewComponent] = useState<React.ReactNode>();
   const [componentVisible, setComponentVisible] = useState<boolean>(false);
   useImperativeHandle(ref, () => ({
@@ -172,7 +180,10 @@ const CommonForm = (props: IProps, ref: any) => {
     return e && e.fileList;
   };
   // 表单格式
-  const itemLayOut = formItemLayout ? formItemLayout : {
+  const itemLayOut = formItemLayout ? formItemLayout : (showAllLabel ? {
+    labelCol: 6,
+    wrapperCol: 18
+  } : {
     labelCol: {
       xs: { span: 24 },
       sm: { span: 6 },
@@ -183,7 +194,7 @@ const CommonForm = (props: IProps, ref: any) => {
       sm: { span: 18 },
       span: 18
     },
-  };
+  });
   // 获取表单中每个表单项
   const formItems = (item: IFormColumns) => {
     switch (item.type) {
@@ -268,8 +279,14 @@ const CommonForm = (props: IProps, ref: any) => {
           <RadioGroup
             disabled={item.disabled}
             buttonStyle="solid"
-            options={item.options}
-            onChange={(e) => item.onChange && item.onChange(e)} />
+            onChange={(e) => item.onChange && item.onChange(e)}
+          >
+            {
+              item.options.map((optionItem: any) => (
+                <RadioButton key={optionItem.value} value={optionItem.value}>{optionItem.label}</RadioButton>
+              ))
+            }
+          </RadioGroup>
         );
       case IFormItemType.Cascader:
         return (
@@ -305,6 +322,7 @@ const CommonForm = (props: IProps, ref: any) => {
         return (
           <CheckboxGroup
             options={item.options}
+            buttonStyle="solid"
             disabled={item.disabled}
             onChange={(value: any) => item.onChange && item.onChange(value)}
           />
@@ -341,18 +359,44 @@ const CommonForm = (props: IProps, ref: any) => {
       hidden: item.type === IFormItemType.Hidden,
       initialValue: item.initialValue,
       valuePropName: getValuePropName(item.type),
-      style: props.formItemStyle
+      style: formItemStyle
     };
     if (item.type === IFormItemType.Upload) {
       formProps.getValueFromEvent = normFile;
     }
-    return (
-      <Col span={inlineSpan || 24} key={index} style={{ display: item.type === IFormItemType.Hidden ? 'none' : 'block' }}>
-        <Form.Item {...formProps}>
-          {formItems(item)}
-        </Form.Item>
-      </Col>
-    )
+    if (showAllLabel) {
+      let itemRequired = false;
+      if (item.rules) {
+        item.rules.forEach((ruleItem: any) => {
+          for (let i in ruleItem) {
+            if (i === 'required' && ruleItem[i] === true) {
+              itemRequired = true;
+            }
+          }
+        });
+      }
+      let labelNode = itemRequired ? <span><Text type="danger" style={{ paddingRight: 5 }}>*</Text>{item.label}</span> : item.label
+      return (
+        <Col span={inlineSpan || 24} key={index} style={{ display: item.type === IFormItemType.Hidden ? 'none' : 'block' }}>
+          <Row gutter={5}>
+            <Col span={itemLayOut.labelCol} >{item.tooltip ? <Tooltip placement="top" title={item.tooltip} >{labelNode}<QuestionCircleOutlined style={{ color: colors.primaryColor }} /></Tooltip> : labelNode}</Col>
+            <Col span={itemLayOut.wrapperCol}>
+              <Form.Item {...formProps} label="" >
+                {formItems(item)}
+              </Form.Item>
+            </Col>
+          </Row>
+        </Col>
+      );
+    } else {
+      return (
+        <Col span={inlineSpan || 24} key={index} style={{ display: item.type === IFormItemType.Hidden ? 'none' : 'block' }}>
+          <Form.Item {...formProps}>
+            {formItems(item)}
+          </Form.Item>
+        </Col>
+      );
+    }
   });
   return (
     <Form {...itemLayOut} form={form} onFinish={onFinish} autoComplete="off" style={{ width: '100%' }} onValuesChange={onValuesChange}>
