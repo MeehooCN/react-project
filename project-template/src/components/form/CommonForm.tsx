@@ -181,10 +181,7 @@ const CommonForm = (props: IProps, ref: any) => {
     return e && e.fileList;
   };
   // 表单格式
-  const itemLayOut = formItemLayout ? formItemLayout : (showAllLabel ? {
-    labelCol: 6,
-    wrapperCol: 18
-  } : {
+  const itemLayOut = formItemLayout ? formItemLayout : {
     labelCol: {
       xs: { span: 24 },
       sm: { span: 6 },
@@ -195,7 +192,7 @@ const CommonForm = (props: IProps, ref: any) => {
       sm: { span: 18 },
       span: 18
     },
-  });
+  };
   // 获取表单中每个表单项
   const formItems = (item: IFormColumns) => {
     switch (item.type) {
@@ -373,8 +370,8 @@ const CommonForm = (props: IProps, ref: any) => {
       return (
         <Col span={inlineSpan || 24} key={index} style={{ display: item.type === IFormItemType.Hidden ? 'none' : 'block' }}>
           <Row gutter={5}>
-            <Col span={itemLayOut.labelCol} >{item.tooltip ? <Tooltip placement="top" title={item.tooltip} >{labelNode}<QuestionCircleOutlined style={{ color: colors.primaryColor }} /></Tooltip> : labelNode}</Col>
-            <Col span={itemLayOut.wrapperCol}>
+            <Col span={itemLayOut.labelCol.span} >{item.tooltip ? <Tooltip placement="top" title={item.tooltip} >{labelNode}<QuestionCircleOutlined style={{ color: colors.primaryColor }} /></Tooltip> : labelNode}</Col>
+            <Col span={itemLayOut.wrapperCol.span}>
               <Form.Item {...formProps} label="" >
                 {formItems(item)}
               </Form.Item>
