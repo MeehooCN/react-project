@@ -125,3 +125,17 @@ export const getRules = (ruleType: RuleType, required?: boolean) => {
   }
   return returnRules;
 };
+/**
+ * 节流（连续大量触发的事件应该都要携带该函数）
+ * @param fn: 真正要执行的函数
+ * @param wait: 等待时间，默认 100 ms
+ **/
+export const throttle = (fn: Function, wait: number = 100) => {
+  let time = Date.now();
+  return () => {
+    if ((time + wait - Date.now()) < 0) {
+      fn();
+      time = Date.now();
+    }
+  };
+};
