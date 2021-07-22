@@ -34,7 +34,7 @@ const Home = (props: IProps) => {
   });
   const { homeDispatch } = useContext(HomeContext);
   const [menuList, setMenuList] = useState<Array<MenuData>>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [selectedKeys, setSelectedKeys] = useState<Array<string>>([]);
   const [openKeys, setOpenKeys] = useState<Array<string>>(menuList.map((menu: MenuData) => menu.id));
   const [collapsed, setCollapsed] = useState<boolean>(false);

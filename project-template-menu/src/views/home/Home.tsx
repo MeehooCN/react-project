@@ -30,6 +30,8 @@ const Home = (props: IProps) => {
       });
     }
   });
+  const [loading, setLoading] = useState<boolean>(true);
+  const [selectedKeys, setSelectedKeys] = useState<Array<string>>([]);
   const menuList: Array<MenuData> = [{
     id: '1',
     name: '系统管理',
@@ -52,8 +54,6 @@ const Home = (props: IProps) => {
     url: 'menu2',
     icon: 'icon-menu'
   }];
-  const [loading, setLoading] = useState<boolean>(false);
-  const [selectedKeys, setSelectedKeys] = useState<Array<string>>([]);
   const [openKeys, setOpenKeys] = useState<Array<string>>(menuList.map((menu: MenuData) => menu.id));
   return (
     <Row style={{ width: '100%', overflowY: 'hidden' }}>
