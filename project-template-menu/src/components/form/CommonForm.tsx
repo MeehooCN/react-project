@@ -147,8 +147,10 @@ const CommonForm = (props: IProps, ref: any) => {
   }, [formValue]);
   // 取消
   const handleCancel = () => {
-    if (!notReset) form.resetFields();
-    if (cancel) cancel();
+    if (cancel) {
+      form.resetFields();
+      cancel();
+    }
   };
   // 提交表单
   const onFinish = (values: any) => {
