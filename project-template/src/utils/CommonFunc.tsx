@@ -33,20 +33,29 @@ export const beforeUploadLimit = (limitType: Array<string>, file: any, limitSize
   const isLtLimitSize = file.size / 1024 / 1024 < fileSize;
   // 限制文件大小
   if (!isLtLimitSize) {
-    message.error('文件不能超过 ' + fileSize + ' MB');
+    message.error({
+      content: '文件不能超过 ' + fileSize + ' MB',
+      key: 'fileSize'
+    });
     return Upload.LIST_IGNORE;
   }
   // 限制文件格式
   let fileSuf = file.name.split('.');
   let suffix = fileSuf[fileSuf.length - 1].toLowerCase();
   if (limitType.indexOf('.' + suffix) === -1) {
-    message.error('文件限' + limitType.join('、') + '格式');
+    message.error({
+      content: '文件限' + limitType.join('、') + '格式',
+      key: 'fileType'
+    });
     return Upload.LIST_IGNORE;
   }
   let nameLength = limitFileNameLength ? limitFileNameLength : 100;
   // 限制文件名长度
   if (file.name.length > nameLength) {
-    message.error('文件名长度不能超过 ' + nameLength + ' 字');
+    message.error({
+      content: '文件名长度不能超过 ' + nameLength + ' 字',
+      key: 'fileLength'
+    });
     return Upload.LIST_IGNORE;
   }
   let nameLimit = limitFileName ? limitFileName : ['&', '+', '=', '#', '%'];
@@ -54,7 +63,10 @@ export const beforeUploadLimit = (limitType: Array<string>, file: any, limitSize
   for (let i = 0; i < nameLimit.length; i++) {
     const item = nameLimit[i];
     if (file.name.indexOf(item) !== -1) {
-      message.error('文件名中不应包含字符 ' + nameLimit.join(' ') + ' 字符');
+      message.error({
+        content: '文件名中不应包含字符 ' + nameLimit.join(' ') + ' 字符',
+        key: 'fileCode'
+      });
       return Upload.LIST_IGNORE;
     }
   }
@@ -124,4 +136,18 @@ export const getRules = (ruleType: RuleType, required?: boolean) => {
     returnRules.unshift(commonRules.get('required')[0]);
   }
   return returnRules;
+};
+/**
+ * 节流（连续大量触发的事件应该都要携带该函数）
+ * @param fn: 真正要执行的函数
+ * @param wait: 等待时间，默认 100 ms
+ **/
+export const throttle = (fn: Function, wait: number = 100) => {
+  let time = Date.now();
+  return () => {
+    if ((time + wait - Date.now()) < 0) {
+      fn();
+      time = Date.now();
+    }
+  };
 };

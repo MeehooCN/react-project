@@ -12,7 +12,7 @@ interface IProps {
 
 const Home = (props: IProps) => {
   const { children } = props;
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   return (
     <div style={{ width: '100%' }}>
       {!loading && children}

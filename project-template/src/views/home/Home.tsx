@@ -20,6 +20,7 @@ interface IProps {
 const Home = (props: IProps) => {
   const { children } = props;
   const history = useHistory();
+  const [loading, setLoading] = useState<boolean>(true);
   // 如果跳转路由了，则清除 current
   history.listen((location, action) => {
     if (action === 'PUSH') {
@@ -29,7 +30,6 @@ const Home = (props: IProps) => {
       });
     }
   });
-  const [loading, setLoading] = useState<boolean>(false);
   return (
     <Row style={{ width: '100%' }}>
       <Header />
