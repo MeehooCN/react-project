@@ -12,6 +12,7 @@ import {
 import { UploadOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { Rule } from 'antd/lib/form';
 import { UploadProps } from 'antd/es/upload';
+import { colors } from '@utils/CommonVars';
 
 const { Text } = Typography;
 const { TextArea } = Input;
@@ -319,7 +320,6 @@ const CommonForm = (props: IProps, ref: any) => {
         return (
           <CheckboxGroup
             options={item.options}
-            buttonStyle="solid"
             disabled={item.disabled}
             onChange={(value: any) => item.onChange && item.onChange(value)}
           />
@@ -372,7 +372,7 @@ const CommonForm = (props: IProps, ref: any) => {
           }
         });
       }
-      let labelNode = itemRequired ? <span><Text type="danger" style={{ paddingRight: 5 }}>*</Text>{item.label}</span> : item.label
+      let labelNode = itemRequired ? <span><Text type="danger" style={{ paddingRight: 5 }}>*</Text>{item.label}</span> : item.label;
       return (
         <Col span={inlineSpan || 24} key={index} style={{ display: item.type === IFormItemType.Hidden ? 'none' : 'block' }}>
           <Row gutter={5}>

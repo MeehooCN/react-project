@@ -12,6 +12,7 @@ import {
 import { UploadOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { Rule } from 'antd/lib/form';
 import { UploadProps } from 'antd/es/upload';
+import { colors } from '@utils/CommonVars';
 
 const { Text } = Typography;
 const { TextArea } = Input;
@@ -278,7 +279,8 @@ const CommonForm = (props: IProps, ref: any) => {
             disabled={item.disabled}
             buttonStyle="solid"
             options={item.options}
-            onChange={(e) => item.onChange && item.onChange(e)} />
+            onChange={(e) => item.onChange && item.onChange(e)}
+          />
         );
       case IFormItemType.Cascader:
         return (
@@ -366,7 +368,7 @@ const CommonForm = (props: IProps, ref: any) => {
           }
         });
       }
-      let labelNode = itemRequired ? <span><Text type="danger" style={{ paddingRight: 5 }}>*</Text>{item.label}</span> : item.label
+      let labelNode = itemRequired ? <span><Text type="danger" style={{ paddingRight: 5 }}>*</Text>{item.label}</span> : item.label;
       return (
         <Col span={inlineSpan || 24} key={index} style={{ display: item.type === IFormItemType.Hidden ? 'none' : 'block' }}>
           <Row gutter={5}>
