@@ -23,7 +23,7 @@ export const paginationInit = {
   showSizeChanger: true
 };
 interface ITableHookProps {
-  isBackSearchProp?: boolean; // 是否是返回的页面 true: 给searchContent赋值
+  isBackSearchProp?: boolean; // 是否是需要做返回操作的页面
   pageSize?: number; // 每页条数
   tableSize?: 'small' | 'default' | 'large'; // 表格大小
   bordered?: boolean; // 是否显示表格
@@ -36,9 +36,9 @@ const useTableHook = (props: ITableHookProps) => {
   const { state }: any = history.location;
   const [loading, setLoading] = useState<boolean>(false);
   const [searchContent, setSearchContent] = useState<any>(() => {
-    // 如果不是要返回的页面才赋值
+    // 如果不是需要做返回操作的页面
     if (!isBackSearchProp) {
-      // 如果是页面返回的，则赋值
+      // 如果是从页面返回的，则赋值
       if (state && state.searchContent) {
         return state.searchContent;
       } else {

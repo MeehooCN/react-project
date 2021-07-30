@@ -24,7 +24,7 @@ export const paginationInit = {
 };
 
 interface ITableHookProps {
-  isBackSearchProp?: boolean; // 是否是返回的页面 true: 给searchContent赋值
+  isBackSearchProp?: boolean; // 是否是需要做返回操作的页面
   pageSize?: number; // 每页条数
   tableSize?: 'small' | 'default' | 'large'; // 表格大小
   bordered?: boolean; // 是否显示表格
