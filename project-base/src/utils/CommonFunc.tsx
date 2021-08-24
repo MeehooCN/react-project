@@ -42,7 +42,7 @@ export const initMenu = (menuList: Array<MenuData>, type: string) => {
     if (menuList[i].children && menuList[i].children.length > 0) {
       // @ts-ignore
       const menuHtmlList = menuList[i].children.map((item: MenuData) => (
-        <MenuItem key={item.id} icon={item.icon && <IconFont type={item.icon} style={{ width: 14 }} />}>
+        <MenuItem key={item.id} icon={item.icon && <IconFont type={item.icon} />}>
           <Link to={type + item.url}>
             {item.name}
           </Link>
@@ -51,7 +51,7 @@ export const initMenu = (menuList: Array<MenuData>, type: string) => {
       subMenuList.push((
         <SubMenu
           title={menuList[i].name}
-          icon={menuList[i].icon && <IconFont type={menuList[i].icon} style={{ width: 14 }} />}
+          icon={menuList[i].icon && <IconFont type={menuList[i].icon} />}
           key={menuList[i].id}
         >
           {menuHtmlList}
@@ -59,7 +59,7 @@ export const initMenu = (menuList: Array<MenuData>, type: string) => {
       ));
     } else {
       subMenuList.push((
-        <MenuItem key={menuList[i].id} icon={menuList[i].icon && <IconFont type={menuList[i].icon} style={{ width: 14 }} />}>
+        <MenuItem key={menuList[i].id} icon={menuList[i].icon && <IconFont type={menuList[i].icon} />}>
           <Link to={type + menuList[i].url}>
             {menuList[i].name}
           </Link>

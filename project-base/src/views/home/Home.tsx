@@ -71,7 +71,7 @@ const Home = (props: IProps) => {
             <img src={logo} alt="logo" height={28} />
             {!collapsed && <div className="header-title">{projectName}</div>}
           </Row>
-          <Row className="menu">
+          <div className="menu">
             <Menu
               theme="dark"
               selectedKeys={selectedKeys}
@@ -82,7 +82,7 @@ const Home = (props: IProps) => {
             >
               {initMenu(menuList, platform)}
             </Menu>
-          </Row>
+          </div>
         </Sider>
         <Layout className="site-layout">
           <Header />
