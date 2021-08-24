@@ -5,7 +5,7 @@
  **/
 import React, { useContext, useRef, useState } from 'react';
 import { Row, Card, Button, message, PageHeader } from 'antd';
-import { CommonHorizFormHook, IFormColumns, MyTitle } from '@components/index';
+import { CommonHorizFormHook, IFormColumns } from '@components/index';
 import { HomeContext } from '../../index';
 import { post } from '@utils/Ajax';
 import { platform } from '@utils/CommonVars';

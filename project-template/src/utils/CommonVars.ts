@@ -31,7 +31,8 @@ export const fileAccept = {
   pdf: ['.pdf'],
   excel: ['.xls', '.xlsx'],
   zip: ['.rar', '.zip'],
-  img: ['.jpg', '.jpeg', '.png', '.bmp'],
+  img: ['.tif', '.pjp', '.jfif', '.pjpeg', '.avif', '.ico', '.tiff', '.gif', '.svg', '.bmp', '.png', '.xbm', '.jxl', '.jpeg', '.svgz', '.jpg'],
+  video: ['.webp', '.ogm', '.wmv', '.mpeg', '.asx', '.mpg', '.ogv', '.webm', '.mov', '.mp4', '.m4v', '.avi'],
   all: ['.doc', '.docx', '.pdf', '.xls', '.xlsx', '.rar', '.zip', '.jpg', '.jpeg', '.png', '.bmp']
 };
 /**
