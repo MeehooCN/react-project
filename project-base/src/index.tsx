@@ -29,6 +29,7 @@ const App = () => {
                 <Route exact path={platform + 'welcome'} component={Welcome} />
                 <Route exact path={platform + 'userInfo'} component={UserInfo} />
                 <Route exact path={platform + 'updatePassword'} component={UpdatePassword} />
+                {/* 系统管理 */}
                 <Route exact path={platform + 'systemManage/adminManage'} component={AdminManage} />
                 <Route exact path={platform + 'systemManage/dataDictionary'} component={DictValue} />
                 <Route exact path={platform + 'systemManage/roleManage'} component={RoleManage} />

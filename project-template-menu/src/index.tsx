@@ -22,6 +22,7 @@ const App = () => {
             <Switch>
               <ErrorBoundary>
                 <Route exact path={platform} component={Welcome} />
+                {/* 系统管理 */}
                 <Route exact path={platform + 'systemManage/sysLog'} component={SysLog} />
               </ErrorBoundary>
               <Route component={NotFound} />
