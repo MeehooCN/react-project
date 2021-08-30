@@ -18,4 +18,4 @@ const useResetFormOnCloseModal = ({ form, visible }: any) => {
     }
   }, [visible]);
 };
-export { useResetFormOnCloseModal };
+export default useResetFormOnCloseModal;

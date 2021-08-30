@@ -213,10 +213,10 @@ const MenuManage = () => {
       />
       <Modal
         title={getModalTitle()}
-        visible={addView}
         footer={false}
-        onCancel={handleCancel}
         maskClosable={false}
+        visible={addView}
+        onCancel={handleCancel}
       >
         <CommonHorizFormHook
           ref={menuRef}

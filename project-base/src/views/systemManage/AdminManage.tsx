@@ -7,7 +7,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Button, Card, Divider, message, Modal, Popconfirm, Row, Space, Table } from 'antd';
 import {
   CommonHorizFormHook, IFormColumns, ISearchFormColumns, MyTitle, SearchInlineForm,
-  useFormHook, useTableHook
+  useFormHook, useModalHook, useTableHook
 } from '@components/index';
 import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import { Admin, Organization } from '@utils/CommonInterface';
@@ -22,9 +22,8 @@ const AdminManage = () => {
   const formRef: any = useRef();
   const { setLoading, pagination, setPagination, searchContent, handleSearch, backFrontPage, tableParam } = useTableHook({});
   const { submitLoading, setSubmitLoading, formValue, setFormValue } = useFormHook();
+  const { onCancel, addButtonClick, editButtonClick, modalProps } = useModalHook();
   const [adminList, setAdminList] = useState<Array<Admin>>([]);
-  const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [modalTitle, setModalTitle] = useState<string>();
   const [roleList, setRoleList] = useState<any>([]);
   const [roleValue, setRoleValue] = useState<any>('');
   const [roleLoading, setRoleLoading] = useState<any>('');
@@ -79,22 +78,20 @@ const AdminManage = () => {
       }
     });
   };
-  // 编辑或新增
-  const addOrEdit = (row?: Admin) => {
-    if (row) {
-      setModalTitle('编辑管理员用户');
-      const value = row.organizationId && row.organizationId + '/' + row.organizationName + '/' + row.organizationCode;
-      const organization = findInTree(orgList, 'value', value);
-      setFormValue({
-        ...row,
-        organization: organization && value
-      });
-    } else {
-      setFormValue('');
-      formRef.current && formRef.current.resetFields();
-      setModalTitle('新增管理员用户');
-    }
-    setModalVisible(true);
+  // 点击新增角色
+  const onAdd = () => {
+    formRef.current.resetFields();
+    addButtonClick('新增管理员用户');
+  };
+  // 编辑用户
+  const editUser = (row: Admin) => {
+    const value = row.organizationId && row.organizationId + '/' + row.organizationName + '/' + row.organizationCode;
+    const organization = findInTree(orgList, 'value', value);
+    setFormValue({
+      ...row,
+      organization: organization && value
+    });
+    editButtonClick(row.id, '编辑管理员用户');
   };
   // 删除管理员
   const deleteAdmin = (id: string) => {
@@ -137,17 +134,12 @@ const AdminManage = () => {
       if (data.flag === 0) {
         message.success('操作成功！');
         getAdminList();
-        setModalVisible(false);
+        onCancel();
       } else if (data.flag === 2) {
         message.error(data.msg);
       }
       setSubmitLoading(false);
     });
-  };
-  // 取消
-  const handleCancel = () => {
-    setModalVisible(false);
-    setFormValue({});
   };
   // 设置权限
   const setRole = (admin: Admin) => {
@@ -221,7 +213,7 @@ const AdminManage = () => {
         <>
           <Button type="primary" size="small" onClick={() => setRole(admin)}>指派角色</Button>
           <Divider type="vertical" />
-          <Button size="small" onClick={() => addOrEdit(admin)}>编辑</Button>
+          <Button size="small" onClick={() => editUser(admin)}>编辑</Button>
           <Divider type="vertical" />
           <Popconfirm title="确定重置此人员的密码？" onConfirm={() => resetPassword(admin.id)} okText="确定" cancelText="取消">
             <Button size="small">重置密码</Button>
@@ -281,7 +273,7 @@ const AdminManage = () => {
         {...myCardProps(<MyTitle title="用户管理" />)}
         extra={(
           <Space size={CommonSpace.md}>
-            <Button type="primary" icon={<PlusOutlined />} onClick={() => addOrEdit()}>新增用户</Button>
+            <Button type="primary" icon={<PlusOutlined />} onClick={onAdd}>新增用户</Button>
             <Button type="text" icon={<ReloadOutlined />} onClick={getAdminList} title="刷新" />
           </Space>
         )}
@@ -293,19 +285,19 @@ const AdminManage = () => {
           rowKey={(row: Admin) => row.id}
           style={{ width: '100%' }}
         />
-        <Modal visible={modalVisible} maskClosable={false} footer={null} title={modalTitle} onCancel={handleCancel}>
+        <Modal {...modalProps}>
           <CommonHorizFormHook
             ref={formRef}
             formColumns={formColumns}
             formValue={formValue}
             footerBtn
-            cancel={handleCancel}
+            cancel={onCancel}
             onOK={handleOK}
             submitLoading={submitLoading}
             notReset={true}
           />
         </Modal>
-        <Modal title="指派角色" footer={null} maskClosable={false} onCancel={setRoleCancel} visible={roleVisible}>
+        <Modal title="指派角色" footer={false} maskClosable={false} visible={roleVisible} onCancel={setRoleCancel}>
           <CommonHorizFormHook
             formColumns={roleFormColumns}
             formValue={roleValue}

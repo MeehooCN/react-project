@@ -10,6 +10,8 @@ export { default as OverText } from '@components/OverText';
 // 通用 hook
 export { default as useTableHook } from '@components/hook/useTableHook';
 export { default as useFormHook } from '@components/hook/useFormHook';
+export { default as useModalHook } from '@components/hook/useModalHook';
+export { default as useResetFormOnCloseModal } from '@components/hook/useResetFormOnCloseModal';
 // 首页
 export { default as Header } from '@components/home/Header';
 // 表单

@@ -4,6 +4,7 @@
  * @createTime: 2021/1/29 16:17
  **/
 import { useState } from 'react';
+import { ModalProps } from 'antd/lib/modal/Modal';
 
 const useModalHook = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false); // 模态框显示与否
@@ -40,10 +41,20 @@ const useModalHook = () => {
   const onCancel = () => {
     setModalVisible(false);
   };
+  // Modal 框 props
+  const modalProps: ModalProps = {
+    visible: modalVisible,
+    maskClosable: false,
+    footer: false,
+    forceRender: true,
+    title: modalTitle,
+    onCancel: onCancel,
+  };
   return {
     modalVisible, setModalVisible, isEdit, setIsEdit, isAdd,
     setIsAdd, modalTitle, setModalTitle, domainId, setDomainId,
-    onCancel, addButtonClick, editButtonClick, viewButtonClick, disabled
+    onCancel, addButtonClick, editButtonClick, viewButtonClick, disabled,
+    modalProps
   };
 };
 export default useModalHook;

@@ -3,11 +3,11 @@
  * @author: hzq
  * @createTime: 2020/9/8 17:32
  **/
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Button, Card, Divider, message, Modal, Popconfirm, Row, Space, Spin, Table, Tree } from 'antd';
 import {
   CommonHorizFormHook, IFormColumns, ISearchFormColumns, MyTitle, OverText,
-  SearchInlineForm, useTableHook
+  SearchInlineForm, useModalHook, useTableHook
 } from '@components/index';
 import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import { Role } from '@utils/CommonInterface';
@@ -20,10 +20,10 @@ import { CommonSpace, RoleType, RuleType, searchCardProps } from '@utils/CommonV
 const { TreeNode } = Tree;
 
 const RoleManage = () => {
+  const formRef: any = useRef();
   const { setLoading, pagination, setPagination, searchContent, handleSearch, backFrontPage, tableParam } = useTableHook({});
+  const { onCancel, addButtonClick, editButtonClick, modalProps } = useModalHook();
   const [roleList, setRoleList] = useState<Array<Role>>([]);
-  const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [modalTitle, setModalTitle] = useState<string>();
   const [authVisible, setAuthVisible] = useState<boolean>(false);
   const [formValue, setFormValue] = useState<any>({});
   const [checkedKeys, setCheckedKeys] = useState<Array<any>>([]);
@@ -52,22 +52,15 @@ const RoleManage = () => {
       setLoading(false);
     });
   };
-  // 编辑或新增
-  const addOrEdit = (row: any) => {
-    if (row) {
-      setModalTitle('编辑角色');
-      setFormValue(row);
-    } else {
-      setFormValue({
-        number: undefined,
-        name: undefined,
-        roleType: undefined,
-        remark: undefined,
-        id: undefined,
-      });
-      setModalTitle('新增角色');
-    }
-    setModalVisible(true);
+  // 点击新增角色
+  const onAdd = () => {
+    formRef.current.resetFields();
+    addButtonClick('新增角色');
+  };
+  // 点击编辑角色
+  const onEdit = (role: Role) => {
+    setFormValue(role);
+    editButtonClick(role.id, '编辑角色');
   };
   // 删除角色
   const deleteRole = (id: string) => {
@@ -102,7 +95,7 @@ const RoleManage = () => {
     post(url, value, {}, (data: any) => {
       if (data.flag === 0) {
         message.success('操作成功！');
-        setModalVisible(false);
+        onCancel();
         getRoleList();
       } else {
         message.error(data.message);
@@ -133,11 +126,6 @@ const RoleManage = () => {
   // 选择菜单项
   const onTreeCheck = (checkedKeys: any) => {
     setCheckedKeys(checkedKeys);
-  };
-  // 取消
-  const handleCancel = () => {
-    setModalVisible(false);
-    setFormValue({});
   };
   // 渲染 treeNode
   const renderTreeNodesLevelOne = (data: any) => {
@@ -177,7 +165,7 @@ const RoleManage = () => {
         <>
           <Button size="small" type="primary" onClick={() => handleAuth(role.id)}>角色授权</Button>
           <Divider type="vertical" />
-          <Button size="small" onClick={() => addOrEdit(role)}>编辑</Button>
+          <Button size="small" onClick={() => onEdit(role)}>编辑</Button>
           <Divider type="vertical" />
           <Popconfirm title="确定要删除该角色吗？" onConfirm={() => deleteRole(role.id)}>
             <Button size="small" danger>删除</Button>
@@ -227,7 +215,7 @@ const RoleManage = () => {
         {...myCardProps(<MyTitle title="角色权限" />)}
         extra={(
           <Space size={CommonSpace.md}>
-            <Button type="primary" icon={<PlusOutlined />} onClick={() => addOrEdit('')}>新增角色</Button>
+            <Button type="primary" icon={<PlusOutlined />} onClick={onAdd}>新增角色</Button>
             <Button type="text" icon={<ReloadOutlined />} onClick={getRoleList} title="刷新" />
           </Space>
         )}
@@ -242,12 +230,13 @@ const RoleManage = () => {
           />
         </Row>
       </Card>
-      <Modal visible={modalVisible} maskClosable={false} footer={null} title={modalTitle} onCancel={handleCancel}>
+      <Modal {...modalProps}>
         <CommonHorizFormHook
+          ref={formRef}
           formColumns={formColumns}
           formValue={formValue}
           footerBtn
-          cancel={handleCancel}
+          cancel={onCancel}
           onOK={handleOK}
           submitLoading={addLoading}
           notReset={true}
