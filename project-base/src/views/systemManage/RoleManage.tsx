@@ -14,8 +14,8 @@ import { Role } from '@utils/CommonInterface';
 import { get, post } from '@utils/Ajax';
 import { IFormItemType } from '@components/form/CommonForm';
 import { ISearchFormItemType } from '@components/form/SearchForm';
-import { getRules } from '@utils/CommonFunc';
-import { CommonSpace, RoleType, RuleType } from '@utils/CommonVars';
+import { getRules, myCardProps } from '@utils/CommonFunc';
+import { CommonSpace, RoleType, RuleType, searchCardProps } from '@utils/CommonVars';
 
 const { TreeNode } = Tree;
 
@@ -220,13 +220,11 @@ const RoleManage = () => {
   }];
   return (
     <Row>
-      <Card style={{ width: '100%', marginBottom: CommonSpace.sm }} size="small">
+      <Card {...searchCardProps}>
         <SearchInlineForm search={handleSearch} formColumns={searchFormColumns} />
       </Card>
       <Card
-        title={<MyTitle title="角色权限" />}
-        size="small"
-        style={{ width: '100%' }}
+        {...myCardProps(<MyTitle title="角色权限" />)}
         extra={(
           <Space size={CommonSpace.md}>
             <Button type="primary" icon={<PlusOutlined />} onClick={() => addOrEdit('')}>新增角色</Button>

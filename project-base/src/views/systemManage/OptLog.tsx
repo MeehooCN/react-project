@@ -9,7 +9,8 @@ import { ReloadOutlined } from '@ant-design/icons';
 import { ISearchFormColumns, MyTitle, SearchInlineForm, useTableHook } from '@components/index';
 import { post } from '@utils/Ajax';
 import { ISearchFormItemType } from '@components/form/SearchForm';
-import { CommonSpace } from '@utils/CommonVars';
+import { CommonSpace, searchCardProps } from '@utils/CommonVars';
+import { myCardProps } from '@utils/CommonFunc';
 
 const OptLog = () => {
   const { setLoading, pagination, setPagination, searchContent, handleSearch, tableParam } = useTableHook({});
@@ -61,13 +62,11 @@ const OptLog = () => {
   }];
   return (
     <Row>
-      <Card style={{ width: '100%', marginBottom: CommonSpace.sm }} size="small">
+      <Card {...searchCardProps}>
         <SearchInlineForm search={handleSearch} formColumns={searchFormColumns} />
       </Card>
       <Card
-        title={<MyTitle title="操作日志" />}
-        size="small"
-        style={{ width: '100%' }}
+        {...myCardProps(<MyTitle title="操作日志" />)}
         extra={<Button type="text" icon={<ReloadOutlined />} onClick={getLogList} title="刷新" />}
       >
         <Table

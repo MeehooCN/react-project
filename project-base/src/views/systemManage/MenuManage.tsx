@@ -12,7 +12,7 @@ import {
 } from '@components/index';
 import { post } from '@utils/Ajax';
 import { CommonSpace, iconUrl, RuleType } from '@utils/CommonVars';
-import { getRules, getTreeChildrenToNull } from '@utils/CommonFunc';
+import { getRules, getTreeChildrenToNull, myCardProps } from '@utils/CommonFunc';
 import { IFormItemType } from '@components/form/CommonForm';
 
 const IconFont = createFromIconfontCN({
@@ -196,8 +196,7 @@ const MenuManage = () => {
   }];
   return (
     <Card
-      title={<MyTitle title="菜单管理" />}
-      size="small"
+      {...myCardProps(<MyTitle title="菜单管理" />)}
       extra={(
         <Space size={CommonSpace.md}>
           <Button type="primary" icon={<PlusOutlined />} onClick={addMenu}>新增一级菜单</Button>

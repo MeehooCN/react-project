@@ -8,7 +8,13 @@ import { Button, Card, Divider, message, Modal, Popconfirm, Space, Switch, Table
 import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import { CommonHorizFormHook, IFormColumns, MyTitle, OverText, useFormHook, useTableHook } from '@components/index';
 import { OptionData, Organization } from '@utils/CommonInterface';
-import { getAreaNameAndCode, getProvinceCityArea, getRules, getTreeChildrenToNull } from '@utils/CommonFunc';
+import {
+  getAreaNameAndCode,
+  getProvinceCityArea,
+  getRules,
+  getTreeChildrenToNull,
+  myCardProps
+} from '@utils/CommonFunc';
 import { post } from '@utils/Ajax';
 import { CommonSpace, OrganizationEnable, RuleType } from '@utils/CommonVars';
 import { getAllProvinceCityArea, getDictValueList, getOrgTreeList } from '@utils/CommonAPI';
@@ -241,8 +247,7 @@ const OrganizationManage = () => {
   }
   return (
     <Card
-      title={<MyTitle title="机构管理" />}
-      size="small"
+      {...myCardProps(<MyTitle title="机构管理" />)}
       extra={(
         <Space size={CommonSpace.md}>
           <Button type="primary" icon={<PlusOutlined />} onClick={addOrganization}>新增机构</Button>

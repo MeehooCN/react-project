@@ -13,10 +13,10 @@ import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import { Admin, Organization } from '@utils/CommonInterface';
 import { get, post } from '@utils/Ajax';
 import { getOrgTreeEnableList } from '@utils/CommonAPI';
-import { findInTree, getRules, getTreeChildrenToNull } from '@utils/CommonFunc';
+import { findInTree, getRules, getTreeChildrenToNull, myCardProps } from '@utils/CommonFunc';
 import { IFormItemType } from '@components/form/CommonForm';
 import { ISearchFormItemType } from '@components/form/SearchForm';
-import { CommonSpace, RuleType } from '@utils/CommonVars';
+import { CommonSpace, RuleType, searchCardProps } from '@utils/CommonVars';
 
 const AdminManage = () => {
   const formRef: any = useRef();
@@ -274,13 +274,11 @@ const AdminManage = () => {
   }];
   return (
     <Row>
-      <Card style={{ width: '100%', marginBottom: CommonSpace.sm }} size="small">
+      <Card {...searchCardProps}>
         <SearchInlineForm search={handleSearch} formColumns={searchFormColumns} />
       </Card>
       <Card
-        title={<MyTitle title="用户管理" />}
-        size="small"
-        style={{ width: '100%' }}
+        {...myCardProps(<MyTitle title="用户管理" />)}
         extra={(
           <Space size={CommonSpace.md}>
             <Button type="primary" icon={<PlusOutlined />} onClick={() => addOrEdit()}>新增用户</Button>

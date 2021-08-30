@@ -3,7 +3,7 @@
  * @author: cnn
  * @createTime: 2020/7/22 9:35
  **/
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import { MenuData } from '@utils/CommonInterface';
 import { Link } from 'react-router-dom';
 import { Menu, message, Upload } from 'antd';
@@ -68,20 +68,6 @@ export const initMenu = (menuList: Array<MenuData>, type: string) => {
     }
   }
   return subMenuList;
-};
-/**
- * 获取当前浏览器高度
- * **/
-export const getClientHeight = () => {
-  // @ts-ignore
-  return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-};
-/**
- * 获取当前浏览器宽度
- * **/
-export const getClientWidth = () => {
-  // @ts-ignore
-  return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 };
 /**
  * 将 children 长度为 0 的设置为 null
@@ -312,4 +298,19 @@ export const throttle = (fn: Function, wait: number = 100) => {
       time = Date.now();
     }
   };
+};
+/**
+ * @description card的配置参数
+ * @param title 标题
+ * @param style 样式
+ * @param size 大小
+ * @param bordered 是否有边框
+ */
+export const myCardProps = (title: string | React.ReactNode, style?: CSSProperties, size?: 'default' | 'small', bordered?: boolean) => {
+  return ({
+    bordered: bordered || false,
+    title: title,
+    style: style || { width: '100%' },
+    size: size || 'small'
+  });
 };

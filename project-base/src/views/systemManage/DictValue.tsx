@@ -10,7 +10,7 @@ import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import { Dict } from '@utils/CommonInterface';
 import { post } from '@utils/Ajax';
 import { IFormItemType } from '@components/form/CommonForm';
-import { getRules } from '@utils/CommonFunc';
+import { getRules, myCardProps } from '@utils/CommonFunc';
 import { CommonSpace, RuleType } from '@utils/CommonVars';
 
 const DictValue = () => {
@@ -236,10 +236,7 @@ const DictValue = () => {
       <Row>
         <Col span={6}>
           <Card
-            size="small"
-            title="数据字典类型"
-            bordered={false}
-            style={{ width: '100%' }}
+            {...myCardProps(<MyTitle title="数据字典类型" />)}
             extra={(
               <Space size={CommonSpace.md}>
                 <Button icon={<PlusOutlined />} type="primary" onClick={() => addOrEditType('')} >新增类型</Button>
@@ -273,10 +270,7 @@ const DictValue = () => {
         </Col>
         <Col span={18}>
           <Card
-            size="small"
-            title="字典选项"
-            bordered={false}
-            style={{ width: '100%' }}
+            {...myCardProps(<MyTitle title="字典选项" />)}
             extra={(
               <Space size={CommonSpace.md}>
                 <Button icon={<PlusOutlined />} type="primary" onClick={() => addOrEditValue('')}>新增选项</Button>

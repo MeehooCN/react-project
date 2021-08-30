@@ -8,6 +8,7 @@ import { Card, Row, Table, Modal, Alert, Button } from 'antd';
 import { ReloadOutlined } from '@ant-design/icons';
 import { MyTitle, useTableHook } from '@components/index';
 import { ErrorStack } from '@components/ErrorBoundary';
+import { myCardProps } from '@utils/CommonFunc';
 
 const SysLog = () => {
   const { setLoading, tableParam } = useTableHook({});
@@ -56,8 +57,7 @@ const SysLog = () => {
   }];
   return (
     <Card
-      title={<MyTitle title="前端系统日志" />}
-      size="small"
+      {...myCardProps(<MyTitle title="前端系统日志" />)}
       extra={<Button type="text" icon={<ReloadOutlined />} onClick={getLogList} title="刷新" />}
     >
       <Row style={{ width: '100%' }}>
