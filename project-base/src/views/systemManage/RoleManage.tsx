@@ -77,6 +77,7 @@ const RoleManage = () => {
     if (id) {
       setRoleLoading(true);
       setAuthVisible(true);
+      // todo 节点的渲染方式改为treeData，需要此接口返回的数据结构为 array<{key, title, children, [disabled, selectable]}>
       post('security/authRole/getMenuListByRoleId', { roleId: id }, {}, (data: any) => {
         if (data.flag === 0) {
           setMenuList(data.data.children);
@@ -126,19 +127,6 @@ const RoleManage = () => {
   // 选择菜单项
   const onTreeCheck = (checkedKeys: any) => {
     setCheckedKeys(checkedKeys);
-  };
-  // 渲染 treeNode
-  const renderTreeNodesLevelOne = (data: any) => {
-    return data.map((item:any) => {
-      if (item.children.length > 0) {
-        return (
-          <TreeNode title={item.name} key={item.id}>
-            {renderTreeNodesLevelOne(item.children)}
-          </TreeNode>
-        );
-      }
-      return <TreeNode title={item.name} key={item.id} />;
-    });
   };
   const roleColumns = [{
     title: '角色名称',
@@ -256,9 +244,8 @@ const RoleManage = () => {
             checkable
             onCheck={onTreeCheck}
             checkedKeys={checkedKeys}
-          >
-            {renderTreeNodesLevelOne(menuList)}
-          </Tree>
+            treeData={menuList}
+          />
         </Spin>
       </Modal>
     </Row>
