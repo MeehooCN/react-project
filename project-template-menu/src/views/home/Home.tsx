@@ -5,12 +5,12 @@
  **/
 import React, { useState } from 'react';
 import { Row, Layout, Menu } from 'antd';
-import { SmileTwoTone } from '@ant-design/icons';
 import { Header } from '@components/index';
-import { initMenu, getClientHeight } from '@utils/CommonFunc';
+import { initMenu } from '@utils/CommonFunc';
 import { MenuData } from '@utils/CommonInterface';
-import { colors, PageSessionList, platform, projectName } from '@utils/CommonVars';
+import { PageSessionList, platform, projectName } from '@utils/CommonVars';
 import { useHistory } from 'react-router';
+import logo from '@static/images/logo.png';
 import './index.less';
 
 const { Content, Sider } = Layout;
@@ -59,7 +59,7 @@ const Home = (props: IProps) => {
     <Row style={{ width: '100%', overflowY: 'hidden' }}>
       <Sider style={{ width: 200 }}>
         <Row align="middle" justify="center" className="header-title-icon">
-          <SmileTwoTone twoToneColor={colors.primaryColor} style={{ fontSize: 24 }} />
+          <img src={logo} alt="logo" height={28} />
           <div className="header-title">{projectName}</div>
         </Row>
         <Row className="menu" style={{ height: 'calc(100vh - 60px)' }}>

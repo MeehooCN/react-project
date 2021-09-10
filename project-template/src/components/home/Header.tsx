@@ -6,9 +6,10 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Row, Avatar } from 'antd';
-import { SmileTwoTone, UserOutlined, PoweroffOutlined } from '@ant-design/icons';
-import { colors, platform, projectName } from '@utils/CommonVars';
+import { UserOutlined, PoweroffOutlined } from '@ant-design/icons';
+import { platform, projectName } from '@utils/CommonVars';
 import { HomeContext } from '../../index';
+import logo from '@static/images/logo.png';
 import './index.less';
 
 const Header = () => {
@@ -26,7 +27,7 @@ const Header = () => {
   return (
     <Row className="header header-shadow" justify="space-between" align="middle">
       <Row align="middle" justify="center" className="header-title-icon" onClick={toHome}>
-        <SmileTwoTone twoToneColor={colors.primaryColor} style={{ fontSize: 24 }} />
+        <img src={logo} alt="logo" height={28} />
         <div className="header-title">{projectName}</div>
       </Row>
       <Row align="middle">
