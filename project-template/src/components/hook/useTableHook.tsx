@@ -31,7 +31,7 @@ interface ITableHookProps {
   hidePage?: boolean; // 是否隐藏分页
   sessionName?: IPageSession; // sessionStorage里面current的命名，如果页面中有多个表格，使用sessionName区分current
 }
-const useTableHook = (props: ITableHookProps) => {
+const useTableHook = (props: ITableHookProps = {}) => {
   const history = useHistory();
   const { isBackSearchProp, pageSize, tableSize, bordered, hidePage, sessionName = '' } = props;
   const { state }: any = history.location;
@@ -119,7 +119,8 @@ const useTableHook = (props: ITableHookProps) => {
     bordered: bordered || true,
     pagination: hidePage ? false : pagination,
     onChange: handleTableChange,
-    rowClassName: getRowClass
+    rowClassName: getRowClass,
+    rowKey: 'id'
   };
   return {
     loading, setLoading, pagination, setPagination, searchContent, handleTableChange,
