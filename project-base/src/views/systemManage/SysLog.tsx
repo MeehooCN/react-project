@@ -11,7 +11,7 @@ import { ErrorStack } from '@components/ErrorBoundary';
 import { myCardProps } from '@utils/CommonFunc';
 
 const SysLog = () => {
-  const { setLoading, tableParam } = useTableHook({});
+  const { setLoading, tableParam } = useTableHook();
   const [logList, setLogList] = useState<Array<ErrorStack>>([]);
   const [logDetailVisible, setLogDetailVisible] = useState<boolean>(false);
   const [selectLog, setSelectLog] = useState<ErrorStack>({
@@ -65,7 +65,6 @@ const SysLog = () => {
           {...tableParam}
           columns={logColumns}
           dataSource={logList}
-          rowKey={(row: ErrorStack) => row.id}
           style={{ width: '100%' }}
         />
       </Row>

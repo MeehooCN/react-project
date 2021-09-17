@@ -208,7 +208,6 @@ const MenuManage = () => {
         {...tableParam}
         columns={menuColumns}
         dataSource={menuList}
-        rowKey={row => row.id}
         expandRowByClick={true}
       />
       <Modal

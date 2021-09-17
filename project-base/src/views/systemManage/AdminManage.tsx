@@ -20,7 +20,7 @@ import { CommonSpace, RuleType, searchCardProps } from '@utils/CommonVars';
 
 const AdminManage = () => {
   const formRef: any = useRef();
-  const { setLoading, pagination, setPagination, searchContent, handleSearch, backFrontPage, tableParam } = useTableHook({});
+  const { setLoading, pagination, setPagination, searchContent, handleSearch, backFrontPage, tableParam } = useTableHook();
   const { submitLoading, setSubmitLoading, formValue, setFormValue } = useFormHook();
   const { onCancel, addButtonClick, editButtonClick, modalProps } = useModalHook();
   const [adminList, setAdminList] = useState<Array<Admin>>([]);
@@ -282,7 +282,6 @@ const AdminManage = () => {
           {...tableParam}
           columns={adminColumns}
           dataSource={adminList}
-          rowKey={(row: Admin) => row.id}
           style={{ width: '100%' }}
         />
         <Modal {...modalProps}>

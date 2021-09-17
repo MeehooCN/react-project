@@ -21,7 +21,7 @@ const { TreeNode } = Tree;
 
 const RoleManage = () => {
   const formRef: any = useRef();
-  const { setLoading, pagination, setPagination, searchContent, handleSearch, backFrontPage, tableParam } = useTableHook({});
+  const { setLoading, pagination, setPagination, searchContent, handleSearch, backFrontPage, tableParam } = useTableHook();
   const { onCancel, addButtonClick, editButtonClick, modalProps } = useModalHook();
   const [roleList, setRoleList] = useState<Array<Role>>([]);
   const [authVisible, setAuthVisible] = useState<boolean>(false);
@@ -213,7 +213,6 @@ const RoleManage = () => {
             {...tableParam}
             columns={roleColumns}
             dataSource={roleList}
-            rowKey={(row: Role) => row.id}
             style={{ width: '100%' }}
           />
         </Row>

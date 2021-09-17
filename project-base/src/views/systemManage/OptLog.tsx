@@ -13,7 +13,7 @@ import { CommonSpace, searchCardProps } from '@utils/CommonVars';
 import { myCardProps } from '@utils/CommonFunc';
 
 const OptLog = () => {
-  const { setLoading, pagination, setPagination, searchContent, handleSearch, tableParam } = useTableHook({});
+  const { setLoading, pagination, setPagination, searchContent, handleSearch, tableParam } = useTableHook();
   const [logList, setLogList] = useState<Array<any>>([]);
   useEffect(() => {
     getLogList();
@@ -73,7 +73,6 @@ const OptLog = () => {
           {...tableParam}
           columns={logColumns}
           dataSource={logList}
-          rowKey={(row: any) => row.id}
           style={{ width: '100%' }}
         />
       </Card>

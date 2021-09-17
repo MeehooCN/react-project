@@ -14,7 +14,7 @@ import { getRules, myCardProps } from '@utils/CommonFunc';
 import { CommonSpace, RuleType } from '@utils/CommonVars';
 
 const DictValue = () => {
-  const { setLoading, pagination, setPagination, backFrontPage, tableParam } = useTableHook({});
+  const { setLoading, pagination, setPagination, backFrontPage, tableParam } = useTableHook();
   const [valueList, setValueList] = useState<Array<Dict>>([]);
   const [typeList, setTypeList] = useState<Array<any>>([]);
   const [rowId, setRowId] = useState<string>('');
@@ -282,7 +282,6 @@ const DictValue = () => {
               {...tableParam}
               columns={columns}
               dataSource={valueList}
-              rowKey={(row: Dict) => row.id}
             />
           </Card>
         </Col>

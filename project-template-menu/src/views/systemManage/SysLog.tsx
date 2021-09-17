@@ -70,7 +70,6 @@ const SysLog = () => {
           {...tableParam}
           columns={logColumns}
           dataSource={logList}
-          rowKey={(row: Log) => row.id}
           style={{ width: '100%' }}
           onChange={handleTableChange}
         />
