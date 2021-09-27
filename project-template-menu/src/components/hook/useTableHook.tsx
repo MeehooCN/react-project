@@ -30,10 +30,11 @@ interface ITableHookProps {
   bordered?: boolean; // 是否显示表格
   hidePage?: boolean; // 是否隐藏分页
   sessionName?: IPageSession; // sessionStorage里面current的命名，如果页面中有多个表格，使用sessionName区分current
+  showSticky?: boolean // 是否显示超长后显示滚动条
 }
 const useTableHook = (props: ITableHookProps = {}) => {
   const history = useHistory();
-  const { isBackSearchProp, pageSize, tableSize, bordered, hidePage, sessionName } = props;
+  const { isBackSearchProp, pageSize, tableSize, bordered, hidePage, sessionName, showSticky = false } = props;
   const sessionCurrent = sessionName ? sessionName : '';
   const { state }: any = history.location;
   const [loading, setLoading] = useState<boolean>(false);
@@ -114,7 +115,7 @@ const useTableHook = (props: ITableHookProps = {}) => {
   // 获取表格的样式
   const getRowClass = (record: any, index: number) => (index % 2 ? 'table-single' : '');
 
-  const tableParam: any =  {
+  let tableParam: any =  {
     size: tableSize || 'default',
     loading: loading,
     bordered: bordered || true,
@@ -123,6 +124,15 @@ const useTableHook = (props: ITableHookProps = {}) => {
     rowClassName: getRowClass,
     rowKey: 'id'
   };
+  if (showSticky) {
+    tableParam = {
+      ...tableParam,
+      scroll: { x: 1200 },
+      sticky: {
+        getContainer: () => document.getElementById('content') || window
+      }
+    };
+  }
   return {
     loading, setLoading, pagination, setPagination, searchContent, handleTableChange,
     handleSearch, backFrontPage, sorter, isBackSearch, setIsBackSearch, getRowClass, tableParam

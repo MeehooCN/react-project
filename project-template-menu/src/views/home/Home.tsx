@@ -77,7 +77,7 @@ const Home = (props: IProps) => {
       </Sider>
       <Row style={{ width: 'calc(100% - 200px)' }}>
         <Header />
-        <Content className="content">
+        <Content className="content" id="content">
           <div>
             {!loading && children}
           </div>

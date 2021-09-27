@@ -86,7 +86,7 @@ const Home = (props: IProps) => {
         </Sider>
         <Layout className="site-layout">
           <Header />
-          <Content className="content">
+          <Content className="content" id="content">
             <div>
               {!loading && children}
             </div>

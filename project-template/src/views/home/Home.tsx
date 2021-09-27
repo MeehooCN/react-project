@@ -33,7 +33,7 @@ const Home = (props: IProps) => {
   return (
     <Row style={{ width: '100%' }}>
       <Header />
-      <Content className="content">
+      <Content className="content" id="content">
         {!loading && children}
       </Content>
       <BackTop>
