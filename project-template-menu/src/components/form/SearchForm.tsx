@@ -160,6 +160,7 @@ const SearchForm = (props: IProps, ref: any) => {
             mode={item.mode}
             onChange={(value, option) => item.onChange ? item.onChange(value, option) : onChangeSearch(value, { ref: item.name })}
             filterOption={(input: string, option: any) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+            getPopupContainer={(node) => node.parentNode}
           >
             {
               item.options.map((optionItem: any) => (
@@ -180,6 +181,7 @@ const SearchForm = (props: IProps, ref: any) => {
             onChange={(value, label, extra) => item.onChange ? item.onChange(value, label, extra) : onChangeSearch(value, { ref: item.name })}
             treeData={item.options}
             style={{ width: '100%', ...item.style }}
+            getPopupContainer={(node) => node.parentNode}
           />
         );
       case ISearchFormItemType.Date:
