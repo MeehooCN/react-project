@@ -17,7 +17,12 @@ import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
 
 ReactDOM.render(
-  <ConfigProvider locale={zhCN}>
+  <ConfigProvider
+    locale={zhCN}
+    getPopupContainer={() => {
+      return document.getElementById('content') || document.body;
+    }}
+  >
     <App />
   </ConfigProvider>,
   document.querySelector('#app')
