@@ -19,7 +19,12 @@ import './static/styles/space.less';
 moment.locale('zh-cn');
 
 ReactDOM.render(
-  <ConfigProvider locale={zhCN}>
+  <ConfigProvider
+    locale={zhCN}
+    getPopupContainer={() => {
+      return document.getElementById('content') || document.body;
+    }}
+  >
     <App />
   </ConfigProvider>,
   document.querySelector('#app')
