@@ -98,10 +98,19 @@ export const echartsColor: Array<string> = ['#2ec7c9', '#b6a2de', '#5ab1ef', '#f
 /**
  * 搜索表单公共的 card 参数
 **/
-// 搜索表单公共的card 参数
 export const searchCardProps: CardProps = {
   bordered: false,
   title: '',
   style: { marginBottom: CommonSpace.sm, width: '100%' },
   size: 'small'
+};
+/**
+ * 时间字段名称
+ * 解决浏览器刷新后日期不保留 moment 原型链问题
+ * 数组时间类型: dateTimeListKeys
+ * 单独字段时间类型: dateTimeKeys
+ **/
+export const formDatePickerKey = {
+  dateTimeListKeys: ['createTime'],
+  dateTimeKeys: ['createTime']
 };

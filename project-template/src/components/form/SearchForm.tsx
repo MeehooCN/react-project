@@ -7,6 +7,7 @@ import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'rea
 import { DatePicker, Form, Input, InputNumber, Select, TreeSelect, Radio, Cascader, Button, Row, Col } from 'antd';
 import { UpOutlined, DownOutlined, SearchOutlined, ReloadOutlined } from '@ant-design/icons';
 import moment from 'moment';
+import { formDatePickerKey } from '@utils/CommonVars';
 
 const { TextArea, Search } = Input;
 const { Option } = Select;
@@ -100,14 +101,10 @@ const SearchForm = (props: IProps, ref: any) => {
   }, [formValue]);
   // 解决浏览器刷新后日期不保留 moment 原型链问题
   if (searchContent) {
-    // 数组时间类型
-    const dateTimeListKeys: Array<string> = ['createTime'];
-    // 单独字段时间类型
-    const dateTimeKeys: Array<string> = [];
     Object.keys(searchContent).forEach((key: string) => {
       if (searchContent[key]) {
         // 数组类型，遍历更改
-        if (dateTimeListKeys.indexOf(key) !== -1 && searchContent[key].length > 0) {
+        if (formDatePickerKey.dateTimeListKeys.indexOf(key) !== -1 && searchContent[key].length > 0) {
           for (let i = 0; i < searchContent[key].length; i++) {
             if (searchContent[key][i].$d instanceof Date) {
               searchContent[key][i] = moment(searchContent[key][i].$d);
@@ -115,7 +112,7 @@ const SearchForm = (props: IProps, ref: any) => {
           }
         }
         // 单独字段更改
-        if (dateTimeKeys.indexOf(key) !== -1 && searchContent[key].$d instanceof Date) {
+        if (formDatePickerKey.dateTimeKeys.indexOf(key) !== -1 && searchContent[key].$d instanceof Date) {
           searchContent[key] = moment(searchContent[key].$d);
         }
       }
