@@ -5,12 +5,12 @@
  **/
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { DatePicker, Form, Input, InputNumber, Select, TreeSelect, Radio, Cascader, Button, Row, Col } from 'antd';
-import { UpOutlined, DownOutlined } from '@ant-design/icons';
+import { UpOutlined, DownOutlined, SearchOutlined, ReloadOutlined } from '@ant-design/icons';
+import moment from 'moment';
 
 const { TextArea, Search } = Input;
 const { Option } = Select;
 const RadioGroup = Radio.Group;
-const RadioButton = Radio.Button;
 const { RangePicker } = DatePicker;
 
 export enum ISearchFormItemType {
@@ -23,9 +23,9 @@ export enum ISearchFormItemType {
   Date = 'date',
   RangeDate = 'rangeDate',
   DateNoTime = 'dateNoTime',
+  RangeDateNoTime = 'rangeDateNoTime',
   Radio = 'radio',
   Cascader = 'cascader',
-  RangeDateNoTime = 'rangeDateNoTime',
 }
 declare type FormItemType = ISearchFormItemType;
 
@@ -73,7 +73,7 @@ export interface ISearchFormColumns {
  * @property formColumns 表单项
  * @property hiddenButton 是否隐藏按钮
  * @event search 搜索操作
- * @property submitLoading 搜索时确定按钮添加 loading 状态
+ * @property submitLoading 搜索时确定按钮新增 loading 状态
  * @property searchText 搜索时按钮文字
  * @property colSpan 搜索 span
  * @property searchContent 查询初始值
@@ -98,6 +98,29 @@ const SearchForm = (props: IProps, ref: any) => {
   useEffect(() => {
     form.setFieldsValue(formValue);
   }, [formValue]);
+  // 解决浏览器刷新后日期不保留 moment 原型链问题
+  if (searchContent) {
+    // 数组时间类型
+    const dateTimeListKeys: Array<string> = ['createTime'];
+    // 单独字段时间类型
+    const dateTimeKeys: Array<string> = [];
+    Object.keys(searchContent).forEach((key: string) => {
+      if (searchContent[key]) {
+        // 数组类型，遍历更改
+        if (dateTimeListKeys.indexOf(key) !== -1 && searchContent[key].length > 0) {
+          for (let i = 0; i < searchContent[key].length; i++) {
+            if (searchContent[key][i].$d instanceof Date) {
+              searchContent[key][i] = moment(searchContent[key][i].$d);
+            }
+          }
+        }
+        // 单独字段更改
+        if (dateTimeKeys.indexOf(key) !== -1 && searchContent[key].$d instanceof Date) {
+          searchContent[key] = moment(searchContent[key].$d);
+        }
+      }
+    });
+  }
   // 搜索
   const handleSearch = () => {
     const value = form.getFieldsValue();
@@ -158,7 +181,7 @@ const SearchForm = (props: IProps, ref: any) => {
             style={{ width: '100%', ...item.style }}
             placeholder={item.placeholder}
             mode={item.mode}
-            onChange={(value, option) => item.onChange ? item.onChange(value, option) : onChangeSearch(value, { ref: item.name })}
+            onChange={(value, option) => (item.onChange ? item.onChange(value, option) : onChangeSearch(value, { ref: item.name }))}
             filterOption={(input: string, option: any) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
           >
             {
@@ -177,7 +200,7 @@ const SearchForm = (props: IProps, ref: any) => {
             allowClear
             multiple={item.multiple}
             treeDefaultExpandAll
-            onChange={(value, label, extra) => item.onChange ? item.onChange(value, label, extra) : onChangeSearch(value, { ref: item.name })}
+            onChange={(value, label, extra) => (item.onChange ? item.onChange(value, label, extra) : onChangeSearch(value, { ref: item.name }))}
             treeData={item.options}
             style={{ width: '100%', ...item.style }}
           />
@@ -189,7 +212,7 @@ const SearchForm = (props: IProps, ref: any) => {
           <DatePicker
             disabled={item.disabled}
             style={{ width: '100%', ...item.style }}
-            onChange={(date: any) => item.onChange ? item.onChange(date) : onChangeSearch(date, { ref: item.name })}
+            onChange={(date: any) => (item.onChange ? item.onChange(date) : onChangeSearch(date, { ref: item.name }))}
           />);
       case ISearchFormItemType.RangeDateNoTime:
         return (
@@ -209,18 +232,17 @@ const SearchForm = (props: IProps, ref: any) => {
           <RadioGroup
             disabled={item.disabled}
             buttonStyle="solid"
-            onChange={(e: any) => item.onChange ? item.onChange(e) : onChangeSearch(e.target.value, { ref: item.name })}
+            options={item.options}
+            onChange={(e: any) => (item.onChange ? item.onChange(e) : onChangeSearch(e.target.value, { ref: item.name }))}
             style={{ width: '100%', ...item.style }}
-          >
-            {item.options.map((optionItem: any) => (<RadioButton key={optionItem.key} value={optionItem.key}>{optionItem.value}</RadioButton>))}
-          </RadioGroup>
+          />
         );
       case ISearchFormItemType.Cascader: return (
         <Cascader
           options={item.options}
           placeholder={item.placeholder}
           showSearch={true}
-          onChange={(value, selectedOptions) => item.onChange ? item.onChange(value, selectedOptions) : onChangeSearch(value, { ref: item.name })}
+          onChange={(value, selectedOptions) => (item.onChange ? item.onChange(value, selectedOptions) : onChangeSearch(value, { ref: item.name }))}
           style={{ width: '100%', ...item.style }}
         />
       );
@@ -256,8 +278,8 @@ const SearchForm = (props: IProps, ref: any) => {
   const buttonGroup = () => {
     return (
       <>
-        <Button onClick={handleReset} style={{ marginRight: 10 }}>重置</Button>
-        <Button type="primary" onClick={handleSearch} loading={submitLoading}>{searchText || '搜索'}</Button>
+        <Button onClick={handleReset} style={{ marginRight: 10 }} icon={<ReloadOutlined />}>重置</Button>
+        <Button type="primary" onClick={handleSearch} loading={submitLoading} icon={<SearchOutlined />}>{searchText || '搜索'}</Button>
       </>
     );
   };
