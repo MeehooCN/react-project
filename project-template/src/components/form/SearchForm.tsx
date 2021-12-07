@@ -49,6 +49,7 @@ declare type FormItemType = ISearchFormItemType;
  * @property formatter inputNumber 显示的格式化
  * @property multiple treeSelect 的选择是否多选
  * @property placeholder 输入框的提示信息
+ * @property notReset 重置时是否回到初始值，true：回到初始值，false：空
  */
 export interface ISearchFormColumns {
   label: string,
@@ -68,6 +69,7 @@ export interface ISearchFormColumns {
   multiple?: boolean,
   initialValue?: any,
   placeholder?: string,
+  notReset?: boolean
 }
 /**
  * @description 公共表单的参数
@@ -130,6 +132,13 @@ const SearchForm = (props: IProps, ref: any) => {
     let values: any = {};
     for (let objName in value) {
       values[objName] = undefined;
+    }
+    // 筛选出重置时回到初始值的表单项
+    let notResetArr: Array<ISearchFormColumns> = formColumns.filter(item => item.notReset);
+    if (notResetArr.length > 0) {
+      notResetArr.forEach(item => {
+        values[item.name] = item.initialValue;
+      });
     }
     form.setFieldsValue(values);
     search(values);
