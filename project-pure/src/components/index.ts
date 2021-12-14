@@ -5,3 +5,4 @@
  **/
 // 404
 export { default as ErrorBoundary } from '@components/ErrorBoundary';
+export { message } from '@components/Message';
