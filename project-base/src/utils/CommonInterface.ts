@@ -8,7 +8,7 @@ import { OrganizationEnable, RoleType } from '@utils/CommonVars';
 /**
  * 基础实体
  * **/
-export interface BaseEntity {
+export interface IBaseEntity {
   id: string,
   name: string,
   code?: string
@@ -16,21 +16,21 @@ export interface BaseEntity {
 /**
  * 菜单
  * **/
-export interface MenuData extends BaseEntity {
+export interface IMenuData extends IBaseEntity {
   icon: string,
   url: string,
   menuType: number,
-  children?: Array<MenuData>
+  children?: Array<IMenuData>
 }
 /**
  * 机构
  * **/
-export interface Organization {
+export interface IOrganization {
   label: string,
   value: string,
   key: string,
   enable: OrganizationEnable,
-  children: Array<Organization>,
+  children: Array<IOrganization>,
   detailAddress?: string,
   contactPerson?: string,
   contactPhone?: string,
@@ -39,7 +39,7 @@ export interface Organization {
 /**
  * 管理员
  * **/
-export interface Admin extends BaseEntity {
+export interface IAdmin extends IBaseEntity {
   userName: string,
   phone: string,
   roleId: string,
@@ -52,7 +52,7 @@ export interface Admin extends BaseEntity {
 /**
  * 查询条件
  * **/
-export interface SearchCondition {
+export interface ISearchCondition {
   name: string,
   operand: string,
   value?: string | number
@@ -60,7 +60,7 @@ export interface SearchCondition {
 /**
  * 数据字典选项
  * **/
-export interface Dict {
+export interface IDict {
   id: string,
   mkey: string,
   mvalue: string,
@@ -69,14 +69,14 @@ export interface Dict {
 /**
  * 选项
  * **/
-export interface OptionData {
+export interface IOptionData {
   key: string,
   value: string
 }
 /**
  * 管理员角色
  * **/
-export interface Role extends BaseEntity {
+export interface IRole extends IBaseEntity {
   number: string,
   remark: string,
   roleType: RoleType

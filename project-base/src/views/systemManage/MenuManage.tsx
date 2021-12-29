@@ -19,21 +19,21 @@ const IconFont = createFromIconfontCN({
   scriptUrl: iconUrl,
 });
 
-interface MenuData {
+interface IMenuData {
   id: string,
   code: string,
   name: string,
   url: string | undefined,
   status: number,
   icon: string,
-  children?: Array<MenuData>
+  children?: Array<IMenuData>
 }
 
 const MenuManage = () => {
   const menuRef: any = useRef();
   const { setLoading, pagination, setPagination, tableParam } = useTableHook({ hidePage: false });
   const { submitLoading, setSubmitLoading, formValue, setFormValue } = useFormHook();
-  const [menuList, setMenuList] = useState<Array<MenuData>>([]);
+  const [menuList, setMenuList] = useState<Array<IMenuData>>([]);
   const [addView, setAddView] = useState<boolean>(false);
   const [isAdd, setIsAdd] = useState<boolean>(false);
   // 参数1 是否是子菜单新增 参数2 父菜单名称 参数3 父级菜单id
@@ -156,7 +156,7 @@ const MenuManage = () => {
     title: '操作',
     dataIndex: 'opt',
     width: 280,
-    render: (text: string, row: MenuData) => {
+    render: (text: string, row: IMenuData) => {
       return (
         <>
           {row.url === undefined && (

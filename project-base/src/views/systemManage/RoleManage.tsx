@@ -10,20 +10,18 @@ import {
   SearchInlineForm, useModalHook, useTableHook
 } from '@components/index';
 import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
-import { Role } from '@utils/CommonInterface';
+import { IRole } from '@utils/CommonInterface';
 import { get, post } from '@utils/Ajax';
 import { IFormItemType } from '@components/form/CommonForm';
 import { ISearchFormItemType } from '@components/form/SearchForm';
 import { getRules, myCardProps } from '@utils/CommonFunc';
 import { CommonSpace, RoleType, RuleType, searchCardProps } from '@utils/CommonVars';
 
-const { TreeNode } = Tree;
-
 const RoleManage = () => {
   const formRef: any = useRef();
   const { setLoading, pagination, setPagination, searchContent, handleSearch, backFrontPage, tableParam } = useTableHook();
   const { onCancel, addButtonClick, editButtonClick, modalProps } = useModalHook();
-  const [roleList, setRoleList] = useState<Array<Role>>([]);
+  const [roleList, setRoleList] = useState<Array<IRole>>([]);
   const [authVisible, setAuthVisible] = useState<boolean>(false);
   const [formValue, setFormValue] = useState<any>({});
   const [checkedKeys, setCheckedKeys] = useState<Array<any>>([]);
@@ -58,7 +56,7 @@ const RoleManage = () => {
     addButtonClick('新增角色');
   };
   // 点击编辑角色
-  const onEdit = (role: Role) => {
+  const onEdit = (role: IRole) => {
     setFormValue(role);
     editButtonClick(role.id, '编辑角色');
   };
@@ -148,7 +146,7 @@ const RoleManage = () => {
     title: '操作',
     dataIndex: 'option',
     width: 250,
-    render: (text: any, role: Role) => {
+    render: (text: any, role: IRole) => {
       return (
         <>
           <Button size="small" type="primary" onClick={() => handleAuth(role.id)}>角色授权</Button>

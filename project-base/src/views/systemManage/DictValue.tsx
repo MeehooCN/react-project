@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Card, Divider, Popconfirm, Row, Table, Modal, Menu, Col, Tag, message, Spin, Space } from 'antd';
 import { MyTitle, CommonHorizFormHook, IFormColumns, useTableHook } from '@components/index';
 import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
-import { Dict } from '@utils/CommonInterface';
+import { IDict } from '@utils/CommonInterface';
 import { post } from '@utils/Ajax';
 import { IFormItemType } from '@components/form/CommonForm';
 import { getRules, myCardProps } from '@utils/CommonFunc';
@@ -15,7 +15,7 @@ import { CommonSpace, RuleType } from '@utils/CommonVars';
 
 const DictValue = () => {
   const { setLoading, pagination, setPagination, backFrontPage, tableParam } = useTableHook();
-  const [valueList, setValueList] = useState<Array<Dict>>([]);
+  const [valueList, setValueList] = useState<Array<IDict>>([]);
   const [typeList, setTypeList] = useState<Array<any>>([]);
   const [rowId, setRowId] = useState<string>('');
   const [typeVisible, setTypeVisible] = useState<boolean>(false);
@@ -172,7 +172,7 @@ const DictValue = () => {
   }, {
     title: '操作',
     dataIndex: 'op',
-    render: (text: string, row: Dict) => {
+    render: (text: string, row: IDict) => {
       if (row.isSysSet === 1) {
         return <Tag>系统预设不能操作</Tag>;
       }

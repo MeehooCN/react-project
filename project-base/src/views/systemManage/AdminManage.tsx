@@ -10,7 +10,7 @@ import {
   useFormHook, useModalHook, useTableHook
 } from '@components/index';
 import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
-import { Admin, Organization } from '@utils/CommonInterface';
+import { IAdmin, IOrganization } from '@utils/CommonInterface';
 import { get, post } from '@utils/Ajax';
 import { getOrgTreeEnableList } from '@utils/CommonAPI';
 import { findInTree, getRules, getTreeChildrenToNull, myCardProps } from '@utils/CommonFunc';
@@ -23,13 +23,13 @@ const AdminManage = () => {
   const { setLoading, pagination, setPagination, searchContent, handleSearch, backFrontPage, tableParam } = useTableHook();
   const { submitLoading, setSubmitLoading, formValue, setFormValue } = useFormHook();
   const { onCancel, addButtonClick, editButtonClick, modalProps } = useModalHook();
-  const [adminList, setAdminList] = useState<Array<Admin>>([]);
+  const [adminList, setAdminList] = useState<Array<IAdmin>>([]);
   const [roleList, setRoleList] = useState<any>([]);
   const [roleValue, setRoleValue] = useState<any>('');
   const [roleLoading, setRoleLoading] = useState<any>('');
   const [roleVisible, setRoleVisible] = useState<boolean>(false);
   const [adminItem, setAdminItem] = useState<any>({});
-  const [orgList, setOrgList] = useState<Array<Organization>>([]);
+  const [orgList, setOrgList] = useState<Array<IOrganization>>([]);
   useEffect(() => {
     getOrgList();
     getRoleList();
@@ -57,7 +57,7 @@ const AdminManage = () => {
   // 获取机构列表
   const getOrgList = () => {
     getOrgTreeEnableList().then((data: any) => {
-      const templateTree = getTreeChildrenToNull(data, (item: Organization) => {
+      const templateTree = getTreeChildrenToNull(data, (item: IOrganization) => {
         item.value = item.value + '/' + item.label + '/' + item.key;
         item.label = item.label;
       });
@@ -84,7 +84,7 @@ const AdminManage = () => {
     addButtonClick('新增管理员用户');
   };
   // 编辑用户
-  const editUser = (row: Admin) => {
+  const editUser = (row: IAdmin) => {
     const value = row.organizationId && row.organizationId + '/' + row.organizationName + '/' + row.organizationCode;
     const organization = findInTree(orgList, 'value', value);
     setFormValue({
@@ -142,7 +142,7 @@ const AdminManage = () => {
     });
   };
   // 设置权限
-  const setRole = (admin: Admin) => {
+  const setRole = (admin: IAdmin) => {
     setAdminItem(admin);
     setRoleVisible(true);
     if (admin.roleId) {
@@ -208,7 +208,7 @@ const AdminManage = () => {
     title: '操作',
     dataIndex: 'option',
     width: 350,
-    render: (text: any, admin: Admin) => {
+    render: (text: any, admin: IAdmin) => {
       return (
         <>
           <Button type="primary" size="small" onClick={() => setRole(admin)}>指派角色</Button>

@@ -8,7 +8,7 @@ import { useHistory } from 'react-router';
 import { Row, Layout, Menu, Spin } from 'antd';
 import { Header } from '@components/index';
 import { initMenu } from '@utils/CommonFunc';
-import { MenuData } from '@utils/CommonInterface';
+import { IMenuData } from '@utils/CommonInterface';
 import { PageSessionList, platform, projectName } from '@utils/CommonVars';
 import logo from '@static/images/logo.png';
 import { HomeContext } from '../../index';
@@ -33,10 +33,10 @@ const Home = (props: IProps) => {
     }
   });
   const { homeDispatch } = useContext(HomeContext);
-  const [menuList, setMenuList] = useState<Array<MenuData>>([]);
+  const [menuList, setMenuList] = useState<Array<IMenuData>>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedKeys, setSelectedKeys] = useState<Array<string>>([]);
-  const [openKeys, setOpenKeys] = useState<Array<string>>(menuList.map((menu: MenuData) => menu.id));
+  const [openKeys, setOpenKeys] = useState<Array<string>>(menuList.map((menu: IMenuData) => menu.id));
   const [collapsed, setCollapsed] = useState<boolean>(false);
   useEffect(() => {
     // 如果存在当前登录用户，则赋值
