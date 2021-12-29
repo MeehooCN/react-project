@@ -3,7 +3,7 @@
  * @author: cnn
  * @createTime: 2020/7/22 9:30
  **/
-import { OrganizationEnable, RoleType } from '@utils/CommonVars';
+import { EOrganizationEnable, RoleType } from '@utils/CommonVars';
 
 /**
  * 基础实体
@@ -29,7 +29,7 @@ export interface IOrganization {
   label: string,
   value: string,
   key: string,
-  enable: OrganizationEnable,
+  enable: EOrganizationEnable,
   children: Array<IOrganization>,
   detailAddress?: string,
   contactPerson?: string,

@@ -69,6 +69,7 @@ export interface ISearchFormColumns {
   multiple?: boolean,
   initialValue?: any,
   placeholder?: string,
+  disableDate?: any,
   notReset?: boolean
 }
 /**
@@ -212,13 +213,14 @@ const SearchForm = (props: IProps, ref: any) => {
           />
         );
       case ISearchFormItemType.Date:
-        return <DatePicker showTime disabled={item.disabled} style={{ width: '100%', ...item.style }} />;
+        return <DatePicker showTime disabled={item.disabled} style={{ width: '100%', ...item.style }} disabledDate={item.disableDate} />;
       case ISearchFormItemType.DateNoTime:
         return (
           <DatePicker
             disabled={item.disabled}
             style={{ width: '100%', ...item.style }}
             onChange={(date: any) => (item.onChange ? item.onChange(date) : onChangeSearch(date, { ref: item.name }))}
+            disabledDate={item.disableDate}
           />);
       case ISearchFormItemType.RangeDateNoTime:
         return (
@@ -227,11 +229,18 @@ const SearchForm = (props: IProps, ref: any) => {
             disabled={item.disabled}
             style={{ width: '100%', ...item.style }}
             onChange={(date) => item.onChange && item.onChange(date)}
+            disabledDate={item.disableDate}
           />
         );
       case ISearchFormItemType.RangeDate:
         return (
-          <RangePicker showTime={{ format: 'HH:mm:ss' }} format="YYYY-MM-DD HH:mm:ss" disabled={item.disabled} style={{ width: '100%', ...item.style }} />
+          <RangePicker
+            showTime={{ format: 'HH:mm:ss' }}
+            format="YYYY-MM-DD HH:mm:ss"
+            disabled={item.disabled}
+            style={{ width: '100%', ...item.style }}
+            disabledDate={item.disableDate}
+          />
         );
       case ISearchFormItemType.Radio:
         return (
@@ -248,7 +257,7 @@ const SearchForm = (props: IProps, ref: any) => {
           options={item.options}
           placeholder={item.placeholder}
           showSearch={true}
-          onChange={(value, selectedOptions) => (item.onChange ? item.onChange(value, selectedOptions) : onChangeSearch(value, { ref: item.name }))}
+          onChange={(value: any, selectedOptions: any) => (item.onChange ? item.onChange(value, selectedOptions) : onChangeSearch(value, { ref: item.name }))}
           style={{ width: '100%', ...item.style }}
         />
       );

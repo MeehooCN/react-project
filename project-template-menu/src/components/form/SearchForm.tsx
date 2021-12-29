@@ -49,6 +49,7 @@ declare type FormItemType = ISearchFormItemType;
  * @property formatter inputNumber 显示的格式化
  * @property multiple treeSelect 的选择是否多选
  * @property placeholder 输入框的提示信息
+ * @property notReset 重置时是否回到初始值，true：回到初始值，false：空
  */
 export interface ISearchFormColumns {
   label: string,
@@ -68,6 +69,8 @@ export interface ISearchFormColumns {
   multiple?: boolean,
   initialValue?: any,
   placeholder?: string,
+  disableDate?: any,
+  notReset?: boolean
 }
 /**
  * @description 公共表单的参数
@@ -130,6 +133,13 @@ const SearchForm = (props: IProps, ref: any) => {
     let values: any = {};
     for (let objName in value) {
       values[objName] = undefined;
+    }
+    // 筛选出重置时回到初始值的表单项
+    let notResetArr: Array<ISearchFormColumns> = formColumns.filter(item => item.notReset);
+    if (notResetArr.length > 0) {
+      notResetArr.forEach(item => {
+        values[item.name] = item.initialValue;
+      });
     }
     form.setFieldsValue(values);
     search(values);
@@ -203,13 +213,14 @@ const SearchForm = (props: IProps, ref: any) => {
           />
         );
       case ISearchFormItemType.Date:
-        return <DatePicker showTime disabled={item.disabled} style={{ width: '100%', ...item.style }} />;
+        return <DatePicker showTime disabled={item.disabled} style={{ width: '100%', ...item.style }} disabledDate={item.disableDate} />;
       case ISearchFormItemType.DateNoTime:
         return (
           <DatePicker
             disabled={item.disabled}
             style={{ width: '100%', ...item.style }}
             onChange={(date: any) => (item.onChange ? item.onChange(date) : onChangeSearch(date, { ref: item.name }))}
+            disabledDate={item.disableDate}
           />);
       case ISearchFormItemType.RangeDateNoTime:
         return (
@@ -218,11 +229,18 @@ const SearchForm = (props: IProps, ref: any) => {
             disabled={item.disabled}
             style={{ width: '100%', ...item.style }}
             onChange={(date) => item.onChange && item.onChange(date)}
+            disabledDate={item.disableDate}
           />
         );
       case ISearchFormItemType.RangeDate:
         return (
-          <RangePicker showTime={{ format: 'HH:mm:ss' }} format="YYYY-MM-DD HH:mm:ss" disabled={item.disabled} style={{ width: '100%', ...item.style }} />
+          <RangePicker
+            showTime={{ format: 'HH:mm:ss' }}
+            format="YYYY-MM-DD HH:mm:ss"
+            disabled={item.disabled}
+            style={{ width: '100%', ...item.style }}
+            disabledDate={item.disableDate}
+          />
         );
       case ISearchFormItemType.Radio:
         return (
@@ -239,7 +257,7 @@ const SearchForm = (props: IProps, ref: any) => {
           options={item.options}
           placeholder={item.placeholder}
           showSearch={true}
-          onChange={(value, selectedOptions) => (item.onChange ? item.onChange(value, selectedOptions) : onChangeSearch(value, { ref: item.name }))}
+          onChange={(value: any, selectedOptions: any) => (item.onChange ? item.onChange(value, selectedOptions) : onChangeSearch(value, { ref: item.name }))}
           style={{ width: '100%', ...item.style }}
         />
       );

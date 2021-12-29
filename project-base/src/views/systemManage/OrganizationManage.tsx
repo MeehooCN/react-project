@@ -16,7 +16,7 @@ import {
   myCardProps
 } from '@utils/CommonFunc';
 import { post } from '@utils/Ajax';
-import { CommonSpace, OrganizationEnable, RuleType } from '@utils/CommonVars';
+import { CommonSpace, EOrganizationEnable, RuleType } from '@utils/CommonVars';
 import { getAllProvinceCityArea, getDictValueList, getOrgTreeList } from '@utils/CommonAPI';
 import { IFormItemType } from '@components/form/CommonForm';
 
@@ -118,7 +118,7 @@ const OrganizationManage = () => {
     if (editMode[1]) {
       params.id = editMode[2];
     } else {
-      params.enable = values.enable ? OrganizationEnable.ENABLE : OrganizationEnable.FORBID;
+      params.enable = values.enable ? EOrganizationEnable.ENABLE : EOrganizationEnable.FORBID;
     }
     post('security/organization/create', params, {}, (data: any) => {
       if (data.flag === 0) {
@@ -134,7 +134,7 @@ const OrganizationManage = () => {
   const handleEnableChange = (checked: boolean, id: string) => {
     const params = {
       id,
-      enable: checked ? OrganizationEnable.ENABLE : OrganizationEnable.FORBID
+      enable: checked ? EOrganizationEnable.ENABLE : EOrganizationEnable.FORBID
     };
     post('security/organization/changeEnable', params, {}, (data: any) => {
       if (data.flag === 0) {
@@ -177,7 +177,7 @@ const OrganizationManage = () => {
         size="small"
         checkedChildren="启用"
         unCheckedChildren="禁用"
-        checked={enable === OrganizationEnable.ENABLE}
+        checked={enable === EOrganizationEnable.ENABLE}
         onChange={(checked: boolean) => handleEnableChange(checked, row.value)}
       />
     )
