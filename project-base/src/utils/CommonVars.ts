@@ -115,6 +115,9 @@ export const formDatePickerKey = {
   dateTimeListKeys: ['createTime'],
   dateTimeKeys: ['createTime']
 };
+/**
+ * 下拉选择框组件的类型
+ **/
 export enum SelectType {
   Select = 'select',
   TreeSelect = 'treeSelect'

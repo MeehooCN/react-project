@@ -315,7 +315,7 @@ export const myCardProps = (title: string | React.ReactNode, style?: CSSProperti
   });
 };
 /**
- * @description 若对应选项被禁用或删除后，则需回显之前选择的，不可继续选择
+ * @description 若对应选项被禁用、移动或删除后，则需回显之前选择的，不可继续选择
  * @param objectArray: 当前选项数组
  * @param dataList:当前下拉框选项数据
  * @param selectType:当前选择框类型 主要分为treeSelect和select
