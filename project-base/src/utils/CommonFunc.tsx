@@ -6,10 +6,10 @@
 import React, { CSSProperties } from 'react';
 import { IMenuData } from '@utils/CommonInterface';
 import { Link } from 'react-router-dom';
-import { Menu, message, Upload } from 'antd';
+import { Menu, message, Upload, Tag } from 'antd';
 import { createFromIconfontCN } from '@ant-design/icons';
 import dayJs, { Dayjs } from 'dayjs';
-import { iconUrl, RuleType } from '@utils/CommonVars';
+import { colors, iconUrl, RuleType } from '@utils/CommonVars';
 import { Rule } from 'antd/lib/form';
 
 const SubMenu = Menu.SubMenu;
@@ -320,4 +320,18 @@ export const myCardProps = (title: string | React.ReactNode, style?: CSSProperti
  */
 export const disableDate = (current: any | null) => {
   return current && current > dayJs().endOf('day');
+};
+/**
+ *  @description 获取两种不同颜色的 Tag
+ * @param isYes true 得到绿色 Tag，false 得到红色 Tag
+ * @param yesText 绿色的文字
+ * @param noText 红色的文字
+ * @param key 如果是数组，则需要该字段
+ **/
+export const getTwoTag = (isYes: boolean, yesText: string, noText: string, key?: string | number) => {
+  if (isYes) {
+    return <Tag color={colors.success} key={key}>{yesText}</Tag>;
+  } else {
+    return <Tag color={colors.error} key={key}>{noText}</Tag>;
+  }
 };

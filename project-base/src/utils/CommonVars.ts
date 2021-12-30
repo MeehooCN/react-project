@@ -11,7 +11,8 @@ import { CardProps } from 'antd/lib/card';
  * **/
 export enum colors {
   primaryColor = '#1890ff',
-  error = '#f5222d'
+  error = '#f5222d',
+  success = '#52c41a'
 }
 /**
  * 公共间距
