@@ -7,7 +7,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Button, Card, Divider, message, Modal, Popconfirm, Space, Switch, Table } from 'antd';
 import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import { CommonHorizFormHook, IFormColumns, MyTitle, OverText, useFormHook, useTableHook } from '@components/index';
-import { OptionData, Organization } from '@utils/CommonInterface';
+import { IOptionData, IOrganization } from '@utils/CommonInterface';
 import {
   getAreaNameAndCode,
   getProvinceCityArea,
@@ -16,7 +16,7 @@ import {
   myCardProps
 } from '@utils/CommonFunc';
 import { post } from '@utils/Ajax';
-import { CommonSpace, OrganizationEnable, RuleType } from '@utils/CommonVars';
+import { CommonSpace, EOrganizationEnable, RuleType } from '@utils/CommonVars';
 import { getAllProvinceCityArea, getDictValueList, getOrgTreeList } from '@utils/CommonAPI';
 import { IFormItemType } from '@components/form/CommonForm';
 
@@ -24,13 +24,13 @@ const OrganizationManage = () => {
   const orgRef: any = useRef();
   const { setLoading, tableParam } = useTableHook({ hidePage: true });
   const { submitLoading, setSubmitLoading, formValue, setFormValue } = useFormHook();
-  const [orgList, setOrgList] = useState<Array<Organization>>([]);
+  const [orgList, setOrgList] = useState<Array<IOrganization>>([]);
   // [窗口显示，是否为编辑（false 新增），编辑时 id]
   const [editMode, setEditMode] = useState<[boolean, boolean, string]>([false, false, '']);
   // [是否是子菜单新增，父菜单名称，父级菜单id， 父级菜单code]
   const [isChildAdd, setIsChildAdd] = useState<[boolean, string, string, string]>([false, '', '', '']);
   const [regionList, setRegionList] = useState<Array<any>>([]);
-  const [orgTypeList, setOrgTypeList] = useState<Array<OptionData>>([]);
+  const [orgTypeList, setOrgTypeList] = useState<Array<IOptionData>>([]);
   useEffect(() => {
     getOrgList();
     // 获取省市区列表
@@ -58,13 +58,13 @@ const OrganizationManage = () => {
     setIsChildAdd([false, '', '', '']);
   };
   // 新增子机构
-  const addChildOrganization = (e: any, row: Organization) => {
+  const addChildOrganization = (e: any, row: IOrganization) => {
     e.stopPropagation();
     setIsChildAdd([true, row.label, row.value, row.key]);
     setEditMode([true, false, '']);
   };
   // 编辑机构
-  const editOrganization = (e: any, row: Organization) => {
+  const editOrganization = (e: any, row: IOrganization) => {
     e.stopPropagation();
     setFormValue({
       name: row.label,
@@ -118,7 +118,7 @@ const OrganizationManage = () => {
     if (editMode[1]) {
       params.id = editMode[2];
     } else {
-      params.enable = values.enable ? OrganizationEnable.ENABLE : OrganizationEnable.FORBID;
+      params.enable = values.enable ? EOrganizationEnable.ENABLE : EOrganizationEnable.FORBID;
     }
     post('security/organization/create', params, {}, (data: any) => {
       if (data.flag === 0) {
@@ -134,7 +134,7 @@ const OrganizationManage = () => {
   const handleEnableChange = (checked: boolean, id: string) => {
     const params = {
       id,
-      enable: checked ? OrganizationEnable.ENABLE : OrganizationEnable.FORBID
+      enable: checked ? EOrganizationEnable.ENABLE : EOrganizationEnable.FORBID
     };
     post('security/organization/changeEnable', params, {}, (data: any) => {
       if (data.flag === 0) {
@@ -172,12 +172,12 @@ const OrganizationManage = () => {
     title: '状态',
     dataIndex: 'enable',
     width: 120,
-    render: (enable: number, row: Organization) => (
+    render: (enable: number, row: IOrganization) => (
       <Switch
         size="small"
         checkedChildren="启用"
         unCheckedChildren="禁用"
-        checked={enable === OrganizationEnable.ENABLE}
+        checked={enable === EOrganizationEnable.ENABLE}
         onChange={(checked: boolean) => handleEnableChange(checked, row.value)}
       />
     )
@@ -185,7 +185,7 @@ const OrganizationManage = () => {
     title: '操作',
     dataIndex: 'opt',
     width: 260,
-    render: (text: string, row: Organization) => {
+    render: (text: string, row: IOrganization) => {
       return (
         <>
           <>

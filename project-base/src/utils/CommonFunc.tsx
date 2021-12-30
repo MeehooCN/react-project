@@ -4,12 +4,12 @@
  * @createTime: 2020/7/22 9:35
  **/
 import React, { CSSProperties } from 'react';
-import { MenuData } from '@utils/CommonInterface';
+import { IMenuData } from '@utils/CommonInterface';
 import { Link } from 'react-router-dom';
-import { Menu, message, Upload } from 'antd';
+import { Menu, message, Upload, Tag } from 'antd';
 import { createFromIconfontCN } from '@ant-design/icons';
 import dayJs, { Dayjs } from 'dayjs';
-import { iconUrl, RuleType } from '@utils/CommonVars';
+import { colors, iconUrl, RuleType } from '@utils/CommonVars';
 import { Rule } from 'antd/lib/form';
 
 const SubMenu = Menu.SubMenu;
@@ -35,13 +35,13 @@ export const dateToDateString = (date: Date) => {
  * @params
  * type: 来自哪个页面，如：'/components/'
  * **/
-export const initMenu = (menuList: Array<MenuData>, type: string) => {
+export const initMenu = (menuList: Array<IMenuData>, type: string) => {
   const subMenuList = [];
   for (let i = 0, length = menuList.length; i < length; i++) {
     // @ts-ignore
     if (menuList[i].children && menuList[i].children.length > 0) {
       // @ts-ignore
-      const menuHtmlList = menuList[i].children.map((item: MenuData) => (
+      const menuHtmlList = menuList[i].children.map((item: IMenuData) => (
         <MenuItem key={item.id} icon={item.icon && <IconFont type={item.icon} />}>
           <Link to={type + item.url}>
             {item.name}
@@ -313,4 +313,25 @@ export const myCardProps = (title: string | React.ReactNode, style?: CSSProperti
     style: style || { width: '100%' },
     size: size || 'small'
   });
+};
+/**
+ * @description 禁用时间、不能选择今天以后的时间
+ * @param current 选择器中的时间
+ */
+export const disableDate = (current: any | null) => {
+  return current && current > dayJs().endOf('day');
+};
+/**
+ *  @description 获取两种不同颜色的 Tag
+ * @param isYes true 得到绿色 Tag，false 得到红色 Tag
+ * @param yesText 绿色的文字
+ * @param noText 红色的文字
+ * @param key 如果是数组，则需要该字段
+ **/
+export const getTwoTag = (isYes: boolean, yesText: string, noText: string, key?: string | number) => {
+  if (isYes) {
+    return <Tag color={colors.success} key={key}>{yesText}</Tag>;
+  } else {
+    return <Tag color={colors.error} key={key}>{noText}</Tag>;
+  }
 };

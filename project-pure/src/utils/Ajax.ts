@@ -6,6 +6,7 @@ import Axios from 'axios';
 // @ts-ignore
 import qs from 'qs';
 import { platform, serverPath } from '@utils/CommonVars';
+import { message } from '@components/index';
 
 /**
  * post 传参
@@ -27,10 +28,10 @@ const post = (url: string, data: any, config: any, thenCallBack: any) => {
       let responseData = response.data;
       if (responseData.hasOwnProperty('flag')) {
         if (responseData.flag === 1) {
-          window.alert(responseData.msg);
+          message(responseData.msg, 'error');
           thenCallBack(responseData);
         } else if (responseData.flag === 4004) {
-          window.alert('没有登录信息或登录信息过期，请重新登录。');
+          message('没有登录信息或登录信息过期，请重新登录。', 'error');
           window.setTimeout(() => {
             window.location.href = platform;
           }, 1000);
@@ -41,18 +42,18 @@ const post = (url: string, data: any, config: any, thenCallBack: any) => {
         thenCallBack(responseData);
       }
     } else if (response.status === 404) {
-      window.alert('服务未找到');
+      message('服务未找到。', 'error');
     } else if (response.status === 500) {
-      window.alert('服务异常');
+      message('服务异常。', 'error');
     } else {
-      window.alert('未知异常');
+      message('未知异常。', 'error');
     }
   }).catch((e) => {
     // 如果未授权
     if (e.response && e.response.status === 403 && e.response.data && e.response.data.flag === 1) {
       thenCallBack(e.response.data);
     } else {
-      window.alert(e);
+      message(e, 'error');
     }
   });
 };
@@ -68,10 +69,10 @@ const get = (url: string, config: any, thenCallBack: any) => {
       let responseData = response.data;
       if (responseData.hasOwnProperty('flag')) {
         if (responseData.flag === 1) {
-          window.alert(responseData.msg);
+          message(responseData.msg, 'error');
           thenCallBack(responseData);
         } else if (responseData.flag === 4004) {
-          window.alert('没有登录信息或登录信息过期，请重新登录。');
+          message('没有登录信息或登录信息过期，请重新登录。', 'error');
           window.setTimeout(() => {
             window.location.href = platform;
           }, 1000);
@@ -82,18 +83,18 @@ const get = (url: string, config: any, thenCallBack: any) => {
         thenCallBack(responseData);
       }
     } else if (response.status === 404) {
-      window.alert('服务未找到');
+      message('服务未找到。', 'error');
     } else if (response.status === 500) {
-      window.alert('服务异常');
+      message('服务异常。', 'error');
     } else {
-      window.alert('未知异常');
+      message('未知异常。', 'error');
     }
   }).catch((e) => {
     // 如果未授权
     if (e.response && e.response.status === 403 && e.response.data && e.response.data.flag === 1) {
       thenCallBack(e.response.data);
     } else {
-      window.alert(e);
+      message(e, 'error');
     }
   });
 };

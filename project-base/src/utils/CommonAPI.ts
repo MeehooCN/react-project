@@ -4,7 +4,7 @@
  * @createTime: 2020/11/27 17:25
  **/
 import { get, post } from '@utils/Ajax';
-import { OptionData } from '@utils/CommonInterface';
+import { IOptionData } from '@utils/CommonInterface';
 
 /**
  * 获取所有未禁用的机构列表
@@ -37,7 +37,7 @@ export const getDictValueList = async (module: string, number: string) => {
   return new Promise((resolve: any) => {
     post('sysmanage/dictValue/getByTypeModuleNumber', { module, number }, {}, (data: any) => {
       if (data.flag === 0) {
-        const optionList: Array<OptionData> = data.data.map((item: any) => ({ label: item.mvalue, value: item.mvalue }));
+        const optionList: Array<IOptionData> = data.data.map((item: any) => ({ label: item.mvalue, value: item.mvalue }));
         resolve(optionList);
       }
     });

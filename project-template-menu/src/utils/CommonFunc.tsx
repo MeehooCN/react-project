@@ -4,7 +4,7 @@
  * @createTime: 2020/7/22 9:35
  **/
 import React from 'react';
-import { MenuData } from '@utils/CommonInterface';
+import { IMenuData } from '@utils/CommonInterface';
 import { Link } from 'react-router-dom';
 import { Menu, message, Upload } from 'antd';
 import { createFromIconfontCN } from '@ant-design/icons';
@@ -35,13 +35,13 @@ export const dateToDateString = (date: Dayjs) => {
  * @params
  * type: 来自哪个页面，如：'/components/'
  * **/
-export const initMenu = (menuList: Array<MenuData>, type: string) => {
+export const initMenu = (menuList: Array<IMenuData>, type: string) => {
   const subMenuList = [];
   for (let i = 0, length = menuList.length; i < length; i++) {
     // @ts-ignore
     if (menuList[i].children && menuList[i].children.length > 0) {
       // @ts-ignore
-      const menuHtmlList = menuList[i].children.map((item: MenuData) => (
+      const menuHtmlList = menuList[i].children.map((item: IMenuData) => (
         <MenuItem key={item.id} icon={item.icon && <IconFont type={item.icon} />}>
           <Link to={type + item.url}>
             {item.name}
@@ -204,4 +204,11 @@ export const throttle = (fn: Function, wait: number = 100) => {
       time = Date.now();
     }
   };
+};
+/**
+ * @description 禁用时间、不能选择今天以后的时间
+ * @param current 选择器中的时间
+ */
+export const disableDate = (current: any | null) => {
+  return current && current > dayJs().endOf('day');
 };

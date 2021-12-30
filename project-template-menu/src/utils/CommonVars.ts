@@ -69,3 +69,13 @@ export enum IPageSession {
 export const PageSessionList: Array<IPageSession> = [
   IPageSession.demo
 ];
+/**
+ * 时间字段名称
+ * 解决浏览器刷新后日期不保留 moment 原型链问题
+ * 数组时间类型: dateTimeListKeys
+ * 单独字段时间类型: dateTimeKeys
+ **/
+export const formDatePickerKey = {
+  dateTimeListKeys: ['createTime'],
+  dateTimeKeys: ['createTime']
+};

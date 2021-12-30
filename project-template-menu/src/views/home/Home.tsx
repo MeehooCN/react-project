@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import { Row, Layout, Menu } from 'antd';
 import { Header } from '@components/index';
 import { initMenu } from '@utils/CommonFunc';
-import { MenuData } from '@utils/CommonInterface';
+import { IMenuData } from '@utils/CommonInterface';
 import { PageSessionList, platform, projectName } from '@utils/CommonVars';
 import { useHistory } from 'react-router';
 import logo from '@static/images/logo.png';
@@ -32,7 +32,7 @@ const Home = (props: IProps) => {
   });
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedKeys, setSelectedKeys] = useState<Array<string>>([]);
-  const menuList: Array<MenuData> = [{
+  const menuList: Array<IMenuData> = [{
     id: '1',
     name: '系统管理',
     url: 'systemManage',
@@ -54,7 +54,7 @@ const Home = (props: IProps) => {
     url: 'menu2',
     icon: 'icon-menu'
   }];
-  const [openKeys, setOpenKeys] = useState<Array<string>>(menuList.map((menu: MenuData) => menu.id));
+  const [openKeys, setOpenKeys] = useState<Array<string>>(menuList.map((menu: IMenuData) => menu.id));
   return (
     <Row style={{ width: '100%', overflowY: 'hidden' }}>
       <Sider style={{ width: 200 }}>
