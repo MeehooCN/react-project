@@ -115,3 +115,7 @@ export const formDatePickerKey = {
   dateTimeListKeys: ['createTime'],
   dateTimeKeys: ['createTime']
 };
+export enum SelectType {
+  Select = 'select',
+  TreeSelect = 'treeSelect'
+}

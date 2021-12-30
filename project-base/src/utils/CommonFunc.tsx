@@ -4,12 +4,12 @@
  * @createTime: 2020/7/22 9:35
  **/
 import React, { CSSProperties } from 'react';
-import { IMenuData } from '@utils/CommonInterface';
+import { MenuData } from '@utils/CommonInterface';
 import { Link } from 'react-router-dom';
-import { Menu, message, Upload, Tag } from 'antd';
+import { Menu, message, Upload } from 'antd';
 import { createFromIconfontCN } from '@ant-design/icons';
 import dayJs, { Dayjs } from 'dayjs';
-import { colors, iconUrl, RuleType } from '@utils/CommonVars';
+import { iconUrl, RuleType, SelectType } from '@utils/CommonVars';
 import { Rule } from 'antd/lib/form';
 
 const SubMenu = Menu.SubMenu;
@@ -35,13 +35,13 @@ export const dateToDateString = (date: Date) => {
  * @params
  * type: 来自哪个页面，如：'/components/'
  * **/
-export const initMenu = (menuList: Array<IMenuData>, type: string) => {
+export const initMenu = (menuList: Array<MenuData>, type: string) => {
   const subMenuList = [];
   for (let i = 0, length = menuList.length; i < length; i++) {
     // @ts-ignore
     if (menuList[i].children && menuList[i].children.length > 0) {
       // @ts-ignore
-      const menuHtmlList = menuList[i].children.map((item: IMenuData) => (
+      const menuHtmlList = menuList[i].children.map((item: MenuData) => (
         <MenuItem key={item.id} icon={item.icon && <IconFont type={item.icon} />}>
           <Link to={type + item.url}>
             {item.name}
@@ -315,23 +315,42 @@ export const myCardProps = (title: string | React.ReactNode, style?: CSSProperti
   });
 };
 /**
- * @description 禁用时间、不能选择今天以后的时间
- * @param current 选择器中的时间
+ * @description 若对应选项被禁用或删除后，则需回显之前选择的，不可继续选择
+ * @param objectArray: 当前选项数组
+ * @param dataList:当前下拉框选项数据
+ * @param selectType:当前选择框类型 主要分为treeSelect和select
  */
-export const disableDate = (current: any | null) => {
-  return current && current > dayJs().endOf('day');
-};
-/**
- *  @description 获取两种不同颜色的 Tag
- * @param isYes true 得到绿色 Tag，false 得到红色 Tag
- * @param yesText 绿色的文字
- * @param noText 红色的文字
- * @param key 如果是数组，则需要该字段
- **/
-export const getTwoTag = (isYes: boolean, yesText: string, noText: string, key?: string | number) => {
-  if (isYes) {
-    return <Tag color={colors.success} key={key}>{yesText}</Tag>;
-  } else {
-    return <Tag color={colors.error} key={key}>{noText}</Tag>;
+export const renderDeleteList = (objectArray: Array<any>, dataList: Array<any>, selectType: string) => {
+  if (selectType === SelectType.Select && objectArray.length > 0) { // 针对于select
+    const currentObject: any = objectArray[0];
+    if (currentObject.id && dataList.findIndex((item) => item.value === currentObject.id) === -1) {
+      return [{ label: currentObject.name, value: currentObject.id, disabled: true }];
+    } else {
+      return [];
+    }
+  } else { // 针对于treeSelect
+    let currentList: Array<any> = []; // 先将多维数据转为一维数组
+    if (dataList.length > 0) {
+      const generateList = (data: any) => {
+        for (let i = 0; i < data.length; i++) {
+          currentList.push(data[i]);
+          if (data[i].children) {
+            generateList(data[i].children);
+          }
+        }
+      };
+      generateList(dataList);
+    }
+    let resultDataList: Array<any> = [];
+    objectArray.length > 0 && objectArray.forEach((item: any) => {
+      if (currentList.length === 0 || currentList.findIndex((items) => items.key === item.id) === -1) {
+        resultDataList.push({ title: item.name + '(已被移动或删除)', key: item.id, disabled: true, selectable: false, disableCheckbox: true });
+      }
+    });
+    if (resultDataList.length > 0) {
+      return resultDataList;
+    } else {
+      return [];
+    }
   }
 };
