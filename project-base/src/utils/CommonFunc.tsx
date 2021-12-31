@@ -265,6 +265,10 @@ export const getRules = (ruleType: RuleType, required?: boolean) => {
     [RuleType.password, [{
       pattern: /^[_a-zA-Z0-9]+$/,
       message: '仅由英文字母，数字以及下划线组成'
+    }]],
+    [RuleType.keyword, [{
+      pattern: /^[a-z][a-z0-9_]*$/g,
+      message: '以小写英文字母开头，且只能包含英文字母、数字、下划线'
     }]]
   ]);
   const returnRules: Array<Rule> = commonRules.get(ruleType) || [];
