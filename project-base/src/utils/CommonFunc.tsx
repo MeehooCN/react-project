@@ -330,22 +330,16 @@ export const getTwoTag = (isYes: boolean, yesText: string, noText: string, key?:
 };
 /**
  * @description 若对应选项被禁用、移动或删除后，则需回显之前选择的，不可继续选择
- * @param objectArray: 当前选项数组
+ * @param objectArray: 需要重新组装的在下拉框中不存在的选项数组
  * @param dataList: 当前下拉框选项数据
- * @param selectType:当前选择框类型 主要分为treeSelect和select
+ * @param selectType:当前选择框类型 主要分为treeSelect和select 默认值为select
  */
-// todo 上面参数说明可以写的详细一些，比如 objectArray，我就是看了你的代码才知道它应该传什么，可以修改为：需要重新组装的在下拉框中不存在的选项数组。
-// todo 为什么不直接返回装好了的数组
-// todo select 类型时返回的数组 value 值是不是应该为 id 而不是 name
-// todo 函数的参数定义可以再清楚一些，比如：
-//  (objectArray: Array<{ name: string, id: string }>, dataList: Array<any>, selectType: SelectType = SelectType.Select)
-export const renderDeleteList = (objectArray: Array<any>, dataList: Array<any>, selectType: string) => {
+export const renderDeleteList = (objectArray: Array<{ name: string, id: string }>, dataList: Array<any>, selectType: SelectType = SelectType.Select) => {
+  let returnData: Array<any> = [];
   if (selectType === SelectType.Select && objectArray.length > 0) { // 针对于select
     const currentObject: any = objectArray[0];
     if (currentObject.id && dataList.findIndex((item) => item.value === currentObject.id) === -1) {
-      return [{ label: currentObject.name, value: currentObject.id, disabled: true }];
-    } else {
-      return [];
+      returnData.push({ label: currentObject.name, value: currentObject.id, disabled: true });
     }
   } else { // 针对于 treeSelect
     let currentList: Array<any> = []; // 先将多维数据转为一维数组
@@ -361,16 +355,14 @@ export const renderDeleteList = (objectArray: Array<any>, dataList: Array<any>, 
       generateList(dataList);
     }
     let resultDataList: Array<any> = [];
-    objectArray.length > 0 && objectArray.forEach((item: any) => {
-      // todo 第一个判断应该不需要的
-      if (currentList.length === 0 || currentList.findIndex((items) => items.key === item.id) === -1) {
+    objectArray.forEach((item: any) => {
+      if (currentList.findIndex((items) => items.key === item.id) === -1) {
         resultDataList.push({ title: item.name + '(已被移动或删除)', key: item.id, disabled: true, selectable: false, disableCheckbox: true });
       }
     });
     if (resultDataList.length > 0) {
-      return resultDataList;
-    } else {
-      return [];
+      returnData = resultDataList;
     }
   }
+  return returnData;
 };
