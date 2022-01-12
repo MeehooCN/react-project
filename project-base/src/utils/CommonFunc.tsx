@@ -368,5 +368,5 @@ export const renderDeleteList = (objectArray: Array<{ name: string, id: string }
       returnData = resultDataList;
     }
   }
-  return returnData;
+  return [...returnData, ...dataList];
 };
