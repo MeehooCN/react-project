@@ -69,6 +69,7 @@ declare type FormItemType = IFormItemType;
  * @property viewComponent Modal 中显示的组件
  * @property uploadProps upload 上传的props
  * @property tooltip 表单项的提示
+ * @property verticalRadio 单选是否竖直排列
  */
 export interface IFormColumns {
   label: string,
@@ -98,7 +99,8 @@ export interface IFormColumns {
   unCheckedChildren?: string,
   viewComponent?: React.ReactNode,
   uploadProps?: UploadProps,
-  tooltip?: any
+  tooltip?: any,
+  verticalRadio?: boolean
 }
 /**
  * @description 公共表单的参数
@@ -277,6 +279,7 @@ const CommonForm = (props: IProps, ref: any) => {
       case IFormItemType.Radio:
         return (
           <RadioGroup
+            style={item.verticalRadio ? { display: 'flex', flexFlow: 'column', marginTop: CommonSpace.xs } : {}}
             disabled={item.disabled}
             buttonStyle="solid"
             onChange={(e) => item.onChange && item.onChange(e)}
