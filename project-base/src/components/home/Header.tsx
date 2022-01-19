@@ -5,18 +5,19 @@
  **/
 import React, { useContext } from 'react';
 import { Row, Avatar, Dropdown, Menu } from 'antd';
-import { SmileTwoTone, UserOutlined, PoweroffOutlined } from '@ant-design/icons';
+import { UserOutlined, PoweroffOutlined } from '@ant-design/icons';
 import { HomeContext } from '../../index';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { platform } from '@utils/CommonVars';
 import './index.less';
 
 const Header = () => {
+  const history: any = useHistory();
   const { homeState } = useContext(HomeContext);
   // 注销登录
   const logOut = () => {
     sessionStorage.clear();
-    window.location.href = platform;
+    history.replace(platform);
   };
   const menu = (
     <Menu style={{ marginTop: 5 }}>
