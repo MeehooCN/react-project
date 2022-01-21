@@ -300,7 +300,7 @@ const CommonForm = (props: IProps, ref: any) => {
             options={item.options}
             placeholder={item.placeholder}
             showSearch={true}
-            onChange={(value, selectedOptions) => item.onChange && item.onChange(value, selectedOptions)}
+            onChange={(value: any, selectedOptions: any) => item.onChange && item.onChange(value, selectedOptions)}
           />
         );
       case IFormItemType.Switch:
