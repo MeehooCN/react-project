@@ -7,7 +7,7 @@ import React, { useEffect, useImperativeHandle, forwardRef, useState } from 'rea
 import {
   Col, DatePicker, Form, Input, InputNumber, Select,
   TreeSelect, Radio, Cascader, Row, Button, Switch,
-  Slider, Checkbox, Modal, Upload, Typography, Tooltip
+  Slider, Checkbox, Modal, Upload, Tooltip, Typography
 } from 'antd';
 import { UploadOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { Rule } from 'antd/lib/form';
@@ -21,7 +21,6 @@ const RadioGroup = Radio.Group;
 const RadioButton = Radio.Button;
 const { RangePicker } = DatePicker;
 const CheckboxGroup = Checkbox.Group;
-
 export enum IFormItemType {
   Text = 'text',
   TextArea = 'textArea',
@@ -40,7 +39,7 @@ export enum IFormItemType {
   Checkbox = 'checkbox',
   Hidden = 'hidden',
   Button = 'button',
-  Upload = 'upload',
+  Upload = 'upload'
 }
 declare type FormItemType = IFormItemType;
 /**
@@ -70,6 +69,7 @@ declare type FormItemType = IFormItemType;
  * @property viewComponent Modal 中显示的组件
  * @property uploadProps upload 上传的props
  * @property tooltip 表单项的提示
+ * @property maxLength 允许输入的字符最大长度 Input 默认 50，TextArea 默认 200
  */
 export interface IFormColumns {
   label: string,
@@ -99,13 +99,14 @@ export interface IFormColumns {
   unCheckedChildren?: string,
   viewComponent?: React.ReactNode,
   uploadProps?: UploadProps,
-  tooltip?: any
+  tooltip?: any,
+  maxLength?: number
 }
 /**
  * @description 公共表单的参数
  * @property formColumns 表单项
  * @property formValue 表单值
- * @property submitLoading 提交时确定按钮添加 loading 状态
+ * @property submitLoading 提交时确定按钮新增 loading 状态
  * @property formItemLayout label 和 item 的显示布局
  * @property inlineSpan 每行的 span
  * @property footerBtn 是否显示底部按钮
@@ -128,7 +129,7 @@ interface IProps {
   notReset?: boolean,
   formItemStyle?: React.CSSProperties,
   onValuesChange?: (changedValues: any, allValues: any) => void,
-  showAllLabel?: boolean
+  showAllLabel?: boolean,
 }
 
 const CommonForm = (props: IProps, ref: any) => {
@@ -209,6 +210,8 @@ const CommonForm = (props: IProps, ref: any) => {
             style={item.style}
             onBlur={item.onBlur ? item.onBlur : () => {}}
             onChange={(e: any) => item.onChange && item.onChange(e)}
+            maxLength={item.maxLength || 50}
+            showCount={true}
           />
         );
       case IFormItemType.TextArea:
@@ -218,6 +221,8 @@ const CommonForm = (props: IProps, ref: any) => {
             placeholder={item.placeholder}
             rows={item.rows}
             onChange={(e: any) => item.onChange && item.onChange(e)}
+            maxLength={item.maxLength || 200}
+            showCount={true}
           />
         );
       case IFormItemType.InputNumber:
@@ -280,9 +285,14 @@ const CommonForm = (props: IProps, ref: any) => {
           <RadioGroup
             disabled={item.disabled}
             buttonStyle="solid"
-            options={item.options}
             onChange={(e) => item.onChange && item.onChange(e)}
-          />
+          >
+            {
+              item.options.map((optionItem: any) => (
+                <RadioButton key={optionItem.value} value={optionItem.value}>{optionItem.label}</RadioButton>
+              ))
+            }
+          </RadioGroup>
         );
       case IFormItemType.Cascader:
         return (
@@ -354,7 +364,7 @@ const CommonForm = (props: IProps, ref: any) => {
       hidden: item.type === IFormItemType.Hidden,
       initialValue: item.initialValue,
       valuePropName: getValuePropName(item.type),
-      style: props.formItemStyle
+      style: formItemStyle
     };
     if (item.type === IFormItemType.Upload) {
       formProps.getValueFromEvent = normFile;

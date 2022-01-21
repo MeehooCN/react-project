@@ -69,6 +69,7 @@ declare type FormItemType = IFormItemType;
  * @property viewComponent Modal 中显示的组件
  * @property uploadProps upload 上传的props
  * @property tooltip 表单项的提示
+ * @property maxLength 允许输入的字符最大长度 Input 默认 50，TextArea 默认 200
  */
 export interface IFormColumns {
   label: string,
@@ -98,7 +99,8 @@ export interface IFormColumns {
   unCheckedChildren?: string,
   viewComponent?: React.ReactNode,
   uploadProps?: UploadProps,
-  tooltip?: any
+  tooltip?: any,
+  maxLength?: number
 }
 /**
  * @description 公共表单的参数
@@ -208,6 +210,8 @@ const CommonForm = (props: IProps, ref: any) => {
             style={item.style}
             onBlur={item.onBlur ? item.onBlur : () => {}}
             onChange={(e: any) => item.onChange && item.onChange(e)}
+            maxLength={item.maxLength || 50}
+            showCount={true}
           />
         );
       case IFormItemType.TextArea:
@@ -217,6 +221,8 @@ const CommonForm = (props: IProps, ref: any) => {
             placeholder={item.placeholder}
             rows={item.rows}
             onChange={(e: any) => item.onChange && item.onChange(e)}
+            maxLength={item.maxLength || 200}
+            showCount={true}
           />
         );
       case IFormItemType.InputNumber:

@@ -69,7 +69,7 @@ declare type FormItemType = IFormItemType;
  * @property viewComponent Modal 中显示的组件
  * @property uploadProps upload 上传的props
  * @property tooltip 表单项的提示
- * @property verticalRadio 单选是否竖直排列
+ * @property maxLength 允许输入的字符最大长度 Input 默认 50，TextArea 默认 200
  */
 export interface IFormColumns {
   label: string,
@@ -100,7 +100,7 @@ export interface IFormColumns {
   viewComponent?: React.ReactNode,
   uploadProps?: UploadProps,
   tooltip?: any,
-  verticalRadio?: boolean
+  maxLength?: number
 }
 /**
  * @description 公共表单的参数
@@ -210,6 +210,8 @@ const CommonForm = (props: IProps, ref: any) => {
             style={item.style}
             onBlur={item.onBlur ? item.onBlur : () => {}}
             onChange={(e: any) => item.onChange && item.onChange(e)}
+            maxLength={item.maxLength || 50}
+            showCount={true}
           />
         );
       case IFormItemType.TextArea:
@@ -219,6 +221,8 @@ const CommonForm = (props: IProps, ref: any) => {
             placeholder={item.placeholder}
             rows={item.rows}
             onChange={(e: any) => item.onChange && item.onChange(e)}
+            maxLength={item.maxLength || 200}
+            showCount={true}
           />
         );
       case IFormItemType.InputNumber:
@@ -279,7 +283,6 @@ const CommonForm = (props: IProps, ref: any) => {
       case IFormItemType.Radio:
         return (
           <RadioGroup
-            style={item.verticalRadio ? { display: 'flex', flexFlow: 'column', marginTop: CommonSpace.xs } : {}}
             disabled={item.disabled}
             buttonStyle="solid"
             onChange={(e) => item.onChange && item.onChange(e)}
