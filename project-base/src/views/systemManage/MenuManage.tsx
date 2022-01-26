@@ -8,7 +8,7 @@ import { Card, Table, Divider, Button, Popconfirm, Modal, message, Space } from 
 import { PlusOutlined, createFromIconfontCN, ReloadOutlined } from '@ant-design/icons';
 import {
   CommonHorizFormHook, IFormColumns, MyTitle, useTableHook, IconFontChoose,
-  useFormHook
+  useFormHook, TableBtn
 } from '@components/index';
 import { post } from '@utils/Ajax';
 import { CommonSpace, iconUrl, RuleType } from '@utils/CommonVars';
@@ -158,19 +158,15 @@ const MenuManage = () => {
     width: 280,
     render: (text: string, row: IMenuData) => {
       return (
-        <>
+        <TableBtn>
           {row.url === undefined && (
-            <>
-              <Button type="primary" size="small" onClick={(e: any) => addChildMenu(e, row)}>新增子菜单</Button>
-              <Divider type="vertical" />
-            </>
+            <Button type="primary" size="small" onClick={(e: any) => addChildMenu(e, row)}>新增子菜单</Button>
           )}
           <Button size="small" onClick={(e: any) => editMenu(e, row)}>编辑</Button>
-          <Divider type="vertical" />
           <Popconfirm title="确定删除该菜单吗？" onCancel={(e: any) => e.stopPropagation()} onConfirm={(e: any) => deleteMenu(e, row.id)}>
             <Button size="small" danger onClick={(e: any) => e.stopPropagation()}>删除</Button>
           </Popconfirm>
-        </>
+        </TableBtn>
       );
     }
   }];
@@ -178,7 +174,7 @@ const MenuManage = () => {
     label: '菜单名称',
     name: 'name',
     type: IFormItemType.Text,
-    rules: getRules(RuleType.required)
+    rules: getRules(RuleType.required, true, 80)
   }, {
     label: '菜单路径',
     name: 'url',

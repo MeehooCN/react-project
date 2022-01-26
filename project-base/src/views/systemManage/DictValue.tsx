@@ -5,7 +5,7 @@
  **/
 import React, { useEffect, useState } from 'react';
 import { Button, Card, Divider, Popconfirm, Row, Table, Modal, Menu, Col, Tag, message, Spin, Space } from 'antd';
-import { MyTitle, CommonHorizFormHook, IFormColumns, useTableHook } from '@components/index';
+import { MyTitle, CommonHorizFormHook, IFormColumns, useTableHook, TableBtn } from '@components/index';
 import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import { IDict } from '@utils/CommonInterface';
 import { post } from '@utils/Ajax';
@@ -177,13 +177,12 @@ const DictValue = () => {
         return <Tag>系统预设不能操作</Tag>;
       }
       return (
-        <div>
+        <TableBtn>
           <Button size="small" type="primary" onClick={() => addOrEditValue(row)}>编辑</Button>
-          <Divider type="vertical" />
           <Popconfirm title="确定删除此字典选项？" okText="确定" cancelText="取消" onConfirm={() => deleteValue(row.id)}>
             <Button size="small" danger>删除</Button>
           </Popconfirm>
-        </div>
+        </TableBtn>
       );
     }
   }];
@@ -191,12 +190,12 @@ const DictValue = () => {
     label: '类型名称',
     name: 'name',
     type: IFormItemType.Text,
-    rules: getRules(RuleType.required)
+    rules: getRules(RuleType.required, true, 50)
   }, {
     label: '类型编号',
     name: 'code',
     type: IFormItemType.Text,
-    rules: getRules(RuleType.required)
+    rules: getRules(RuleType.required, true, 50)
   }, {
     label: 'id',
     name: 'id',
@@ -216,12 +215,12 @@ const DictValue = () => {
     label: '键',
     name: 'mkey',
     type: IFormItemType.Text,
-    rules: getRules(RuleType.required)
+    rules: getRules(RuleType.required, true, 50)
   }, {
     label: '值',
     name: 'mvalue',
     type: IFormItemType.Text,
-    rules: getRules(RuleType.required)
+    rules: getRules(RuleType.required, true, 50)
   }, {
     label: 'id',
     name: 'id',

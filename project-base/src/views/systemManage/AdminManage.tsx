@@ -6,7 +6,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, Card, Divider, message, Modal, Popconfirm, Row, Space, Table } from 'antd';
 import {
-  CommonHorizFormHook, IFormColumns, ISearchFormColumns, MyTitle, SearchInlineForm,
+  CommonHorizFormHook, IFormColumns, ISearchFormColumns, MyTitle, SearchInlineForm, TableBtn,
   useFormHook, useModalHook, useTableHook
 } from '@components/index';
 import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
@@ -210,19 +210,16 @@ const AdminManage = () => {
     width: 350,
     render: (text: any, admin: IAdmin) => {
       return (
-        <>
+        <TableBtn>
           <Button type="primary" size="small" onClick={() => setRole(admin)}>指派角色</Button>
-          <Divider type="vertical" />
           <Button size="small" onClick={() => editUser(admin)}>编辑</Button>
-          <Divider type="vertical" />
           <Popconfirm title="确定重置此人员的密码？" onConfirm={() => resetPassword(admin.id)} okText="确定" cancelText="取消">
             <Button size="small">重置密码</Button>
           </Popconfirm>
-          <Divider type="vertical" />
           <Popconfirm title="确定要删除该管理员用户吗？" onConfirm={() => deleteAdmin(admin.id)}>
             <Button size="small" danger>删除</Button>
           </Popconfirm>
-        </>
+        </TableBtn>
       );
     }
   }];
@@ -239,12 +236,12 @@ const AdminManage = () => {
     label: '用户名',
     name: 'userName',
     type: IFormItemType.Text,
-    rules: getRules(RuleType.inputNotSpace, true)
+    rules: getRules(RuleType.inputNotSpace, true, 20)
   }, {
     label: '姓名',
     name: 'name',
     type: IFormItemType.Text,
-    rules: getRules(RuleType.required)
+    rules: getRules(RuleType.required, true, 20)
   }, {
     label: '所属机构',
     name: 'organization',

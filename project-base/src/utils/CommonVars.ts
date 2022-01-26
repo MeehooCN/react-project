@@ -78,7 +78,8 @@ export enum RuleType {
   url = 'url',
   password = 'password',
   selectRequired = 'selectRequired',
-  keyword = 'keyword'
+  keyword = 'keyword',
+  stringCount = '字符数限制'
 }
 /**
  * 角色类型

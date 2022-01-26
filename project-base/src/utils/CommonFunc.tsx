@@ -228,13 +228,13 @@ export const encodeFileUrl = (url: string) => {
  * 获取常用校验
  * @param ruleType: required | selectRequired | inputNotSpace | email | phone | idNumber | url | password
  * @param required（可选）: 是否必填（如果单独需要必填，ruleType 设置为 required 即可，如果要满足其他校验且必填，该值才设为 true）
+ * @param max 字符长度限制
  **/
-export const getRules = (ruleType: RuleType, required?: boolean) => {
+export const getRules = (ruleType: RuleType, required?: boolean, max?: number) => {
+  let stringCountObj: Rule = { type: 'string', max: max || 10 };
+  let requiredObj: Rule = { required: true, message: '请输入' };
   const commonRules: Map<string, Array<Rule>> = new Map([
-    [RuleType.required, [{
-      required: true,
-      message: '请输入'
-    }]],
+    [RuleType.required, [requiredObj]],
     [RuleType.selectRequired, [{
       required: true,
       message: '请选择'
@@ -269,12 +269,16 @@ export const getRules = (ruleType: RuleType, required?: boolean) => {
     [RuleType.keyword, [{
       pattern: /^[a-z][a-z0-9_]*$/g,
       message: '以小写英文字母开头，且只能包含英文字母、数字、下划线'
-    }]]
+    }]],
+    [RuleType.stringCount, [stringCountObj]]
   ]);
   const returnRules: Array<Rule> = commonRules.get(ruleType) || [];
-  if (required) {
+  if (required && ruleType !== RuleType.required) {
     // @ts-ignore
     returnRules.unshift(commonRules.get('required')[0]);
+  }
+  if (max) {
+    returnRules.push(stringCountObj);
   }
   return returnRules;
 };

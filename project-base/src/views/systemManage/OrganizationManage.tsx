@@ -4,9 +4,17 @@
  * @createTime: 2020/11/16 9:54
  **/
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, Card, Divider, message, Modal, Popconfirm, Space, Switch, Table } from 'antd';
+import { Button, Card, message, Modal, Popconfirm, Space, Switch, Table } from 'antd';
 import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
-import { CommonHorizFormHook, IFormColumns, MyTitle, OverText, useFormHook, useTableHook } from '@components/index';
+import {
+  CommonHorizFormHook,
+  IFormColumns,
+  MyTitle,
+  OverText,
+  TableBtn,
+  useFormHook,
+  useTableHook
+} from '@components/index';
 import { IOptionData, IOrganization } from '@utils/CommonInterface';
 import {
   getAreaNameAndCode,
@@ -187,17 +195,13 @@ const OrganizationManage = () => {
     width: 260,
     render: (text: string, row: IOrganization) => {
       return (
-        <>
-          <>
-            <Button size="small" type="primary" onClick={(e: any) => addChildOrganization(e, row)}>新增子机构</Button>
-            <Divider type="vertical" />
-          </>
+        <TableBtn>
+          <Button size="small" type="primary" onClick={(e: any) => addChildOrganization(e, row)}>新增子机构</Button>
           <Button size="small" onClick={(e: any) => editOrganization(e, row)}>编辑</Button>
-          <Divider type="vertical" />
           <Popconfirm title="确定删除该机构吗？" onCancel={(e: any) => e.stopPropagation()} onConfirm={(e: any) => deleteOrganization(e, row.value)}>
             <Button size="small" danger onClick={(e: any) => e.stopPropagation()}>删除</Button>
           </Popconfirm>
-        </>
+        </TableBtn>
       );
     }
   }];
@@ -205,7 +209,7 @@ const OrganizationManage = () => {
     label: '机构名称',
     name: 'name',
     type: IFormItemType.Text,
-    rules: getRules(RuleType.required)
+    rules: getRules(RuleType.required, true, 50)
   }, {
     label: '机构类型',
     name: 'proOrgType',
@@ -216,12 +220,12 @@ const OrganizationManage = () => {
     label: '联系人',
     name: 'contactPerson',
     type: IFormItemType.Text,
-    rules: []
+    rules: getRules(RuleType.stringCount, false, 20)
   }, {
     label: '联系电话',
     name: 'contactPhone',
     type: IFormItemType.Text,
-    rules: []
+    rules: getRules(RuleType.phone, false)
   }, {
     label: '所在地区',
     name: 'region',
@@ -232,7 +236,7 @@ const OrganizationManage = () => {
     label: '详细地址',
     name: 'address',
     type: IFormItemType.Text,
-    rules: []
+    rules: getRules(RuleType.stringCount, false, 50)
   }, {
     label: '状态',
     name: 'enable',

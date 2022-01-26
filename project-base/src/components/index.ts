@@ -7,6 +7,7 @@
 export { default as ErrorBoundary } from '@components/ErrorBoundary';
 export { default as MyTitle } from '@components/MyTitle';
 export { default as OverText } from '@components/OverText';
+export { default as TableBtn } from '@components/TableBtn';
 // 通用 hook
 export { default as useTableHook } from '@components/hook/useTableHook';
 export { default as useFormHook } from '@components/hook/useFormHook';

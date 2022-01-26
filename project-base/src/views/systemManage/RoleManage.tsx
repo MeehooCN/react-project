@@ -7,7 +7,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Button, Card, Divider, message, Modal, Popconfirm, Row, Space, Spin, Table, Tree } from 'antd';
 import {
   CommonHorizFormHook, IFormColumns, ISearchFormColumns, MyTitle, OverText,
-  SearchInlineForm, useModalHook, useTableHook
+  SearchInlineForm, TableBtn, useModalHook, useTableHook
 } from '@components/index';
 import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import { IRole } from '@utils/CommonInterface';
@@ -148,15 +148,13 @@ const RoleManage = () => {
     width: 250,
     render: (text: any, role: IRole) => {
       return (
-        <>
+        <TableBtn>
           <Button size="small" type="primary" onClick={() => handleAuth(role.id)}>角色授权</Button>
-          <Divider type="vertical" />
           <Button size="small" onClick={() => onEdit(role)}>编辑</Button>
-          <Divider type="vertical" />
           <Popconfirm title="确定要删除该角色吗？" onConfirm={() => deleteRole(role.id)}>
             <Button size="small" danger>删除</Button>
           </Popconfirm>
-        </>
+        </TableBtn>
       );
     }
   }];
@@ -169,7 +167,7 @@ const RoleManage = () => {
     label: '角色名称',
     name: 'name',
     type: IFormItemType.Text,
-    rules: getRules(RuleType.required)
+    rules: getRules(RuleType.required, true, 50)
   }, {
     label: '角色类型',
     name: 'roleType',
@@ -186,7 +184,7 @@ const RoleManage = () => {
     label: '备注',
     name: 'remark',
     type: IFormItemType.Text,
-    rules: getRules(RuleType.required)
+    rules: getRules(RuleType.required, true, 80)
   }, {
     label: 'id',
     name: 'id',

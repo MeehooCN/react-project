@@ -53,7 +53,8 @@ export enum RuleType {
   phone = 'phone',
   idNumber = 'idNumber',
   url = 'url',
-  password = 'password'
+  password = 'password',
+  stringCount = '字符数限制'
 }
 export enum IPageSession { // page current的类型
   demo = '-demo', // 示例
