@@ -3,42 +3,35 @@
  * @author: cnn
  * @createTime: 2020/11/16 9:54
  **/
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Card, message, Modal, Popconfirm, Space, Switch, Table } from 'antd';
 import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import {
   CommonHorizFormHook,
   IFormColumns,
   MyTitle,
-  OverText,
   TableBtn,
-  useFormHook,
-  useTableHook
+  useTableHook, useUpdateFormHook
 } from '@components/index';
 import { IOptionData, IOrganization } from '@utils/CommonInterface';
 import {
+  ellipsisRender,
   getAreaNameAndCode,
-  getProvinceCityArea,
   getRules,
   getTreeChildrenToNull,
   myCardProps
 } from '@utils/CommonFunc';
 import { post } from '@utils/Ajax';
 import { CommonSpace, EOrganizationEnable, RuleType } from '@utils/CommonVars';
-import { getAllProvinceCityArea, getDictValueList, getOrgTreeList } from '@utils/CommonAPI';
+import { deleteById, getAllProvinceCityArea, getDictValueList, getOrgTreeList } from '@utils/CommonAPI';
 import { IFormItemType } from '@components/form/CommonForm';
 
 const OrganizationManage = () => {
-  const orgRef: any = useRef();
   const { setLoading, tableParam } = useTableHook({ hidePage: true });
-  const { submitLoading, setSubmitLoading, formValue, setFormValue } = useFormHook();
   const [orgList, setOrgList] = useState<Array<IOrganization>>([]);
-  // [窗口显示，是否为编辑（false 新增），编辑时 id]
-  const [editMode, setEditMode] = useState<[boolean, boolean, string]>([false, false, '']);
-  // [是否是子菜单新增，父菜单名称，父级菜单id， 父级菜单code]
-  const [isChildAdd, setIsChildAdd] = useState<[boolean, string, string, string]>([false, '', '', '']);
   const [regionList, setRegionList] = useState<Array<any>>([]);
   const [orgTypeList, setOrgTypeList] = useState<Array<IOptionData>>([]);
+  const { modalParam, formParam, setSubLoading, handleUpdateOpen, handleUpdateCancel, currentRow } = useUpdateFormHook();
   useEffect(() => {
     getOrgList();
     // 获取省市区列表
@@ -60,55 +53,18 @@ const OrganizationManage = () => {
       setLoading(false);
     });
   };
-  // 新增机构
-  const addOrganization = () => {
-    setEditMode([true, false, '']);
-    setIsChildAdd([false, '', '', '']);
-  };
-  // 新增子机构
-  const addChildOrganization = (e: any, row: IOrganization) => {
-    e.stopPropagation();
-    setIsChildAdd([true, row.label, row.value, row.key]);
-    setEditMode([true, false, '']);
-  };
-  // 编辑机构
-  const editOrganization = (e: any, row: IOrganization) => {
-    e.stopPropagation();
-    setFormValue({
-      name: row.label,
-      region: getProvinceCityArea(row),
-      ...row
-    });
-    setEditMode([true, true, row.value]);
-    setIsChildAdd([false, '', '', '']);
-  };
   // 删除机构
-  const deleteOrganization = (e: any, id: string) => {
-    e.stopPropagation();
-    post('security/organization/delete', { id }, { dataType: 'form' }, (data: any) => {
-      if (data.flag === 0) {
-        message.success('删除成功！');
-        getOrgList();
-      }
-    });
-  };
-  // 获取模态框标题
-  const getModalTitle = () => {
-    if (isChildAdd[0]) {
-      return '新增子机构 - ' + isChildAdd[1];
-    } else {
-      return (editMode[1] ? '编辑' : '新增') + '机构';
-    }
-  };
-  // 关闭窗口
-  const handleCancel = () => {
-    orgRef.current.form().resetFields();
-    setEditMode([false, true, '']);
+  const deleteOrganization = (id: string) => {
+    deleteById('security/organization/delete', id).then(() => getOrgList());
   };
   const addOrgOk = (values: any) => {
-    setSubmitLoading(true);
     // 默认启用该机构
-    let params: any = { ...values };
+    let params: any = {
+      ...values,
+      parentOrgId: currentRow?.parentOrgId,
+      id: currentRow?.value,
+      enable: currentRow?.id ? currentRow?.enable : EOrganizationEnable.FORBID
+    };
     // 如果选择了省市区
     if (values.region) {
       const regions: any = getAreaNameAndCode(values.region);
@@ -117,25 +73,14 @@ const OrganizationManage = () => {
         ...regions
       };
     }
-    // 如果是新增子菜单
-    if (isChildAdd[0]) {
-      params.parentOrgId = isChildAdd[2];
-      params.parentOrgCode = isChildAdd[3];
-    }
-    // 如果是编辑
-    if (editMode[1]) {
-      params.id = editMode[2];
-    } else {
-      params.enable = values.enable ? EOrganizationEnable.ENABLE : EOrganizationEnable.FORBID;
-    }
     post('security/organization/create', params, {}, (data: any) => {
       if (data.flag === 0) {
-        orgRef.current.form().resetFields();
         message.success('操作成功！');
+        handleUpdateCancel();
         getOrgList();
+      } else {
+        setSubLoading(false);
       }
-      setEditMode([false, true, '']);
-      setSubmitLoading(false);
     });
   };
   // 改变机构状态
@@ -151,60 +96,36 @@ const OrganizationManage = () => {
       }
     });
   };
-  const organizationColumns = [{
-    title: '编号',
-    dataIndex: 'key',
-    width: 100
-  }, {
-    title: '机构名称',
-    dataIndex: 'label',
-    render: (label: string) => <b>{label}</b>
-  }, {
-    title: '机构类型',
-    dataIndex: 'proOrgType'
-  }, {
-    title: '联系人',
-    dataIndex: 'contactPerson',
-    render: (contactPerson: string) => contactPerson || <span style={{ color: 'red' }}>未填写</span>
-  }, {
-    title: '联系电话',
-    dataIndex: 'contactPhone',
-    width: 120,
-    render: (contactPerson: string) => contactPerson || <span style={{ color: 'red' }}>未填写</span>
-  }, {
-    title: '地址',
-    dataIndex: 'detailAddress',
-    width: 200,
-    render: (contactPerson: string) => <OverText content={contactPerson} overflowLength={180} />
-  }, {
-    title: '状态',
-    dataIndex: 'enable',
-    width: 120,
-    render: (enable: number, row: IOrganization) => (
-      <Switch
-        size="small"
-        checkedChildren="启用"
-        unCheckedChildren="禁用"
-        checked={enable === EOrganizationEnable.ENABLE}
-        onChange={(checked: boolean) => handleEnableChange(checked, row.value)}
-      />
-    )
-  }, {
-    title: '操作',
-    dataIndex: 'opt',
-    width: 260,
-    render: (text: string, row: IOrganization) => {
-      return (
+  const organizationColumns = [
+    { title: '编号', dataIndex: 'key' },
+    { title: '机构名称', dataIndex: 'label', render: (label: string) => <b>{label}</b> },
+    { title: '机构类型', dataIndex: 'proOrgType' },
+    { title: '联系人', dataIndex: 'contactPerson', render: (contactPerson: string) => contactPerson || <span style={{ color: 'red' }}>未填写</span> },
+    { title: '联系电话', dataIndex: 'contactPhone', width: 120, render: (contactPerson: string) => contactPerson || <span style={{ color: 'red' }}>未填写</span> },
+    { title: '地址', dataIndex: 'detailAddress', ...ellipsisRender },
+    {
+      title: '状态', dataIndex: 'enable', width: 120, render: (enable: number, row: IOrganization) => (
+        <Switch
+          size="small"
+          checkedChildren="启用"
+          unCheckedChildren="禁用"
+          checked={enable === EOrganizationEnable.ENABLE}
+          onChange={(checked: boolean) => handleEnableChange(checked, row.value)}
+        />
+      )
+    },
+    {
+      title: '操作', dataIndex: 'opt', render: (text: string, row: IOrganization) => (
         <TableBtn>
-          <Button size="small" type="primary" onClick={(e: any) => addChildOrganization(e, row)}>新增子机构</Button>
-          <Button size="small" onClick={(e: any) => editOrganization(e, row)}>编辑</Button>
-          <Popconfirm title="确定删除该机构吗？" onCancel={(e: any) => e.stopPropagation()} onConfirm={(e: any) => deleteOrganization(e, row.value)}>
-            <Button size="small" danger onClick={(e: any) => e.stopPropagation()}>删除</Button>
+          <Button size="small" type="primary" onClick={() => handleUpdateOpen({ parentOrgId: row.value })}>新增子机构</Button>
+          <Button size="small" onClick={() => handleUpdateOpen(row)}>编辑</Button>
+          <Popconfirm title="确定删除该机构吗？" onConfirm={(e: any) => deleteOrganization(row.value)}>
+            <Button size="small" danger>删除</Button>
           </Popconfirm>
         </TableBtn>
-      );
+      )
     }
-  }];
+  ];
   const orgFormColumns: Array<IFormColumns> = [{
     label: '机构名称',
     name: 'name',
@@ -246,7 +167,7 @@ const OrganizationManage = () => {
     rules: []
   }];
   // 如果是编辑，则不显示编辑状态
-  if (editMode[1]) {
+  if (currentRow?.id) {
     orgFormColumns.pop();
   }
   return (
@@ -254,7 +175,7 @@ const OrganizationManage = () => {
       {...myCardProps(<MyTitle title="机构管理" />)}
       extra={(
         <Space size={CommonSpace.md}>
-          <Button type="primary" icon={<PlusOutlined />} onClick={addOrganization}>新增机构</Button>
+          <Button type="primary" icon={<PlusOutlined />} onClick={() => handleUpdateOpen(null)}>新增机构</Button>
           <Button type="text" icon={<ReloadOutlined />} onClick={getOrgList} title="刷新" />
         </Space>
       )}
@@ -266,22 +187,11 @@ const OrganizationManage = () => {
         rowKey={row => row.value}
         expandRowByClick={true}
       />
-      <Modal
-        title={getModalTitle()}
-        visible={editMode[0]}
-        footer={false}
-        onCancel={handleCancel}
-        maskClosable={false}
-      >
+      <Modal {...modalParam} title={`${currentRow?.value ? '编辑' : (currentRow?.parentOrgId ? '新增子' : '新增')}机构`}>
         <CommonHorizFormHook
-          ref={orgRef}
+          {...formParam}
           formColumns={orgFormColumns}
-          formValue={formValue}
-          footerBtn
-          cancel={handleCancel}
           onOK={addOrgOk}
-          submitLoading={submitLoading}
-          notReset={true}
         />
       </Modal>
     </Card>

@@ -3,33 +3,31 @@
  * @author: hzq
  * @createTime: 2020/9/8 17:32
  **/
-import React, { useEffect, useState, useRef } from 'react';
-import { Button, Card, Divider, message, Modal, Popconfirm, Row, Space, Spin, Table, Tree } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Button, Card, message, Modal, Popconfirm, Row, Space, Spin, Table, Tree } from 'antd';
 import {
-  CommonHorizFormHook, IFormColumns, ISearchFormColumns, MyTitle, OverText,
-  SearchInlineForm, TableBtn, useModalHook, useTableHook
+  CommonHorizFormHook, IFormColumns, ISearchFormColumns, MyTitle,
+  SearchInlineForm, TableBtn, useTableHook, useUpdateFormHook
 } from '@components/index';
 import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import { IRole } from '@utils/CommonInterface';
 import { get, post } from '@utils/Ajax';
 import { IFormItemType } from '@components/form/CommonForm';
 import { ISearchFormItemType } from '@components/form/SearchForm';
-import { getRules, myCardProps } from '@utils/CommonFunc';
+import { ellipsisRender, getRules, myCardProps } from '@utils/CommonFunc';
 import { CommonSpace, RoleType, RuleType, searchCardProps } from '@utils/CommonVars';
+import { deleteById } from '@utils/CommonAPI';
 
 const RoleManage = () => {
-  const formRef: any = useRef();
-  const { setLoading, pagination, setPagination, searchContent, handleSearch, backFrontPage, tableParam } = useTableHook();
-  const { onCancel, addButtonClick, editButtonClick, modalProps } = useModalHook();
+  const { setLoading, pagination, searchContent, handleSearch, backFrontPage, tableParam } = useTableHook();
   const [roleList, setRoleList] = useState<Array<IRole>>([]);
   const [authVisible, setAuthVisible] = useState<boolean>(false);
-  const [formValue, setFormValue] = useState<any>({});
   const [checkedKeys, setCheckedKeys] = useState<Array<any>>([]);
   const [menuList, setMenuList] = useState<any>([]);
   const [roleId, setRoleId] = useState<string>('');
   const [roleLoading, setRoleLoading] = useState<boolean>(false);
-  const [addLoading, setAddLoading] = useState<boolean>(false);
   const [authLoading, setAuthLoading] = useState<boolean>(false);
+  const { modalParam, formParam, setSubLoading, handleUpdateOpen, handleUpdateCancel, currentRow } = useUpdateFormHook();
   useEffect(() => {
     getRoleList();
   }, [pagination, searchContent]);
@@ -44,30 +42,14 @@ const RoleManage = () => {
     get('security/role/list', { params }, (data: any) => {
       if (data.flag === 0) {
         pagination.total = data.data.total;
-        setPagination(pagination);
         setRoleList(data.data.rows);
       }
       setLoading(false);
     });
   };
-  // 点击新增角色
-  const onAdd = () => {
-    formRef.current.resetFields();
-    addButtonClick('新增角色');
-  };
-  // 点击编辑角色
-  const onEdit = (role: IRole) => {
-    setFormValue(role);
-    editButtonClick(role.id, '编辑角色');
-  };
   // 删除角色
   const deleteRole = (id: string) => {
-    post('security/role/delete', { id: id }, { dataType: 'form' }, (data: any) => {
-      if (data.flag === 0) {
-        message.success('删除成功！');
-        backFrontPage(roleList.length);
-      }
-    });
+    deleteById('security/role/delete', id).then(() => backFrontPage(roleList.length));
   };
   // 角色授权
   const handleAuth = (id: string) => {
@@ -89,17 +71,20 @@ const RoleManage = () => {
   };
   // 编辑新增角色
   const handleOK = (value: any) => {
-    setAddLoading(true);
+    let param = {
+      ...value,
+      id: currentRow?.id
+    };
     const url = value.id ? 'security/role/update' : 'security/role/create';
-    post(url, value, {}, (data: any) => {
+    setSubLoading(true);
+    post(url, param, {}, (data: any) => {
       if (data.flag === 0) {
         message.success('操作成功！');
-        onCancel();
+        handleUpdateCancel();
         getRoleList();
       } else {
-        message.error(data.message);
+        setSubLoading(false);
       }
-      setAddLoading(false);
     });
   };
   // 角色授权-确定
@@ -141,7 +126,7 @@ const RoleManage = () => {
     title: '备注',
     dataIndex: 'remark',
     width: 200,
-    render: (remark: string) => remark && <OverText overflowLength={180} content={remark} />
+    ...ellipsisRender
   }, {
     title: '操作',
     dataIndex: 'option',
@@ -150,7 +135,7 @@ const RoleManage = () => {
       return (
         <TableBtn>
           <Button size="small" type="primary" onClick={() => handleAuth(role.id)}>角色授权</Button>
-          <Button size="small" onClick={() => onEdit(role)}>编辑</Button>
+          <Button size="small" onClick={() => handleUpdateOpen(role)}>编辑</Button>
           <Popconfirm title="确定要删除该角色吗？" onConfirm={() => deleteRole(role.id)}>
             <Button size="small" danger>删除</Button>
           </Popconfirm>
@@ -199,7 +184,7 @@ const RoleManage = () => {
         {...myCardProps(<MyTitle title="角色权限" />)}
         extra={(
           <Space size={CommonSpace.md}>
-            <Button type="primary" icon={<PlusOutlined />} onClick={onAdd}>新增角色</Button>
+            <Button type="primary" icon={<PlusOutlined />} onClick={() => handleUpdateOpen(null)}>新增角色</Button>
             <Button type="text" icon={<ReloadOutlined />} onClick={getRoleList} title="刷新" />
           </Space>
         )}
@@ -213,16 +198,11 @@ const RoleManage = () => {
           />
         </Row>
       </Card>
-      <Modal {...modalProps}>
+      <Modal {...modalParam} title={`${currentRow?.id ? '编辑' : '新增'}角色`}>
         <CommonHorizFormHook
-          ref={formRef}
+          {...formParam}
           formColumns={formColumns}
-          formValue={formValue}
-          footerBtn
-          cancel={onCancel}
           onOK={handleOK}
-          submitLoading={addLoading}
-          notReset={true}
         />
       </Modal>
       <Modal

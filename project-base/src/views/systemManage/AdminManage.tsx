@@ -7,29 +7,23 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Button, Card, Divider, message, Modal, Popconfirm, Row, Space, Table } from 'antd';
 import {
   CommonHorizFormHook, IFormColumns, ISearchFormColumns, MyTitle, SearchInlineForm, TableBtn,
-  useFormHook, useModalHook, useTableHook
+  useFormHook, useModalHook, useTableHook, useUpdateFormHook
 } from '@components/index';
 import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import { IAdmin, IOrganization } from '@utils/CommonInterface';
 import { get, post } from '@utils/Ajax';
-import { getOrgTreeEnableList } from '@utils/CommonAPI';
-import { findInTree, getRules, getTreeChildrenToNull, myCardProps } from '@utils/CommonFunc';
+import { deleteById, getOrgTreeEnableList } from '@utils/CommonAPI';
+import { findInTree, getRules, getTreeChildrenToNull, myCardProps, renderDeleteList } from '@utils/CommonFunc';
 import { IFormItemType } from '@components/form/CommonForm';
 import { ISearchFormItemType } from '@components/form/SearchForm';
 import { CommonSpace, RuleType, searchCardProps } from '@utils/CommonVars';
 
 const AdminManage = () => {
-  const formRef: any = useRef();
-  const { setLoading, pagination, setPagination, searchContent, handleSearch, backFrontPage, tableParam } = useTableHook();
-  const { submitLoading, setSubmitLoading, formValue, setFormValue } = useFormHook();
-  const { onCancel, addButtonClick, editButtonClick, modalProps } = useModalHook();
   const [adminList, setAdminList] = useState<Array<IAdmin>>([]);
   const [roleList, setRoleList] = useState<any>([]);
-  const [roleValue, setRoleValue] = useState<any>('');
-  const [roleLoading, setRoleLoading] = useState<any>('');
-  const [roleVisible, setRoleVisible] = useState<boolean>(false);
-  const [adminItem, setAdminItem] = useState<any>({});
   const [orgList, setOrgList] = useState<Array<IOrganization>>([]);
+  const { setLoading, pagination, searchContent, handleSearch, backFrontPage, tableParam } = useTableHook();
+  const { modalParam, formParam, setSubLoading, handleUpdateOpen, handleUpdateCancel, currentRow } = useUpdateFormHook();
   useEffect(() => {
     getOrgList();
     getRoleList();
@@ -39,28 +33,24 @@ const AdminManage = () => {
   }, [pagination, searchContent]);
   // 获取管理员列表
   const getAdminList = () => {
-    setLoading(true);
     const params = {
       rows: pagination.pageSize,
       page: pagination.current,
       ...searchContent
     };
+    setLoading(true);
     get('security/admin/list', { params }, (data: any) => {
+      setLoading(false);
       if (data.flag === 0) {
         pagination.total = data.data.total;
         setAdminList(data.data.rows);
-        setPagination(pagination);
       }
-      setLoading(false);
     });
   };
   // 获取机构列表
   const getOrgList = () => {
     getOrgTreeEnableList().then((data: any) => {
-      const templateTree = getTreeChildrenToNull(data, (item: IOrganization) => {
-        item.value = item.value + '/' + item.label + '/' + item.key;
-        item.label = item.label;
-      });
+      const templateTree = getTreeChildrenToNull(data);
       setOrgList(templateTree);
     });
   };
@@ -78,21 +68,6 @@ const AdminManage = () => {
       }
     });
   };
-  // 点击新增角色
-  const onAdd = () => {
-    formRef.current.resetFields();
-    addButtonClick('新增管理员用户');
-  };
-  // 编辑用户
-  const editUser = (row: IAdmin) => {
-    const value = row.organizationId && row.organizationId + '/' + row.organizationName + '/' + row.organizationCode;
-    const organization = findInTree(orgList, 'value', value);
-    setFormValue({
-      ...row,
-      organization: organization && value
-    });
-    editButtonClick(row.id, '编辑管理员用户');
-  };
   // 删除管理员
   const deleteAdmin = (id: string) => {
     // 判断删除的用户是不是当前用户，如为当前用户则不能删除
@@ -104,12 +79,7 @@ const AdminManage = () => {
         return;
       }
     }
-    post('security/admin/delete', { id: id }, { dataType: 'form' }, (data: any) => {
-      if (data.flag === 0) {
-        message.success('删除成功！');
-        backFrontPage(adminList.length);
-      }
-    });
+    deleteById('security/admin/delete', id).then(() => backFrontPage(adminList.length));
   };
   // 重置密码
   const resetPassword = (id: string) => {
@@ -122,73 +92,22 @@ const AdminManage = () => {
   };
   // 提交新增或编辑
   const handleOK = (value: any) => {
-    setSubmitLoading(true);
     const url = value.id ? 'security/admin/update' : 'security/admin/create';
     const params = {
       ...value,
-      organizationId: value.organization.split('/')[0],
-      organizationName: value.organization.split('/')[1],
-      organizationCode: value.organization.split('/')[2]
+      id: currentRow?.id
     };
+    setSubLoading(true);
     post(url, params, {}, (data: any) => {
+      setSubLoading(false);
       if (data.flag === 0) {
-        message.success('操作成功！');
+        message.success(`${currentRow?.id ? '编辑' : '新增'}成功！`);
         getAdminList();
-        onCancel();
+        handleUpdateCancel();
       } else if (data.flag === 2) {
         message.error(data.msg);
       }
-      setSubmitLoading(false);
     });
-  };
-  // 设置权限
-  const setRole = (admin: IAdmin) => {
-    setAdminItem(admin);
-    setRoleVisible(true);
-    if (admin.roleId) {
-      setRoleValue({ roleId: admin.roleId + ',' + admin.roleName });
-    }
-  };
-  // 取消设置权限
-  const setRoleCancel = () => {
-    setRoleVisible(false);
-    setRoleValue(undefined);
-  };
-  // 确认设置权限
-  const setRoleOK = (value: any) => {
-    setRoleLoading(true);
-    const valueList = value.roleId && value.roleId.split(',');
-    const params = {
-      adminId: adminItem.id,
-      roleId: value.roleId ? valueList[0] : null,
-      roleName: value.roleId ? valueList[1] : null
-    };
-    post('security/admin/setRole', params, { dataType: 'form' }, (data: any) => {
-      if (data.flag === 0) {
-        message.success('操作成功！');
-        setRoleVisible(false);
-        getAdminList();
-      }
-      setRoleLoading(false);
-    });
-  };
-  // 获取角色列表
-  const getUpdateRoleList = () => {
-    let flag: boolean = true;
-    // 如果当前角色已经被删除，则 push 当前角色进去
-    roleList.forEach((item: any) => {
-      if (roleValue && item.value === roleValue.roleId) {
-        flag = false;
-      }
-    });
-    if (roleValue && flag) {
-      return roleList.concat([{
-        value: roleValue.roleId,
-        label: roleValue.roleId.split(',')[1]
-      }]);
-    } else {
-      return roleList;
-    }
   };
   const adminColumns = [{
     title: '用户名',
@@ -207,12 +126,10 @@ const AdminManage = () => {
   }, {
     title: '操作',
     dataIndex: 'option',
-    width: 350,
     render: (text: any, admin: IAdmin) => {
       return (
         <TableBtn>
-          <Button type="primary" size="small" onClick={() => setRole(admin)}>指派角色</Button>
-          <Button size="small" onClick={() => editUser(admin)}>编辑</Button>
+          <Button size="small" onClick={() => handleUpdateOpen(admin)}>编辑</Button>
           <Popconfirm title="确定重置此人员的密码？" onConfirm={() => resetPassword(admin.id)} okText="确定" cancelText="取消">
             <Button size="small">重置密码</Button>
           </Popconfirm>
@@ -244,22 +161,16 @@ const AdminManage = () => {
     rules: getRules(RuleType.required, true, 20)
   }, {
     label: '所属机构',
-    name: 'organization',
+    name: 'organizationId',
     type: IFormItemType.TreeSelect,
     rules: getRules(RuleType.selectRequired),
     options: orgList
   }, {
-    label: 'id',
-    name: 'id',
-    type: IFormItemType.Hidden,
-  }];
-  const roleFormColumns: Array<IFormColumns> = [{
     label: '角色',
     name: 'roleId',
     type: IFormItemType.Select,
-    options: getUpdateRoleList(),
-    allowClear: true,
-    rules: getRules(RuleType.selectRequired)
+    rules: getRules(RuleType.selectRequired),
+    options: renderDeleteList(currentRow?.roleId, currentRow?.roleName, roleList)
   }];
   return (
     <Row>
@@ -270,7 +181,7 @@ const AdminManage = () => {
         {...myCardProps(<MyTitle title="用户管理" />)}
         extra={(
           <Space size={CommonSpace.md}>
-            <Button type="primary" icon={<PlusOutlined />} onClick={onAdd}>新增用户</Button>
+            <Button type="primary" icon={<PlusOutlined />} onClick={() => handleUpdateOpen(null)}>新增用户</Button>
             <Button type="text" icon={<ReloadOutlined />} onClick={getAdminList} title="刷新" />
           </Space>
         )}
@@ -281,26 +192,11 @@ const AdminManage = () => {
           dataSource={adminList}
           style={{ width: '100%' }}
         />
-        <Modal {...modalProps}>
+        <Modal {...modalParam} title={`${currentRow?.id ? '编辑' : '新增'}用户`}>
           <CommonHorizFormHook
-            ref={formRef}
+            {...formParam}
             formColumns={formColumns}
-            formValue={formValue}
-            footerBtn
-            cancel={onCancel}
             onOK={handleOK}
-            submitLoading={submitLoading}
-            notReset={true}
-          />
-        </Modal>
-        <Modal title="指派角色" footer={false} maskClosable={false} visible={roleVisible} onCancel={setRoleCancel}>
-          <CommonHorizFormHook
-            formColumns={roleFormColumns}
-            formValue={roleValue}
-            footerBtn
-            cancel={setRoleCancel}
-            onOK={setRoleOK}
-            submitLoading={roleLoading}
           />
         </Modal>
       </Card>

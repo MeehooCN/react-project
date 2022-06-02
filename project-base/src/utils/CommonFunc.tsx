@@ -6,7 +6,7 @@
 import React, { CSSProperties } from 'react';
 import { IMenuData } from '@utils/CommonInterface';
 import { Link } from 'react-router-dom';
-import { Menu, message, Upload, Tag } from 'antd';
+import { Menu, message, Upload, Tag, Tooltip } from 'antd';
 import { createFromIconfontCN } from '@ant-design/icons';
 import dayJs, { Dayjs } from 'dayjs';
 import { colors, iconUrl, RuleType, SelectType } from '@utils/CommonVars';
@@ -337,40 +337,58 @@ export const getTwoTag = (isYes: boolean, yesText: string, noText: string, key?:
   }
 };
 /**
- * @description 若对应选项被禁用、移动或删除后，则需回显之前选择的，不可继续选择
- * @param objectArray: 需要重新组装的在下拉框中不存在的选项数组
- * @param dataList: 当前下拉框选项数据
- * @param selectType:当前选择框类型 主要分为treeSelect和select 默认值为select
+ * @description 若对应选项被禁用或删除后，则需回显之前选择的，不可继续选择 针对select
+ * @param id: 当前选项id值
+ * @param name:当前选项name
+ * @param dataList:当前下拉框选项数据
  */
-export const renderDeleteList = (objectArray: Array<{ name: string, id: string }>, dataList: Array<any>, selectType: SelectType = SelectType.Select) => {
-  let returnData: Array<any> = [];
-  if (selectType === SelectType.Select && objectArray.length > 0) { // 针对于select
-    const currentObject: any = objectArray[0];
-    if (currentObject.id && dataList.findIndex((item) => item.value === currentObject.id) === -1) {
-      returnData.push({ label: currentObject.name, value: currentObject.id, disabled: true });
-    }
-  } else { // 针对于 treeSelect
-    let currentList: Array<any> = []; // 先将多维数据转为一维数组
-    if (dataList.length > 0) {
-      const generateList = (data: any) => {
-        for (let i = 0; i < data.length; i++) {
-          currentList.push(data[i]);
-          if (data[i].children) {
-            generateList(data[i].children);
-          }
-        }
-      };
-      generateList(dataList);
-    }
-    let resultDataList: Array<any> = [];
-    objectArray.forEach((item: any) => {
-      if (currentList.findIndex((items) => items.key === item.id) === -1) {
-        resultDataList.push({ title: item.name + '(已被移动或删除)', key: item.id, disabled: true, selectable: false, disableCheckbox: true });
-      }
-    });
-    if (resultDataList.length > 0) {
-      returnData = resultDataList;
-    }
+export const renderDeleteList = (id: string, name: string, dataList: Array<any>) => {
+  if (id && dataList.findIndex((item) => item.value === id) === -1) {
+    return [...dataList, { label: name, value: id, disabled: true }];
+  } else {
+    return dataList;
   }
-  return [...returnData, ...dataList];
+};
+/**
+ * @description 若对应选项被禁用或删除后，则需回显之前选择的，不可继续选择 针对tree
+ * @param objectArray: 当前选项数组
+ * @param dataList:当前下拉框选项数据
+ */
+export const renderDeleteTree = (objectArray: Array<any>, dataList: Array<any>) => {
+  let currentList: Array<any> = []; // 先将多维数据转为一维数组
+  if (dataList.length > 0) {
+    const generateList = (data: any) => {
+      for (let i = 0; i < data.length; i++) {
+        currentList.push(data[i]);
+        if (data[i].children) {
+          generateList(data[i].children);
+        }
+      }
+    };
+    generateList(dataList);
+  }
+  let resultDataList: Array<any> = [];
+  objectArray.length > 0 && objectArray.forEach((item: any) => {
+    if (currentList.length === 0 || currentList.findIndex((items) => items.key === item.id) === -1) {
+      resultDataList.push({ title: item.name + '(已被移动或删除)', key: item.id, disabled: true, selectable: false, disableCheckbox: true });
+    }
+  });
+  if (resultDataList.length > 0) {
+    return resultDataList;
+  } else {
+    return [];
+  }
+};
+/**
+ * @description 表格列的省略
+ */
+export const ellipsisRender = {
+  ellipsis: {
+    showTitle: false,
+  },
+  render: (text: any) => (
+    <Tooltip placement="topLeft" title={text}>
+      {text}
+    </Tooltip>
+  )
 };

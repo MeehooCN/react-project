@@ -5,6 +5,7 @@
  **/
 import { get, post } from '@utils/Ajax';
 import { IOptionData } from '@utils/CommonInterface';
+import { message } from 'antd';
 
 /**
  * 获取所有未禁用的机构列表
@@ -51,6 +52,21 @@ export const getOrgTreeList = async () => {
     post('security/organization/listAllInTree', {}, {}, (data: any) => {
       if (data.flag === 0) {
         resolve(data.data.children);
+      }
+    });
+  });
+};
+/**
+ * @description 根据id删除数据
+ * @param url 接口地址
+ * @param id
+ */
+export const deleteById = (url: string, id: string) => {
+  return new Promise((resolve: any) => {
+    post(url, { id }, { dataType: 'form' }, (data: any) => {
+      if (data.flag === 0) {
+        message.success('删除成功');
+        resolve(data);
       }
     });
   });

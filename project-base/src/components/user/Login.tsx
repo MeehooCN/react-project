@@ -41,9 +41,9 @@ const Login = () => {
     sessionStorage.clear(); // 登录前清除sessionStorage，避免用户未注销通过网址重新访问而sessionStorage未清除
     setLoading(true);
     const params = {
-      userName: value.userName,
+      username: value.userName,
       password: md5(value.password),
-      code: value.verifyCode
+      kaptcha: value.verifyCode
     };
     post('login', params, { dataType: 'form' }, (data: any) => {
       if (data.flag === 0) {

@@ -13,6 +13,7 @@ export { default as useTableHook } from '@components/hook/useTableHook';
 export { default as useFormHook } from '@components/hook/useFormHook';
 export { default as useModalHook } from '@components/hook/useModalHook';
 export { default as useResetFormOnCloseModal } from '@components/hook/useResetFormOnCloseModal';
+export { default as useUpdateFormHook } from '@components/hook/useUpdateFormHook';
 // 首页
 export { default as Header } from '@components/home/Header';
 // 表单
