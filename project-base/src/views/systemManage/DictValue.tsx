@@ -5,145 +5,98 @@
  **/
 import React, { useEffect, useState } from 'react';
 import { Button, Card, Divider, Popconfirm, Row, Table, Modal, Menu, Col, Tag, message, Spin, Space } from 'antd';
-import { MyTitle, CommonHorizFormHook, IFormColumns, useTableHook, TableBtn } from '@components/index';
+import {
+  CommonHorizFormHook,
+  IFormColumns,
+  useTableHook,
+  TableBtn,
+  useUpdateFormHook
+} from '@components/index';
 import { PlusOutlined, ReloadOutlined } from '@ant-design/icons';
-import { IDict } from '@utils/CommonInterface';
+import { Dict } from '@utils/CommonInterface';
 import { post } from '@utils/Ajax';
 import { IFormItemType } from '@components/form/CommonForm';
 import { getRules, myCardProps } from '@utils/CommonFunc';
 import { CommonSpace, RuleType } from '@utils/CommonVars';
+import { deleteById } from '@utils/CommonAPI';
 
 const DictValue = () => {
   const { setLoading, pagination, setPagination, backFrontPage, tableParam } = useTableHook();
-  const [valueList, setValueList] = useState<Array<IDict>>([]);
+  const [valueList, setValueList] = useState<Array<Dict>>([]);
   const [typeList, setTypeList] = useState<Array<any>>([]);
-  const [rowId, setRowId] = useState<string>('');
-  const [typeVisible, setTypeVisible] = useState<boolean>(false);
-  const [valueVisible, setValueVisible] = useState<boolean>(false);
-  const [typeButtonLoading, setTypeButtonLoading] = useState<boolean>(false);
-  const [valueButtonLoading, setValueButtonLoading] = useState<boolean>(false);
-  const [typeFormValue, setTypeFormValue] = useState<any>({});
-  const [valueFormValue, setValueFormValue] = useState<any>();
-  const [currSelectKey, setCurrSelectKey] = useState<Array<any>>([]);
-  const [currentTypeName, setCurrentTypeName] = useState<string>('');
   const [typeLoading, setTypeLoading] = useState<boolean>(false);
+  const [currentType, setCurrentType] = useState<any>(null);
+  const typeForm = useUpdateFormHook();
+  const valueForm = useUpdateFormHook();
   useEffect(() => {
     getTypeList();
   }, []);
   useEffect(() => {
-    if (currSelectKey.length > 0) {
+    if (currentType) {
       getValueList();
     }
-  }, [currSelectKey, pagination]);
+  }, [currentType, pagination]);
   // 获取数据字典所有类型
   const getTypeList = () => {
-    setTypeLoading(true);
     const params = {
       searchConditionList: []
     };
+    setTypeLoading(true);
     post('sysmanage/dictType/getAllDictType', params, {}, (data: any) => {
+      setTypeLoading(false);
       if (data.flag === 0) {
         if (data.data.length > 0) {
-          setCurrSelectKey([data.data[0].id]);
-          setCurrentTypeName(data.data[0].name);
+          setCurrentType(data.data[0]);
         }
         setTypeList(data.data);
       }
-      setTypeLoading(false);
     });
   };
   // 获取选项列表
   const getValueList = () => {
-    setLoading(true);
     const params = {
-      typeId: currSelectKey[0],
+      typeId: currentType?.id,
       page: pagination.current,
       rows: pagination.pageSize
     };
+    setLoading(true);
     post('sysmanage/dictValue/pageByTypeId', params, { dataType: 'form' }, (data: any) => {
+      setLoading(false);
       if (data.flag === 0) {
         pagination.total = data.data.total;
-        setPagination(pagination);
         setValueList(data.data.rows);
       }
-      setLoading(false);
     });
   };
   // 新增类型-确定
   const handleTypeOK = (value: any) => {
-    setTypeButtonLoading(true);
+    typeForm.setSubLoading(true);
     const url = value.id ? 'sysmanage/dictType/update' : 'sysmanage/dictType/create';
     post(url, value, {}, (data: any) => {
+      typeForm.setSubLoading(false);
       if (data.flag === 0) {
-        setTypeVisible(false);
         message.success('操作成功！');
+        typeForm.handleUpdateCancel();
         getTypeList();
       }
-      setTypeButtonLoading(false);
     });
-  };
-  // 编辑新增类型
-  const addOrEditType = (row: any) => {
-    setTypeVisible(true);
-    if (row) {
-      setRowId(row.id);
-      setTypeFormValue(row);
-    } else {
-      setRowId('');
-      setTypeFormValue({
-        name: undefined,
-        code: undefined,
-        id: undefined
-      });
-    }
   };
   // 删除类型
   const deleteType = (id: string) => {
-    post('sysmanage/dictType/delete', { id }, { dataType: 'form' }, (data: any) => {
-      if (data.flag === 0) {
-        message.success('删除成功！');
-        getTypeList();
-      }
-    });
-  };
-  // 类型-取消
-  const handleTypeCancel = () => {
-    setTypeVisible(false);
-    setTypeFormValue({});
-  };
-  // 新增、编辑选项
-  const addOrEditValue = (row: any) => {
-    setValueVisible(true);
-    if (row) {
-      setRowId(row.id);
-      setValueFormValue(row);
-    } else {
-      setRowId('');
-      setValueFormValue({
-        dictTypeId: currSelectKey[0],
-        dictTypeName: currentTypeName,
-        mkey: undefined,
-        mvalue: undefined,
-        id: undefined
-      });
-    }
+    deleteById('sysmanage/dictType/delete', id).then(() => getTypeList());
   };
   // 新增选项-确定
   const handleValueOK = (value: any) => {
-    setValueButtonLoading(true);
     const url = value.id ? 'sysmanage/dictValue/update' : 'sysmanage/dictValue/create';
+    valueForm.setSubLoading(true);
     post(url, value, {}, (data: any) => {
+      valueForm.setSubLoading(false);
       if (data.flag === 0) {
-        setValueVisible(false);
+        message.success(`${valueForm.currentRow?.id ? '编辑' : '新增'}成功！`);
+        valueForm.handleUpdateCancel();
         getValueList();
       }
-      setValueButtonLoading(false);
     });
-  };
-  // 选项-取消
-  const handleValueCancel = () => {
-    setValueVisible(false);
-    setValueFormValue('');
   };
   // 删除选项
   const deleteValue = (id: string) => {
@@ -156,10 +109,12 @@ const DictValue = () => {
   };
   // 点击数据字典选项
   const onMenuChange = (item: any) => {
+    let index = typeList.findIndex((typeItem: any) => typeItem.id === item.key);
     pagination.current = 1;
     setPagination(pagination);
-    setCurrSelectKey([item.key]);
-    setCurrentTypeName(item.item.props.title);
+    if (index > -1) {
+      setCurrentType(typeList[index]);
+    }
   };
   const columns = [{
     title: '键',
@@ -172,15 +127,15 @@ const DictValue = () => {
   }, {
     title: '操作',
     dataIndex: 'op',
-    render: (text: string, row: IDict) => {
+    render: (text: string, row: Dict) => {
       if (row.isSysSet === 1) {
         return <Tag>系统预设不能操作</Tag>;
       }
       return (
         <TableBtn>
-          <Button size="small" type="primary" onClick={() => addOrEditValue(row)}>编辑</Button>
+          <Button size="small" type="link" onClick={() => valueForm.handleUpdateOpen(row)}>编辑</Button>
           <Popconfirm title="确定删除此字典选项？" okText="确定" cancelText="取消" onConfirm={() => deleteValue(row.id)}>
-            <Button size="small" danger>删除</Button>
+            <Button size="small" type="link" danger>删除</Button>
           </Popconfirm>
         </TableBtn>
       );
@@ -190,12 +145,12 @@ const DictValue = () => {
     label: '类型名称',
     name: 'name',
     type: IFormItemType.Text,
-    rules: getRules(RuleType.required, true, 50)
+    rules: getRules(RuleType.required, true, 100)
   }, {
     label: '类型编号',
     name: 'code',
     type: IFormItemType.Text,
-    rules: getRules(RuleType.required, true, 50)
+    rules: getRules(RuleType.required, true, 100)
   }, {
     label: 'id',
     name: 'id',
@@ -215,12 +170,12 @@ const DictValue = () => {
     label: '键',
     name: 'mkey',
     type: IFormItemType.Text,
-    rules: getRules(RuleType.required, true, 50)
+    rules: getRules(RuleType.required, true, 60)
   }, {
     label: '值',
     name: 'mvalue',
     type: IFormItemType.Text,
-    rules: getRules(RuleType.required, true, 50)
+    rules: getRules(RuleType.required, true, 250)
   }, {
     label: 'id',
     name: 'id',
@@ -231,48 +186,49 @@ const DictValue = () => {
     type: IFormItemType.Hidden,
   }];
   return (
-    <Card title={<MyTitle title="数据字典" />} size="small">
+    <Card size="small">
       <Row>
-        <Col span={6}>
+        <Col span={8}>
           <Card
-            {...myCardProps(<MyTitle title="数据字典类型" />)}
+            {...myCardProps('数据字典类型')}
             extra={(
               <Space size={CommonSpace.md}>
-                <Button icon={<PlusOutlined />} type="primary" onClick={() => addOrEditType('')} >新增类型</Button>
+                <Button icon={<PlusOutlined />} type="primary" onClick={() => typeForm.handleUpdateOpen(null)} >新增类型</Button>
                 <Button type="text" icon={<ReloadOutlined />} onClick={getTypeList} title="刷新" />
               </Space>
             )}
           >
             <Spin spinning={typeLoading}>
-              <Menu mode="inline" selectedKeys={currSelectKey} onSelect={onMenuChange}>
+              <Menu mode="inline" selectedKeys={currentType ? [currentType.id] : []} onSelect={onMenuChange}>
                 {
-                  typeList.map((item: any) => {
-                    return <Menu.Item title={item.name} key={item.id}>
+                  typeList.map((item: any) => (
+                    <Menu.Item title={item.name} key={item.id}>
                       <Row justify="space-between" align="middle">
                         <div>{item.name}</div>
                         <div>
                           {item.isSysSet === 1 ? <Tag>系统预设，不能操作</Tag> : <>
-                            <Button size="small" type="primary" onClick={() => addOrEditType(item)}>编辑</Button>
+                            <Button size="small" type="link" onClick={() => typeForm.handleUpdateOpen(item)}>编辑</Button>
                             <Divider type="vertical" />
-                            <Popconfirm title="确定删除此字典类型？" okText="确定" cancelText="取消" onConfirm={() => deleteType(item.id)}>
-                              <Button size="small" danger>删除</Button>
+                            <Popconfirm title="确定删除此字典类型？" okText="确定" cancelText="取消" onConfirm={(e) => { e?.stopPropagation(); deleteType(item.id); }}>
+                              <Button type="link" size="small" danger onClick={(e) => e.stopPropagation()}>删除</Button>
                             </Popconfirm>
                           </>}
                         </div>
                       </Row>
-                    </Menu.Item>;
-                  })
+                    </Menu.Item>
+                  ))
                 }
               </Menu>
             </Spin>
           </Card>
         </Col>
-        <Col span={18}>
+        <Col span={16}>
           <Card
-            {...myCardProps(<MyTitle title="字典选项" />)}
+            {...myCardProps('字典选项')}
             extra={(
               <Space size={CommonSpace.md}>
-                <Button icon={<PlusOutlined />} type="primary" onClick={() => addOrEditValue('')}>新增选项</Button>
+                <Button icon={<PlusOutlined />} type="primary"
+                        onClick={() => valueForm.handleUpdateOpen(currentType ? { dictTypeId: currentType.id, dictTypeName: currentType.name } : null)}>新增选项</Button>
                 <Button type="text" icon={<ReloadOutlined />} onClick={getValueList} title="刷新" />
               </Space>
             )}
@@ -285,26 +241,18 @@ const DictValue = () => {
           </Card>
         </Col>
       </Row>
-      <Modal title={rowId ? '编辑类型' : '新增类型'} visible={typeVisible} maskClosable={false} footer={null} onCancel={handleTypeCancel}>
+      <Modal {...typeForm.modalParam} title={`${typeForm.currentRow?.id ? '编辑' : '新增'}类型`}>
         <CommonHorizFormHook
+          {...typeForm.formParam}
           formColumns={typeFormColumns}
-          formValue={typeFormValue}
-          footerBtn
-          cancel={handleTypeCancel}
           onOK={handleTypeOK}
-          submitLoading={typeButtonLoading}
-          notReset={true}
         />
       </Modal>
-      <Modal title={rowId ? '编辑选项' : '新增选项'} visible={valueVisible} footer={null} onCancel={handleValueCancel}>
+      <Modal {...valueForm.modalParam} title={`${valueForm.currentRow?.id ? '编辑' : '新增'}类型选项`}>
         <CommonHorizFormHook
+          {...valueForm.formParam}
           formColumns={valueFormColumns}
-          formValue={valueFormValue}
-          footerBtn
-          cancel={handleValueCancel}
           onOK={handleValueOK}
-          submitLoading={valueButtonLoading}
-          notReset={true}
         />
       </Modal>
     </Card>

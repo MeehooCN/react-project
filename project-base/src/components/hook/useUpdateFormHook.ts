@@ -16,7 +16,7 @@ const useUpdateFormHook = (props: IProps = { footer: false, forceRender: false, 
   const [currentRow, setCurrentRow] = useState<any>(null);
   const [subLoading, setSubLoading] = useState<boolean>(false);
   const handleUpdateOpen = (row: any) => {
-    setCurrentRow(row === null ? null : { ...row });
+    setCurrentRow({ ...row });
     setUpdateView(true);
   };
   const handleUpdateCancel = () => {
