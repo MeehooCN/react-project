@@ -2,59 +2,68 @@
   width: 100%;
   background-repeat: no-repeat;
   background-position: center bottom;
-  background-image: url("./../../static/images/background.jpg");
+  background-image: url('./../../static/images/background.jpg');
   background-size: cover;
   padding: 50px 100px;
 }
+
 .project-name {
-  font-size: 60px;
-  color: #fff;
-  letter-spacing: 15px;
-  cursor: pointer;
   width: calc(100vw - 750px);
+  font-size: 60px;
+  letter-spacing: 15px;
+  color: #fff;
+  cursor: pointer;
 }
+
 .login-container {
   width: 500px;
   height: 85vh;
-  background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 5px;
   padding: 40px;
+  background-color: rgb(0 0 0 / 30%);
+  border-radius: 5px;
 }
+
 .login-title {
-  width: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 100%;
+  margin-bottom: 50px;
   font-size: 32px;
   color: #fff;
-  margin-bottom: 50px;
+  justify-content: center;
+  align-items: center;
 }
-.login-title:before, .login-title:after{
-  content: "";
+
+.login-title::before,
+.login-title::after {
   display: inline-block;
   width: 20%;
   margin: 5px 5%;
+  content: '';
   border-bottom: 2px solid #fff;
 }
+
 .login-input .ant-input {
-  background-color: rgba(0, 0, 0, 0) !important;
   color: #fff !important;
+  background-color: rgb(0 0 0 / 0%) !important;
 }
+
 .login-input {
-  background-color: rgba(0, 0, 0, 0) !important;
-  color: #fff !important;
   margin-bottom: 0 !important;
   font-size: 20px;
+  color: #fff !important;
+  background-color: rgb(0 0 0 / 0%) !important;
 }
+
 /* 找回密码样式 */
 .forget-password {
   display: block;
-  text-align: right;
   margin-top: 10px;
+  text-align: right;
 }
+
 .reset-title {
   width: 100%;
-  font-size: 20px;
   margin: 40px 0;
+  font-size: 20px;
   letter-spacing: 5px;
 }

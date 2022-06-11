@@ -1,36 +1,42 @@
-@import "./../../static/styles/colors";
+@import './../../static/styles/colors';
+
 .header {
-  padding: 0 20px;
+  z-index: 2;
   width: 100%;
   height: 60px;
-  z-index: 2;
+  padding: 0 20px;
   background-color: @header-background;
   box-sizing: border-box;
 }
+
 .header-shadow {
   box-shadow: 5px 0 5px 1px #ddd;
 }
+
 .log-out {
-  cursor: pointer;
   color: @header-text-color;
+  cursor: pointer;
 }
+
 .log-out:hover {
-  color: @primary-color
+  color: @primary-color;
 }
+
 .person {
   margin-right: 30px;
-  cursor: pointer;
   color: @header-text-color;
+  cursor: pointer;
 }
+
 .person-avatar {
-  background-color: @primary-color;
   margin-right: 10px;
+  background-color: @primary-color;
 }
 // 覆盖谷歌浏览器默认输入框样式
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  -webkit-transition-delay: 99999s;
-  -webkit-transition: color 99999s ease-out, background-color 99999s ease-out;
+  transition: color 99999s ease-out, background-color 99999s ease-out;
+  transition-delay: 99999s;
 }

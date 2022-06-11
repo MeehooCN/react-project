@@ -1,4 +1,5 @@
-@import "./../../static/styles/colors";
+@import './../../static/styles/colors';
+
 .my-upload-select-picture-card {
   width: 100px;
   height: 100px;
@@ -6,16 +7,18 @@
   margin-bottom: 8px;
   text-align: center;
   vertical-align: top;
+  cursor: pointer;
   background-color: #fafafa;
   border: 1px dashed #d9d9d9;
   border-radius: 2px;
-  cursor: pointer;
   transition: border-color .3s;
 }
+
 .my-upload-select-picture-card:hover {
   border-color: @primary-color;
 }
-.my-upload-select-picture-card>.my-upload {
+
+.my-upload-select-picture-card > .my-upload {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -23,150 +26,161 @@
   text-align: center;
 }
 //.my-upload {
-  .my-upload-list-item {
-    height: 100%;
-    padding: 0 4px;
-    transition: background-color 0.3s;
+.my-upload-list-item {
+  display: flex;
+  height: 100%;
+  padding: 0 4px;
+  transition: background-color .3s;
+  align-items: center;
+}
 
-    display: flex;
-    align-items: center;
-  }
-  .my-upload-list-item:hover {
-    background-color: #eee;
-  }
-  .my-upload-item-btn {
-    opacity: 0;
-  }
-  .my-upload-list-item:hover .my-upload-item-btn {
-    opacity: 1;
-  }
-  .my-upload-item-span {
-    flex: auto;
-    margin: 0;
-    //padding: 0 8px;
-    display: inline-block;
-    width: 100%;
-    padding-left: 22px;
-    overflow: hidden;
-    line-height: 1.5715;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-  .my-upload-picture-wrap {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 5px;
-  }
-  .my-upload-item-picture-div {
-    width: 100px;
-    height: 100px;
-    //padding: 8px;
-    //border: 1px solid #d9d9d9;
-    //border-radius: 2px;
-    margin: 0 8px 8px 0;
-    vertical-align: top;
-  }
-  .my-upload-item-picture-div:hover {
-     background: 0 0;
-   }
-  .my-upload-item-picture-div:hover .my-upload-item-picture {
-      background: 0 0;
-  }
-  .my-upload-item-pic-btn {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: 10;
-    white-space: nowrap;
-    transform: translate(-50%,-50%);
-    opacity: 0;
-    transition: all .3s;
-  }
-  .my-upload-item-picture-div:hover .my-upload-item-pic-btn {
-    opacity: 1;
-  }
-  .my-upload-item-picture {
-    position: relative;
-    height: 100%;
-    overflow: hidden;
-    transition: background-color .3s;
-    display: flex;
-    align-items: center;
-  }
-  // 图片上传的外框
-  .my-upload-list-picture {
-    height: 100%;
-    margin-top: 0;
-    position: relative;
-    padding: 8px;
-    border: 1px solid #d9d9d9;
-    border-radius: 2px;
-  }
-  // 鼠标的hover事件给图片添加蒙层
-  .my-upload-item-picture:before {
-    position: absolute;
-    z-index: 1;
-    width: 100%;
-    height: 100%;
-    background-color: #00000080;
-    opacity: 0;
-    transition: all .3s;
-    content: " ";
-  }
-  .my-upload-item-picture-div:hover .my-upload-item-picture:before {
-    opacity: 1;
-  }
-  // 文字列表的上传成功
-  .my-upload-item-span.my-upload-item-done:before {
-    content: '√';
-    font-weight: 600;
-    color: #fff;
-    background-color: #52c41a;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    left: 2px;
-    position: absolute;
-    padding-left: 5px;
-  }
-  // 图片列表的上传成功
-  .my-upload-list-picture.my-upload-item-done:after {
-    content: '√';
-    font-weight: 600;
-    color: #fff;
-    background-color: #52c41a;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    left: 2px;
-    top: 0;
-    position: absolute;
-    padding-left: 5px;
-  }
+.my-upload-list-item:hover {
+  background-color: #eee;
+}
+
+.my-upload-item-btn {
+  opacity: 0;
+}
+
+.my-upload-list-item:hover .my-upload-item-btn {
+  opacity: 1;
+}
+
+.my-upload-item-span {
+  //padding: 0 8px;
+  display: inline-block;
+  width: 100%;
+  padding-left: 22px;
+  margin: 0;
+  overflow: hidden;
+  line-height: 1.5715;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: auto;
+}
+
+.my-upload-picture-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 5px;
+}
+
+.my-upload-item-picture-div {
+  width: 100px;
+  height: 100px;
+  //padding: 8px;
+  //border: 1px solid #d9d9d9;
+  //border-radius: 2px;
+  margin: 0 8px 8px 0;
+  vertical-align: top;
+}
+
+.my-upload-item-picture-div:hover {
+  background: 0 0;
+}
+
+.my-upload-item-picture-div:hover .my-upload-item-picture {
+  background: 0 0;
+}
+
+.my-upload-item-pic-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 10;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  transition: all .3s;
+}
+
+.my-upload-item-picture-div:hover .my-upload-item-pic-btn {
+  opacity: 1;
+}
+
+.my-upload-item-picture {
+  position: relative;
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  transition: background-color .3s;
+  align-items: center;
+}
+// 图片上传的外框
+.my-upload-list-picture {
+  position: relative;
+  height: 100%;
+  padding: 8px;
+  margin-top: 0;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+}
+// 鼠标的hover事件给图片添加蒙层
+.my-upload-item-picture::before {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  background-color: #00000080;
+  content: ' ';
+  opacity: 0;
+  transition: all .3s;
+}
+
+.my-upload-item-picture-div:hover .my-upload-item-picture::before {
+  opacity: 1;
+}
+// 文字列表的上传成功
+.my-upload-item-span.my-upload-item-done::before {
+  position: absolute;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  padding-left: 5px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #52c41a;
+  border-radius: 50%;
+  content: '√';
+}
+// 图片列表的上传成功
+.my-upload-list-picture.my-upload-item-done::after {
+  position: absolute;
+  top: 0;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  padding-left: 5px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #52c41a;
+  border-radius: 50%;
+  content: '√';
+}
 //  文字列表的上传失败
-.my-upload-item-span.my-upload-item-error:before {
-    content: '×';
-    font-weight: 600;
-    color: #fff;
-    background-color: #f11c49;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    left: 2px;
-    position: absolute;
-    padding-left: 5px;
-  }
-  // 图片展示的 上传失败
-  .my-upload-list-picture.my-upload-item-error:after {
-    content: '×';
-    font-weight: 600;
-    color: #fff;
-    background-color: #f11c49;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    left: 2px;
-    top: 0;
-    position: absolute;
-    padding-left: 5px;
-  }
+.my-upload-item-span.my-upload-item-error::before {
+  position: absolute;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  padding-left: 5px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #f11c49;
+  border-radius: 50%;
+  content: '×';
+}
+// 图片展示的 上传失败
+.my-upload-list-picture.my-upload-item-error::after {
+  position: absolute;
+  top: 0;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  padding-left: 5px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #f11c49;
+  border-radius: 50%;
+  content: '×';
+}

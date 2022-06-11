@@ -1,64 +1,75 @@
-@import "./../../static/styles/colors";
-@import "./../../static/styles/space";
+@import './../../static/styles/colors';
+@import './../../static/styles/space';
+
 .site-layout {
   background-color: #fff;
 }
+
 .content {
+  position: relative;
   width: 100%;
   height: calc(100vh - 60px);
   padding: @sm-space;
   overflow: auto;
   background-color: #f0f2f5;
-  position: relative;
 }
+
 .menu {
-  overflow-y: hidden;
   height: calc(100vh - 104px);
+  overflow-y: hidden;
 }
+
 .menu:hover {
   overflow-y: auto;
 }
+
 .menu::-webkit-scrollbar {
   width: 8px;
   background-color: @scroll-background;
 }
+
 .menu::-webkit-scrollbar-thumb {
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
   background-color: @primary-color-opacity-4;
 }
+
 .back-top {
+  display: flex;
   width: 40px;
   height: 40px;
+  background-color: @primary-color;
   border-radius: 100%;
-  display: flex;
   justify-content: center;
   align-items: center;
-  background-color: @primary-color
 }
+
 .back-top-icon {
-  color: #fff;
   font-size: 20px;
+  color: #fff;
 }
+
 .header-title-icon {
-  cursor: pointer;
-  color: @header-text-color;
   height: 56px;
+  color: @header-text-color;
+  cursor: pointer;
 }
+
 .header-title-icon:hover {
   color: @primary-color;
 }
+
 .header-title {
   margin-left: 10px;
-  color: @header-background;
-  font-weight: 600;
   font-size: 18px;
+  font-weight: 600;
   letter-spacing: 2px;
+  color: @header-background;
 }
 // 覆盖谷歌浏览器默认输入框样式
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  -webkit-transition-delay: 99999s;
-  -webkit-transition: color 99999s ease-out, background-color 99999s ease-out;
+  transition-delay: 99999s;
+  transition: color 99999s ease-out, background-color 99999s ease-out;
 }
