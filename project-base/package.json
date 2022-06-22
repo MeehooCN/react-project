@@ -10,7 +10,8 @@
     "postbuild": "node ./scripts/deploy.js production",
     "testbuild": "webpack --config build/webpack.pro.config.js --mode production",
     "posttestbuild": "node ./scripts/deploy.js test",
-    "lint": "stylelint **/*.less --fix --custom-syntax postcss-less"
+    "lint": "stylelint **/*.less --fix --custom-syntax postcss-less",
+    "swagger": "node ./scripts/swagger.mjs"
   },
   "keywords": [
     "keywords"
@@ -67,6 +68,7 @@
     "less": "^4.1.0",
     "less-loader": "^11.0.0",
     "mini-css-extract-plugin": "1.2.1",
+    "node-fetch": "^3.2.6",
     "postcss": "^8.2.1",
     "postcss-less": "^6.0.0",
     "postcss-loader": "4.1.0",
