@@ -10,7 +10,7 @@ import { message } from 'antd';
 /**
  * 获取所有未禁用的机构列表
  * **/
-export const getOrgTreeEnableList = async () => {
+export const getOrgTreeEnableList = () => {
   return new Promise((resolve: any) => {
     get('security/organization/listAllEnableForAdmin', {}, (data: any) => {
       if (data.flag === 0) {
