@@ -39,7 +39,7 @@ const AdminManage = () => {
       ...searchContent
     };
     setLoading(true);
-    get('security/admin/list', { params }, (data: any) => {
+    get('security/admin/list', params, {}, (data: any) => {
       setLoading(false);
       if (data.flag === 0) {
         pagination.total = data.data.total;
@@ -56,7 +56,7 @@ const AdminManage = () => {
   };
   // 获取角色列表
   const getRoleList = () => {
-    get('security/role/listAll', {}, (data: any) => {
+    get('security/role/listAll', {}, {}, (data: any) => {
       if (data.flag === 0) {
         const roleList = data.data.map((roleItem: any) => {
           return {

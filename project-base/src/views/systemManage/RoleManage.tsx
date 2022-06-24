@@ -39,7 +39,7 @@ const RoleManage = () => {
       page: pagination.current,
       ...searchContent
     };
-    get('security/role/list', { params }, (data: any) => {
+    get('security/role/list', params, {}, (data: any) => {
       if (data.flag === 0) {
         pagination.total = data.data.total;
         setRoleList(data.data.rows);
