@@ -12,7 +12,7 @@ import { message } from 'antd';
  * **/
 export const getOrgTreeEnableList = () => {
   return new Promise((resolve: any) => {
-    get('security/organization/listAllEnableForAdmin', {}, (data: any) => {
+    get('security/organization/listAllEnableForAdmin', {}, {}, (data: any) => {
       if (data.flag === 0) {
         resolve(data.data.children);
       }
@@ -24,7 +24,7 @@ export const getOrgTreeEnableList = () => {
  * **/
 export const getAllProvinceCityArea = async () => {
   return new Promise((resolve: any) => {
-    get('sysmanage/provinceCityArea/getAllProvinceCityArea', {}, (data: any) => {
+    get('sysmanage/provinceCityArea/getAllProvinceCityArea', {}, {}, (data: any) => {
       if (data.flag === 0) {
         resolve(data.data);
       }

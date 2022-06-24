@@ -3,7 +3,7 @@
  * @author cnn
  * **/
 import { message, Modal } from 'antd';
-import Axios, { AxiosRequestConfig } from 'axios';
+import Axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import qs from 'qs';
 import { platform, serverPath } from '@utils/CommonVars';
 
@@ -15,7 +15,7 @@ interface AxiosRequestConfigMore extends AxiosRequestConfig {
 /**
  * post 传参
  * **/
-const post = (url: string, data: any, config: AxiosRequestConfigMore, thenCallBack: any) => {
+const post = (url: string, data: any, config: AxiosRequestConfigMore, thenCallBack: Function) => {
   let params = data;
   if (config.dataType === 'form') {
     config.headers = {
@@ -27,7 +27,7 @@ const post = (url: string, data: any, config: AxiosRequestConfigMore, thenCallBa
       'Content-type': 'multipart/form-data'
     };
   }
-  return Axios.post(serverPath + url, params, config).then((response: any) => {
+  return Axios.post(serverPath + url, params, config).then((response: AxiosResponse) => {
     if (response.status === 200) {
       let responseData = response.data;
       if (responseData.hasOwnProperty('flag')) {
@@ -69,9 +69,10 @@ const post = (url: string, data: any, config: AxiosRequestConfigMore, thenCallBa
 /**
  * get 传参
  * **/
-const get = (url: string, config: AxiosRequestConfig, thenCallBack: any) => {
+const get = (url: string, params: any, config: AxiosRequestConfig, thenCallBack: Function) => {
+  config.params = params;
   // get 参数放在 config.params 里
-  return Axios.get(serverPath + url, config).then((response: any) => {
+  return Axios.get(serverPath + url, config).then((response: AxiosResponse) => {
     if (response.status === 200) {
       let responseData = response.data;
       if (responseData.hasOwnProperty('flag')) {
