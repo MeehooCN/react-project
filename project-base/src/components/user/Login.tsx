@@ -29,7 +29,7 @@ const Login = () => {
   }, []);
   // 获取验证码
   const getKaptcha = () => {
-    get('security/kaptcha/getKaptchaImage', { responseType: 'blob' }, (data: any) => {
+    get('security/kaptcha/getKaptchaImage', {}, { responseType: 'blob' }, (data: any) => {
       setBlob(data);
       form.setFieldsValue({
         verifyCode: ''
