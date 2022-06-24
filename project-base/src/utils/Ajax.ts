@@ -15,7 +15,7 @@ interface AxiosRequestConfigMore extends AxiosRequestConfig {
 /**
  * post 传参
  * **/
-const post = (url: string, data: any, config: AxiosRequestConfigMore, thenCallBack: Function) => {
+const post = (url: string, data: any, config: AxiosRequestConfigMore = {}, thenCallBack: Function) => {
   let params = data;
   if (config.dataType === 'form') {
     config.headers = {
@@ -69,7 +69,7 @@ const post = (url: string, data: any, config: AxiosRequestConfigMore, thenCallBa
 /**
  * get 传参
  * **/
-const get = (url: string, params: any, config: AxiosRequestConfig, thenCallBack: Function) => {
+const get = (url: string, params: any, config: AxiosRequestConfig = {}, thenCallBack: Function) => {
   config.params = params;
   // get 参数放在 config.params 里
   return Axios.get(serverPath + url, config).then((response: AxiosResponse) => {
