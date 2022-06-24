@@ -1,19 +1,22 @@
 /**
  * @descriptor 通过 swagger 获取 TS 下的 interface
+ * @use yarn interface
  * @author obf1313
  */
-import { writeFileSync } from 'fs';
+import { writeFileSync, access } from 'fs';
 import fetch from 'node-fetch';
-import { fileURLToPath } from 'node:url';
-import path from 'path';
+import swagger from '../swagger.config.mjs';
 
-const swagger = {
-  // swagger 地址
-  url: 'http://172.22.9.50:35056',
-  // 存储目录
-  path: path.resolve(fileURLToPath(import.meta.url), './../../src/utils')
-};
+const RESPONSE_RESULT = `/** 接口定义 */\nexport interface ResponseResult<T> {
+  data: T,
+  flag: number
+}`;
 
+/**
+ * 获取参数类型
+ * @param {*} prop 
+ * @returns 
+ */
 const analysisProperty = (prop) => {
   if (['integer', 'float', 'number'].includes(prop.type)) {
     return 'number';
@@ -57,17 +60,14 @@ const getProperties = (properties, required) => {
  */
 const getInterfaceFileText = (docsData) => {
   const { definitions } = docsData;
-  let fileText = '';
+  let fileText = RESPONSE_RESULT + '\n';
   for (let key in definitions) {
     if (key.includes('«')) continue;
     const item = definitions[key];
-    fileText += `/** ${item.description} */
-export interface ${key.replace(/[#，]|\s/g, '')} {${getProperties(
-        item.properties,
-        true
-      )}
-}
-`;
+    fileText += `\n/** ${item.description} */\nexport interface ${key.replace(/[#，]|\s/g, '')} {${getProperties(
+      item.properties,
+      true
+    )}\n}`;
   }
   return fileText;
 }
@@ -86,8 +86,15 @@ const task = async () => {
     return data.json();
   }).then(docsData => {
     let fileText = getInterfaceFileText(docsData);
-    writeFileSync(path + '\\swaggerDTO.d.ts', fileText);
-    console.log('生成结束！');
+    access(path, (e) => {
+      if (e) {
+        // 如果该目录不存在，则建目录
+        mkdirSync(path);
+      }
+      // 生成文件
+      writeFileSync(path + '\\swaggerDTO.d.ts', fileText);
+      console.log('生成接口定义结束！');
+    })
   });
 }
 

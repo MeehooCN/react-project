@@ -11,7 +11,8 @@
     "testbuild": "webpack --config build/webpack.pro.config.js --mode production",
     "posttestbuild": "node ./scripts/deploy.js test",
     "lint": "stylelint **/*.less --fix --custom-syntax postcss-less",
-    "swagger": "node ./scripts/swagger.mjs"
+    "interface": "node ./scripts/interface.mjs",
+    "api": "node ./scripts/api.mjs"
   },
   "keywords": [
     "keywords"
@@ -72,6 +73,7 @@
     "postcss": "^8.2.1",
     "postcss-less": "^6.0.0",
     "postcss-loader": "4.1.0",
+    "prettier": "^2.7.1",
     "style-loader": "^2.0.0",
     "stylelint": "^14.9.0",
     "stylelint-config-prettier": "^9.0.3",
