@@ -11,10 +11,12 @@
  
  const swagger = {
    // swagger 地址
-   url: 'http://124.70.140.175:8060',
+   url: 'http://172.22.3.50:35150/',
    // 无需修改，除非需要修改存储目录
    path: srcPath,
    // swagger api-docs 请求后面的 group 参数
-   group: 'admin'
+  //  group: 'admin',
+   // 是否生成日志文件,
+   log: true
  };
  export default swagger;

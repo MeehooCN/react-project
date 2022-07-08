@@ -6,7 +6,13 @@
 import { writeFileSync, access } from 'fs';
 import fetch from 'node-fetch';
 import prettier from 'prettier';
+import { fileURLToPath } from 'node:url';
+import path from 'path';
 import swagger from '../swagger.config.mjs';
+import { initLog } from './log.mjs';
+
+const tempPath = fileURLToPath(import.meta.url);
+const meehooPath = path.resolve(tempPath, './../../.meehoo');
 
 const RESPONSE_RESULT = `/** 接口定义 */\nexport interface ResponseResult<T> {
    data: T,
@@ -80,7 +86,7 @@ const getInterfaceFileText = (docsData) => {
  * @returns 
  */
 const task = async () => {
-  const { url, path } = swagger;
+  const { url, path, log } = swagger;
   if (!url || !path) {
     console.error('请检查配置！');
     return;
@@ -94,6 +100,10 @@ const task = async () => {
       printWidth: 150,
       parser: 'typescript'
     });
+    // 如果需要生成日志
+    if (log) {
+      initLog('swagger', docsData, meehooPath);
+    }
     access(path, (e) => {
       if (e) {
         // 如果该目录不存在，则建目录
