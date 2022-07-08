@@ -166,21 +166,23 @@ export const deleteCookie = (name: string) => {
  * limitFileNameLength: 限制文件名长度
  * limitFileName: 文件名中不应包含字符
  **/
-export const beforeUploadLimit = (limitType: Array<string>, file: any, limitSize?: number, limitFileNameLength?: number, limitFileName?: Array<string>) => {
-  let fileSize = limitSize ? limitSize : 40;
-  const isLtLimitSize = file.size / 1024 / 1024 < fileSize;
-  // 限制文件大小
-  if (!isLtLimitSize) {
-    message.error({
-      content: '文件不能超过 ' + fileSize + ' MB',
-      key: 'fileSize'
-    });
-    return Upload.LIST_IGNORE;
+export const beforeUploadLimit = (limitType: Array<string>, file: any, limitSize?: number | 'none', limitFileNameLength?: number, limitFileName?: Array<string>) => {
+  if (limitSize !== 'none') {
+    let fileSize = limitSize ? limitSize : 40;
+    const isLtLimitSize = file.size / 1024 / 1024 < fileSize;
+    // 限制文件大小
+    if (!isLtLimitSize) {
+      message.error({
+        content: '文件不能超过 ' + fileSize + ' MB',
+        key: 'fileSize'
+      });
+      return Upload.LIST_IGNORE;
+    }
   }
   // 限制文件格式
   let fileSuf = file.name.split('.');
   let suffix = fileSuf[fileSuf.length - 1].toLowerCase();
-  if (limitType.indexOf('.' + suffix) === -1) {
+  if (limitType.length > 0 && limitType.indexOf('.' + suffix) === -1) {
     message.error({
       content: '文件限' + limitType.join('、') + '格式',
       key: 'fileType'

@@ -27,13 +27,13 @@ interface IProps {
   fileSpan?: number; // 单个文件占的flex大小
   uploadItemClass?: string;
   listType?: 'text' | 'picture' | 'length';
-  accept?: any; // 文件格式
+  accept?: Array<any>; // 文件格式
   children?: React.ReactNode;
 }
 const MyUpload = (props: IProps) => {
   const {
     multiple = false, maxCount = 1, onRemove, onChange, showFileList = [], fileSpan = 24, uploadItemClass,
-    listType = 'text', accept, children
+    listType = 'text', accept = [], children
   } = props;
   const inputRef: any = useRef();
   const fileBeforeShow = (file: any) => {
@@ -98,7 +98,7 @@ const MyUpload = (props: IProps) => {
             type="file" style={{ display: 'none' }}
             id="inputFile" multiple={multiple}
             onChange={fileChange} ref={inputRef}
-            accept={accept}
+            accept={accept.join(',')}
           />
         </div>
         {listType === 'picture' && (
