@@ -39,3 +39,17 @@ eslint 配置文件，每次拉新项目下来需要手动开启 eslint 检验�
 postcss 配置文件。
 ### 1.12 tsconfig.json
 ts 配置文件。
+
+# 如何使用 swagger 获取接口等。
+### 拉取定义文件
+1. 修改 swagger.config.mjs 文件，参考注释修改。
+2. 运行命令 node interface
+3. 可以看到生成 src/utils/swaggerDTO.d.ts 文件。
+
+### 拉取不同模块的接口文件
+1. 修改 swagger.config.mjs 文件，参考注释修改（如果已经更改了则无需再次更改）。
+2. 运行命令 <br />
+node api name="模块名称" moduleName="输出的文件的名称"<br />
+此处解释一下 name，如图所示。<br />
+没图，意会吧。（其实有，但我不知道放在哪里）
+3. 可以看到生成 src/utils/services/[moduleName].ts
