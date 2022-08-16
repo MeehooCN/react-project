@@ -3,12 +3,12 @@
  * @author: cnn
  * @createTime: 2020/10/13 9:12
  **/
-import React, { useEffect, useRef, useState } from 'react';
-import { Card, Table, Divider, Button, Popconfirm, Modal, message, Space } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Card, Table, Button, Popconfirm, Modal, message, Space } from 'antd';
 import { PlusOutlined, createFromIconfontCN, ReloadOutlined } from '@ant-design/icons';
 import {
   CommonHorizFormHook, IFormColumns, MyTitle, useTableHook, IconFontChoose,
-  useFormHook, TableBtn
+  TableBtn, useUpdateFormHook
 } from '@components/index';
 import { post } from '@utils/Ajax';
 import { CommonSpace, iconUrl, RuleType } from '@utils/CommonVars';
@@ -30,14 +30,12 @@ interface IMenuData {
 }
 
 const MenuManage = () => {
-  const menuRef: any = useRef();
   const { setLoading, pagination, setPagination, tableParam } = useTableHook({ hidePage: false });
-  const { submitLoading, setSubmitLoading, formValue, setFormValue } = useFormHook();
   const [menuList, setMenuList] = useState<Array<IMenuData>>([]);
-  const [addView, setAddView] = useState<boolean>(false);
   const [isAdd, setIsAdd] = useState<boolean>(false);
   // 参数1 是否是子菜单新增 参数2 父菜单名称 参数3 父级菜单id
   const [isChildAdd, setIsChildAdd] = useState<[boolean, string, string]>([false, '', '']);
+  const { modalParam, formParam, setSubLoading, handleUpdateOpen, handleUpdateCancel, currentRow } = useUpdateFormHook();
   useEffect(() => {
     getMenuList();
   }, []);
@@ -56,19 +54,13 @@ const MenuManage = () => {
   };
   // 新增菜单
   const addMenu = () => {
-    setAddView(true);
+    handleUpdateOpen(null);
     setIsAdd(true);
     setIsChildAdd([false, '', '']);
-    setFormValue({
-      name: undefined,
-      url: undefined,
-      icon: undefined,
-      status: undefined
-    });
   };
   // 确认新增菜单
   const addMenuOk = (value: any) => {
-    setSubmitLoading(true);
+    setSubLoading(true);
     if (isChildAdd[2] !== '') {
       value.parentMenuId = isChildAdd[2];
     }
@@ -76,31 +68,24 @@ const MenuManage = () => {
     const url = isAdd ? 'sysManage/menu/addMenu' : 'sysManage/menu/updateMenu';
     post(url, value, {}, (data: any) => {
       if (data.flag === 0) {
-        setAddView(false);
+        handleUpdateCancel();
         message.success('操作成功！');
         getMenuList();
       }
-      setSubmitLoading(false);
+      setSubLoading(false);
     });
   };
   // 新增子菜单
   const addChildMenu = (e: any, row: any) => {
     e.stopPropagation();
     setIsChildAdd([true, row.name, row.id]);
-    setFormValue({
-      name: undefined,
-      url: undefined,
-      icon: undefined,
-      status: undefined
-    });
-    setAddView(true);
+    handleUpdateOpen(null);
     setIsAdd(true);
   };
   // 编辑菜单
   const editMenu = (e: any, row: any) => {
     e.stopPropagation();
-    setFormValue({ ...row });
-    setAddView(true);
+    handleUpdateOpen(row);
     setIsAdd(false);
     setIsChildAdd([false, '', '']);
   };
@@ -122,17 +107,12 @@ const MenuManage = () => {
       return (isAdd ? '新增' : '编辑') + '菜单';
     }
   };
-  // 取消
-  const handleCancel = () => {
-    setAddView(false);
-    menuRef.current.form().resetFields();
-  };
   // 点击图标回调
   const onIconClick = (icon: string) => {
-    menuRef.current.form().setFieldsValue({
+    formParam.ref.current.form().setFieldsValue({
       icon: icon
     });
-    menuRef.current.hiddenModal();
+    formParam.ref.current.hiddenModal();
   };
   const menuColumns: any = [{
     title: '编号',
@@ -207,20 +187,16 @@ const MenuManage = () => {
         expandRowByClick={true}
       />
       <Modal
+        {...modalParam}
         title={getModalTitle()}
         footer={false}
         maskClosable={false}
-        visible={addView}
-        onCancel={handleCancel}
+        onCancel={handleUpdateCancel}
       >
         <CommonHorizFormHook
-          ref={menuRef}
+          {...formParam}
           formColumns={menuFormColumns}
-          formValue={formValue}
-          footerBtn
-          cancel={() => setAddView(false)}
           onOK={addMenuOk}
-          submitLoading={submitLoading}
           notReset={true}
         />
       </Modal>
