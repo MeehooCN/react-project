@@ -7,6 +7,9 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import './Table.less';
 import { IPageSession } from '@utils/CommonVars';
+import { ResizeCallbackData, Resizable } from 'react-resizable';
+import { Row } from 'antd';
+import { ColumnWidthOutlined } from '@ant-design/icons';
 
 interface Sorter {
   field: string,
@@ -30,11 +33,21 @@ interface ITableHookProps {
   bordered?: boolean; // 是否显示表格
   hidePage?: boolean; // 是否隐藏分页
   sessionName?: IPageSession; // sessionStorage里面current的命名，如果页面中有多个表格，使用sessionName区分current
-  showSticky?: boolean // 是否显示超长后显示滚动条
+  showSticky?: boolean; // 是否显示超长后显示滚动条
+  headerResizable?: boolean; // 表头是否可伸缩
+  resizeByKey?: boolean; // 根据column width来伸缩列, 为true，则需设置setHeaderWidth和headerWidth,为false则需设置setColumns和columns
+  setColumns?: (columns: any) => void;
+  columns?: Array<any>;
+  setHeaderWidth?: (widthMap: any) => void;
+  headerWidth?: any;
 }
 const useTableHook = (props: ITableHookProps = {}) => {
   const history = useHistory();
-  const { isBackSearchProp, pageSize, tableSize, bordered, hidePage, sessionName, showSticky = false } = props;
+  const {
+    isBackSearchProp, pageSize, tableSize, bordered, hidePage, sessionName, showSticky = false,
+    headerResizable = false, setColumns, columns,
+    resizeByKey, setHeaderWidth, headerWidth
+  } = props;
   const sessionCurrent = sessionName ? sessionName : '';
   const { state }: any = history.location;
   const [loading, setLoading] = useState<boolean>(false);
@@ -114,7 +127,20 @@ const useTableHook = (props: ITableHookProps = {}) => {
   };
   // 获取表格的样式
   const getRowClass = (record: any, index: number) => (index % 2 ? 'table-single' : '');
-
+  const handleResize =
+    (index: number | string) =>
+      (_: React.SyntheticEvent<Element>, { size }: ResizeCallbackData) => {
+        if (resizeByKey) {
+          setHeaderWidth && setHeaderWidth({ ...headerWidth, [index]: size.width })
+        } else {
+          const newColumns = columns ? [...columns] : [];
+          newColumns[index] = {
+            ...newColumns[index],
+            width: size.width,
+          };
+          setColumns && setColumns(newColumns);
+        }
+      };
   let tableParam: any =  {
     size: tableSize || 'default',
     loading: loading,
@@ -122,7 +148,12 @@ const useTableHook = (props: ITableHookProps = {}) => {
     pagination: hidePage ? false : pagination,
     onChange: handleTableChange,
     rowClassName: getRowClass,
-    rowKey: 'id'
+    rowKey: 'id',
+    components: headerResizable && {
+      header: {
+        cell: ResizableTitle,
+      },
+    }
   };
   if (showSticky) {
     tableParam = {
@@ -135,7 +166,48 @@ const useTableHook = (props: ITableHookProps = {}) => {
   }
   return {
     loading, setLoading, pagination, setPagination, searchContent, handleTableChange,
-    handleSearch, backFrontPage, sorter, isBackSearch, setIsBackSearch, getRowClass, tableParam
+    handleSearch, backFrontPage, sorter, isBackSearch, setIsBackSearch, getRowClass, tableParam,
+    handleResize
   };
+};
+const ResizableTitle = (
+  props: React.HTMLAttributes<any> & {
+    onResize: (e: React.SyntheticEvent<Element>, data: ResizeCallbackData) => void;
+    width: number;
+  },
+) => {
+  const { onResize, width, ...restProps } = props;
+
+  if (!width) {
+    return <th {...restProps} />;
+  }
+
+  return (
+    <Resizable
+      width={width}
+      height={0}
+      handle={
+        <span
+          className="react-resizable-handle"
+          onClick={e => {
+            e.stopPropagation();
+          }}
+        />
+      }
+      onResize={onResize}
+      draggableOpts={{ enableUserSelectHack: false }}
+    >
+      <th {...restProps} />
+    </Resizable>
+  );
+};
+interface IHeaderResize {
+  title: any
+}
+export const HeaderResizeShow = (props: IHeaderResize) => {
+  const { title } = props;
+  return (
+    <Row justify="space-between">{title}<ColumnWidthOutlined title="可伸缩列" style={{ color: '#bfbfbf', fontSize: 12 }} /></Row>
+  );
 };
 export default useTableHook;
