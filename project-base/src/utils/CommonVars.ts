@@ -27,11 +27,11 @@ export enum CommonSpace {
  * 服务器部署前缀路径
  * **/
 const serverConfigs = require('./../../scripts/config.js');
-export const { platform } = serverConfigs();
+export const { platform } = serverConfigs([]);
 /**
  * API 接口路径
  **/
-export const { serverPath } = serverConfigs();
+export const { serverPath } = serverConfigs([]);
 /**
  * 图标库地址，iconfonts 库
  * **/

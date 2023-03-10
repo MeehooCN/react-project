@@ -15,7 +15,7 @@ const serverConfigs = require('./config');
 // process 是 node 全局变量，不需要引入
 // 参考 http://nodejs.cn/learn/nodejs-accept-arguments-from-the-command-line
 const args = process.argv;
-const configs = serverConfigs(args[2]);
+const configs = serverConfigs(args);
 
 console.log('开始压缩 dist 目录...');
 startZip();

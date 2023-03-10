@@ -8,8 +8,9 @@
     "dev": "webpack serve --config build/webpack.dev.config.js --inline --mode development --hot --host 0.0.0.0",
     "build": "webpack --config build/webpack.pro.config.js --mode production",
     "postbuild": "node ./scripts/deploy.js production",
+    "postbuild": "node ./scripts/deploy.js hostType=windows host=127.0.0.1 user=administrator password=meehoo2012! path=C:/rov_check/dist.zip shPath= command=C:/rov_check/jsDeploy.bat",
     "testbuild": "webpack --config build/webpack.pro.config.js --mode production",
-    "posttestbuild": "node ./scripts/deploy.js test"
+    "posttestbuild": "node ./scripts/deploy.js hostType=windows host=127.0.0.1 user=administrator password=meehoo2012! path=C:/rov_check/dist.zip shPath= command=C:/rov_check/jsDeploy.bat"
   },
   "keywords": [
     "keywords"

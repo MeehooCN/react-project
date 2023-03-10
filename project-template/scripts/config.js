@@ -20,30 +20,15 @@ module.exports = (mode) => {
     platform: '/',
     serverPath: '/api/'
   };
-  // 测试环境配置
-  if (mode === 'test') {
-    config = {
-      hostType: 'windows',
-      host: '127.0.0.1',
-      user: 'admin',
-      password: '123456',
-      path: 'D:/opt/view/dist.zip',
-      shPath: '/opt/sh',
-      command: 'D:/opt/sh/deploy.bat',
-      ...config
-    };
-  } else {
-    // 正式环境配置
-    config = {
-      hostType: 'windows',
-      host: '127.0.0.1',
-      user: 'admin',
-      password: '123456',
-      path: 'D:/opt/view/dist.zip',
-      shPath: '/opt/sh',
-      command: 'D:/opt/sh/deploy.bat',
-      ...config
-    };
+  for (let i = 0; i < mode.length; i++) {
+    if (mode[i].indexOf('=') > -1) {
+      let obj = mode[i].split('=');
+      config[obj[0]] = obj[1];
+    }
+  }
+  // linux 环境下的command需要添加前缀
+  if (config.hostType === 'linux' && config.command) {
+    config.command = 'sh ' + config.command;
   }
   return config;
 };

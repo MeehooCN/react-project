@@ -12,7 +12,7 @@ const optimization = require('./optimization');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const { resolve } = require('./utils');
 const serverConfigs = require('./../scripts/config');
-const { platform } = serverConfigs();
+const { platform } = serverConfigs([]);
 
 module.exports = {
   entry: {
